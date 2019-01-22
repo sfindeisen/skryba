@@ -60,11 +60,34 @@ class RenderingEngine(Generator):
         self.template_file = filename
         return self
 
+    def all(self):
+        """Returns all the items in this collection."""
+        return self.parent.all()
+
+    def render_all(self, f_name, f_args):
+        for x in self.all():
+            self.render((f_name(x)), **(f_args(x)))
+        return self
+
     def render(self, output_file, **kwargs):
         template = self.env.get_template(self.template_file)
         html = template.render(**kwargs)
         write_file(self.output_filename(output_file), html.encode(encoding='utf-8', errors='strict'))
         return self
+
+class Collection(Base):
+    """A collection of items."""
+    def __init__(self, parent, items):
+        super().__init__(parent)
+        self.items = items
+
+    def all(self):
+        """Returns all the items in this collection."""
+        return self.items
+
+    def map(self, f):
+        """Map this collection into another collection using the specified mapping function."""
+        return Collection(self, list(map(f, self.all())))
 
 class FileSet(Base):
     """A set of file names."""
@@ -85,7 +108,7 @@ class FileSet(Base):
         return f(self, x)
 
     def map(self, f):
-        return list(map(partial(self.__map, f), self.all()))
+        return Collection(self, list(map(partial(self.__map, f), self.all())))
 
     def foreach(self, f):
         self.map(f)
