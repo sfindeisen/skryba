@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from functools import partial
 
 from utils.file import write_file
-from utils.log import debug, info
+from utils.log import debug, info, warning
 from utils.xml import parse_xml_dom, get_xpath1
 
 ################################################################
@@ -173,4 +173,7 @@ class XMLFileSet(FileSet):
         return utils.xml.get_xpath1(self.get_current_dom(), xpath)
 
     def xslt_transform(self):
-        return self.xslt_proc(self.get_current_dom())
+        u = self.xslt_proc(self.get_current_dom())
+        for e in self.xslt_proc.error_log:
+            warning(e)
+        return u

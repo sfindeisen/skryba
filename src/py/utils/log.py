@@ -9,7 +9,10 @@ def set_verbose(verbose):
 def debug(msg):
     global f_verbose
     if (f_verbose):
-        print(msg)
+        print('[debug] {}'.format(msg))
 
 def info(msg):
-    print (msg)
+    print('[info] {}'.format(msg))
+
+def warning(msg):
+    print('[warning] {}'.format(msg))
