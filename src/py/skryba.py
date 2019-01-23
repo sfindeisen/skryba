@@ -15,21 +15,26 @@ from utils.file import write_file
 from utils.log import debug, info
 from utils.xml import parse_xml_dom, get_xpath1
 
+################################################################
 # Export these functions to the top level
+################################################################
 verbose = utils.log.set_verbose
 info    = utils.log.info
 debug   = utils.log.debug
 
+################################################################
+# Shortcuts
+################################################################
+def listdir(dirname):
+    return DirectoryContents(None, dirname)
+
+################################################################
+# The chain classes
+################################################################
 class Base(ABC):
     """Abstract base class in Skryba chain."""
     def __init__(self, parent=None):
         self.parent = parent
-
-    def listdir(self, dirname):
-        return DirectoryContents(self, dirname)
-
-    def with_rendering_engine(self, search_path):
-        return RenderingEngine(self, search_path)
 
 class Generator(Base):
     """Basic output file generator."""
@@ -88,6 +93,9 @@ class Collection(Base):
     def map(self, f):
         """Map this collection into another collection using the specified mapping function."""
         return Collection(self, list(map(f, self.all())))
+
+    def with_rendering_engine(self, search_path):
+        return RenderingEngine(self, search_path)
 
 class FileSet(Base):
     """A set of file names."""
