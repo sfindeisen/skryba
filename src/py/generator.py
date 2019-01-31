@@ -16,6 +16,10 @@ class Generator(skryba.Base):
         self.output_dir = tempfile.TemporaryDirectory()
         debug('Using temp outdir: {}'.format(self.output_dir.name))
 
+    def all(self):
+        """Returns all the items in this collection."""
+        return self.parent.all()
+
     def output_filename(self, basename):
         return os.path.join(self.output_dir.name, basename)
 
@@ -37,10 +41,6 @@ class RenderingEngine(Generator):
     def with_template(self, filename):
         self.template_file = filename
         return self
-
-    def all(self):
-        """Returns all the items in this collection."""
-        return self.parent.all()
 
     def render_all(self, f_name, f_args):
         for x in self.all():
