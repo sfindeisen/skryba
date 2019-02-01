@@ -65,7 +65,7 @@ class XMLFileSet(FileSet):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self.xslt_proc   = None
+        self.xslt_proc   = {}       # XSLT filepath -> XSLT processor
         self.current_dom = None
 
     def get_current_dom(self):
@@ -80,15 +80,18 @@ class XMLFileSet(FileSet):
     def all(self):
         return self.parent.all()
 
-    def with_xslt(self, xslt_path):
-        self.xslt_proc = utils.xml.get_xslt_transformer(xslt_path)
-        return self
+    def __load_xslt(self, xslt_path):
+        """Loads the XSLT processor for the given filepath."""
+        if (xslt_path not in self.xslt_proc):
+            self.xslt_proc[xslt_path] = utils.xml.get_xslt_transformer(xslt_path)
+        return self.xslt_proc[xslt_path]
 
     def xpath1(self, xpath):
         return utils.xml.get_xpath1(self.get_current_dom(), xpath)
 
-    def xslt_transform(self):
-        u = self.xslt_proc(self.get_current_dom())
-        for e in self.xslt_proc.error_log:
+    def xslt_transform(self, xslt_path):
+        t = self.__load_xslt(xslt_path)
+        u = t(self.get_current_dom())
+        for e in t.error_log:
             warning(e)
         return u
