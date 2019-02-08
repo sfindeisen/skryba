@@ -9,6 +9,10 @@ class Collection(skryba.Base):
         super().__init__(parent)
         self.items = items
 
+    def __getitem__(self, k):
+        """The subscript[k] method (might not work with all collection types)."""
+        return self.items[k]
+
     def all(self):
         """Returns all the items in this collection."""
         return self.items
