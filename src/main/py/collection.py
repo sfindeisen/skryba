@@ -48,6 +48,9 @@ class DictionaryCollection(Collection):
     def __init__(self, parent, items):
         super().__init__(parent, items)
 
+    def __getitem__(self, k):
+        return self.items[k]
+
     def map_values(self, f):
         return DictionaryCollection(self, {k: f(v) for k, v in self.all().items()})
 
