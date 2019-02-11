@@ -59,6 +59,11 @@ class TestDictionaryCollection(unittest.TestCase):
         u = DictionaryCollection(None, {19: "Alice", 20: "Bob"}).map_keys_unique(lambda x : 3*x)
         self.assertEqual(u.all(), {57: "Alice", 60: "Bob"})
 
+    def test_map_keys_unique_fail(self):
+        u = DictionaryCollection(None, {19: "Alice", 20: "Bob", 21: "Eve"}).map_values(lambda x : [x])
+        with self.assertRaises(ValueError):
+            u.map_keys_unique(lambda x : (x%2))
+
     def test_map_keys(self):
         u = DictionaryCollection(None, {19: "Alice", 20: "Bob", 21: "Eve"})        \
             .map_values(lambda x : [x])                                            \

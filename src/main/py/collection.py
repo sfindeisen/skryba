@@ -55,7 +55,12 @@ class DictionaryCollection(Collection):
         return DictionaryCollection(self, {k: f(v) for k, v in self.items.items()})
 
     def map_keys_unique(self, f):
-        return DictionaryCollection(self, {f(k): v for k, v in self.items.items()})
+        y = self.items.items()
+        z = {f(k): v for k, v in y}
+        if (len(z) == len(y)):
+            return DictionaryCollection(self, z)
+        else:
+            raise ValueError("unique constraint violation")
 
     def map_keys(self, f, merge):
         y = {}
