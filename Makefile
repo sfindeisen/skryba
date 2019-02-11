@@ -13,7 +13,7 @@ help:
 .PHONY : test
 test: export PYTHONPATH=$(PYMAIN)
 test:
-	$(PYTEST)/test_list_collection.py
+	$(PYTEST)/test_collection.py
 
 .PHONY : clean
 clean :

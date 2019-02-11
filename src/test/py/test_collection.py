@@ -4,7 +4,7 @@ import unittest
 
 from collection import DictionaryCollection, ListCollection
 
-class TestListCollection(unittest.TestCase):
+class TestCollection(unittest.TestCase):
 
     def test_empty(self):
         u = ListCollection(None, [])
