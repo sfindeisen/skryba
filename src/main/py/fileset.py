@@ -31,7 +31,7 @@ class FileSet(skryba.Base):
         return f(self, x)
 
     def map(self, f):
-        return collection.Collection(self, list(map(functools.partial(self.__map, f), self.all())))
+        return collection.ListCollection(self, list(map(functools.partial(self.__map, f), self.all())))
 
     def foreach(self, f):
         self.map(f)
