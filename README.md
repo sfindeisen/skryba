@@ -1,11 +1,11 @@
 # skryba
 
-A flexible toolchain for processing collections of input and output files. Can be used to generate static blogs or other static web pages, or to extract and process information from multiple input files. Features include:
+A flexible toolchain for processing collections of input and output files. It can be used to generate static blogs or other static web pages, or to extract and process information from multiple input files. Features include:
 
-* [method chaining style](https://en.wikipedia.org/wiki/Fluent_interface) Python API for listing and filtering input files, processing collections of elements
+* [method chaining style](https://en.wikipedia.org/wiki/Fluent_interface) Python API for listing and filtering input files, processing collections of elements, generating output files
 * XML, XSLT and XPath support
 * [Jinja2](http://jinja.pocoo.org/) template support
-* [blog generator](src/main/py/gen-blog.py)
+* [blog generator](src/main/py/gen-blog.py).
 
 ## Example
 
