@@ -3,7 +3,7 @@
 import re
 import unicodedata
 
-def normalize(s, allow_nonascii=False):
+def normalize(s, allow_nonascii=True):
     """Applies Unicode normalization and optionally strips all non-ASCII characters."""
     if (allow_nonascii):
         return unicodedata.normalize('NFKC', s)
