@@ -54,7 +54,7 @@ class DictionaryCollection(Collection):
     def map_values(self, f):
         return DictionaryCollection(self, {k: f(v) for k, v in self.items.items()})
 
-    def map_keys_unique(self, f):
+    def map_keys_uq(self, f):
         y = self.items.items()
         z = {f(k): v for k, v in y}
         if (len(z) == len(y)):
