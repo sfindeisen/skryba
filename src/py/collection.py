@@ -22,16 +22,39 @@ class Collection(skryba.Base):
         return Collection(self, list(map(f, self.all())))
 
     def reverse_dict(self, f):
-        """Given a function f, which, for each item X, yields a list L of elements Y, returns
-           a new Collection (a child of this) wrapping a dictionary from Y to list of X.
+        """
+        Given a function f, which, for each item X, yields a list L of elements Y, returns
+        a new DictionaryCollection (a child of this) wrapping a dictionary from Y to list
+        of X.
 
-           This can be used e.g. to generate a tag cloud from a list of blog posts.
+        This can be used e.g. to generate a tag cloud from a list of blog posts.
         """
         rdic = {}
         for x in self.items:
             for y in f(x):
                 rdic.setdefault(y, []).append(x)
-        return Collection(self, rdic)
+        return DictionaryCollection(self, rdic)
 
     def with_rendering_engine(self, search_path):
         return generator.RenderingEngine(self, search_path)
+
+class DictionaryCollection(Collection):
+    """A collection of key-value pairs."""
+    def __init__(self, parent, items):
+        super().__init__(parent, items)
+
+    def map_values(self, f):
+        return DictionaryCollection(self, {k: f(v) for k, v in self.all().items()})
+
+    def map_keys_unique(self, f):
+        return DictionaryCollection(self, {f(k): v for k, v in self.all().items()})
+
+    def map_keys(self, f, merge):
+        y = {}
+        for k, v in self.items:
+            z = f(k)
+            if z in y:
+                y[z] = merge(y[z], v)   # merge these 2 values
+            else:
+                y[z] = v
+        return DictionaryCollection(self, y)
