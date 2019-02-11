@@ -3,6 +3,8 @@
 import re
 import unicodedata
 
+from utils.log import debug
+
 def normalize(s, allow_nonascii=True):
     """Applies Unicode normalization and optionally strips all non-ASCII characters."""
     if (allow_nonascii):
@@ -16,7 +18,8 @@ def string2id(s, allow_nonascii=False):
     normalization is applied, whitespace and non-word characters are removed
     or substituted.
     """
-    s = normalize(s, allow_nonascii)
-    s = re.sub(r'[^\w\s-]', '', s).strip()
-    s = re.sub(r'[-\s]+', '-', s)
-    return s
+    z = normalize(s, allow_nonascii)
+    z = re.sub(r'[^\w\s-]', '', z).strip()
+    z = re.sub(r'[-\s]+', '-', z)
+    debug("string2id: {} => {}".format(s,z))
+    return z
