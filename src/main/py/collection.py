@@ -52,14 +52,14 @@ class DictionaryCollection(Collection):
         return self.items[k]
 
     def map_values(self, f):
-        return DictionaryCollection(self, {k: f(v) for k, v in self.all().items()})
+        return DictionaryCollection(self, {k: f(v) for k, v in self.items.items()})
 
     def map_keys_unique(self, f):
-        return DictionaryCollection(self, {f(k): v for k, v in self.all().items()})
+        return DictionaryCollection(self, {f(k): v for k, v in self.items.items()})
 
     def map_keys(self, f, merge):
         y = {}
-        for k, v in self.items:
+        for k, v in self.items.items():
             z = f(k)
             if z in y:
                 y[z] = merge(y[z], v)   # merge these 2 values
