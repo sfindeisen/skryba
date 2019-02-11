@@ -9,11 +9,13 @@ class Base(abc.ABC):
 
 import fileset
 import utils.log
+import utils.text
 
 ################################################################
 # Export these functions to the top level
 ################################################################
-verbose = utils.log.set_verbose
-info    = utils.log.info
-debug   = utils.log.debug
-listdir = fileset.listdir
+verbose   = utils.log.set_verbose
+info      = utils.log.info
+debug     = utils.log.debug
+string2id = utils.text.string2id
+listdir   = fileset.listdir
