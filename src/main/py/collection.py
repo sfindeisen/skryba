@@ -5,21 +5,14 @@ import skryba
 
 class Collection(skryba.Base):
     """A collection of items."""
+
     def __init__(self, parent, items):
         super().__init__(parent)
         self.items = items
 
-    def __getitem__(self, k):
-        """The subscript[k] method (might not work with all collection types)."""
-        return self.items[k]
-
     def all(self):
         """Returns all the items in this collection."""
         return self.items
-
-    def map(self, f):
-        """Map this collection into another collection using the specified mapping function."""
-        return Collection(self, list(map(f, self.all())))
 
     def reverse_dict(self, f):
         """
@@ -38,8 +31,20 @@ class Collection(skryba.Base):
     def with_rendering_engine(self, search_path):
         return generator.RenderingEngine(self, search_path)
 
+class ListCollection(Collection):
+
+    def __init__(self, parent, items):
+        super().__init__(parent, items)
+
+    def __getitem__(self, k):
+        return self.items[k]
+
+    def map(self, f):
+        return ListCollection(self, list(map(f, self.items)))
+
 class DictionaryCollection(Collection):
     """A collection of key-value pairs."""
+
     def __init__(self, parent, items):
         super().__init__(parent, items)
 
