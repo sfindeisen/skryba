@@ -3,7 +3,7 @@
 import functools
 import os
 
-import skryba
+import base
 import collection
 import utils.xml
 
@@ -12,7 +12,7 @@ from abc import abstractmethod
 def listdir(dirname):
     return DirectoryContents(None, dirname)
 
-class FileSet(skryba.Base):
+class FileSet(base.Base):
     """A set of file names."""
     def __init__(self, parent):
         super().__init__(parent)

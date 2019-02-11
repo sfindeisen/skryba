@@ -4,12 +4,11 @@ import jinja2
 import os
 import tempfile
 
-import skryba
-
+import base
 from utils.file import copytree, write_file
-from utils.log import debug, info, warning
+from utils.log import debug
 
-class Generator(skryba.Base):
+class Generator(base.Base):
     """Basic output file generator."""
     def __init__(self, parent):
         super().__init__(parent)
@@ -26,7 +25,7 @@ class Generator(skryba.Base):
     def copy_to(self, dest_dir):
         copytree(self.output_dir.name, dest_dir)
         return self
-                                                   
+
 class RenderingEngine(Generator):
     """jinja2 rendering interface."""
 

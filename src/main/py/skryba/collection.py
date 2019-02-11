@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
+import base
 import generator
-import skryba
 
-class Collection(skryba.Base):
+class Collection(base.Base):
     """A collection of items."""
 
     def __init__(self, parent, items):
