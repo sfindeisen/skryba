@@ -3,6 +3,8 @@
 import base
 import generator
 
+from utils.log import warning
+
 class Collection(base.Base):
     """A collection of items."""
 
@@ -54,6 +56,12 @@ class DictionaryCollection(Collection):
     def map_values(self, f):
         return DictionaryCollection(self, {k: f(v) for k, v in self.items.items()})
 
+    def map_values_with_keys(self, f):
+        return DictionaryCollection(self, {k: f(k,v) for k, v in self.items.items()})
+
+    def map_values_as_list(self):
+        return self.map_values(lambda x : [x])
+
     def map_keys_uq(self, f):
         y = self.items.items()
         z = {f(k): v for k, v in y}
@@ -62,12 +70,33 @@ class DictionaryCollection(Collection):
         else:
             raise ValueError("unique constraint violation")
 
-    def map_keys(self, f, merge):
+    def map_keys(self, f, merge, warn=False):
         y = {}
         for k, v in self.items.items():
             z = f(k)
             if z in y:
+                if (warn):
+                    warning("Duplicate key: {}".format(z))
                 y[z] = merge(y[z], v)   # merge these 2 values
             else:
                 y[z] = v
         return DictionaryCollection(self, y)
+
+    def map_keys_with_values(self, f, merge, warn=False):
+        """
+        f(k,v) is taken to be the new key
+        merge(v1,v2) is used to merge 2 values in case of key conflict
+        """
+        y = {}
+        for k, v in self.items.items():
+            z = f(k,v)
+            if z in y:
+                if (warn):
+                    warning("Duplicate key: {}".format(z))
+                y[z] = merge(y[z], v)   # merge these 2 values
+            else:
+                y[z] = v
+        return DictionaryCollection(self, y)
+
+    def values(self):
+        return ListCollection(self, self.items.values())
