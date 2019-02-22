@@ -64,9 +64,10 @@ if __name__ == '__main__':
 
     # main menu (post page)
     menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
-
     # main menu (tag page)
-    menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    # main menu (index page)
+    menu_index = '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
     # tag -> [Post]
     # tag -> Tag
@@ -82,15 +83,17 @@ if __name__ == '__main__':
                 .values()
 
     # tag cloud (post page)
-    tag_cloud_post = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    tag_cloud_post = '\n'.join(['<li><a href="../tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
     # tag cloud (tag page)
     tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    # tag cloud (index page)
+    tag_cloud_index = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
     # copy the static files
     copytree(args.indir, args.outdir, exclude=[args.html, args.xslt, args.post, args.outdir])
 
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
-        lambda pi : pi.basename,
+        lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {'menu': menu_post, 'post': pi.html, 'tag_cloud': tag_cloud_post}
     ).copy_to(args.outdir)
 
@@ -101,13 +104,13 @@ if __name__ == '__main__':
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
 
-    # render non-post HTML templates
+    # render index-level HTML templates
     other = listdir(args.html)                                           \
                 .filter_html()                                           \
                 .map(lambda x,y : os.path.basename(y))                   \
                 .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
                 .with_rendering_engine(args.html)                        \
                 .render_all_templates(                                   \
-                    menu=menu_post,                                      \
-                    tag_cloud=tag_cloud_post)                            \
+                    menu=menu_index,                                     \
+                    tag_cloud=tag_cloud_index)                           \
                 .copy_to(args.outdir)
