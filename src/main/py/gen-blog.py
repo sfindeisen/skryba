@@ -94,12 +94,17 @@ if __name__ == '__main__':
 
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
-        lambda pi : {'menu': menu_post, 'post': pi.html, 'tag_cloud': tag_cloud_post}
+        lambda pi : {
+            'menu': menu_post,
+            'post': pi.html,
+            'post_title': pi.title,
+            'tag_cloud': tag_cloud_post}
     ).copy_to(args.outdir)
 
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
         lambda t : 'tag/{}'.format(t.filename),
         lambda t : {'menu': menu_tag,
+                    'tag': t.value,
                     'post_list': '\n'.join(['<a href="../{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
