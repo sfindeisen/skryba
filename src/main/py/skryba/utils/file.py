@@ -3,6 +3,8 @@
 import os
 import shutil
 
+from os import makedirs
+from os.path import abspath, dirname, exists, isdir
 from utils.log import debug, info
 
 # Overwrite all output files?
@@ -49,8 +51,19 @@ def copytree(src, dst):
         else:
             copyfile(s, d)
 
-def write_file(filename, contents):
+def write_file(filename, contents, overwrite=False):
     """Writes contents into a file."""
     debug("W " + filename)
-    with open(filename,'xb') as f:
-        f.write(contents)
+    fabs = abspath(filename)
+
+    if exists(fabs):
+        if isdir(fabs):
+            raise Exception("Destination file exists and is a directory: " + fabs + " . Delete it manually.")
+        else:
+            if (f_overwrite_all or overwrite or prompt_overwrite(fabs)):
+                with open(fabs,'wb') as f:
+                    f.write(contents)
+    else:
+        makedirs(dirname(fabs), exist_ok=True)
+        with open(fabs,'xb') as f:
+            f.write(contents)
