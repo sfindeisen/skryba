@@ -57,17 +57,6 @@ if __name__ == '__main__':
     if (args.verbose):
         verbose(True)
 
-    # render non-post HTML templates
-    debug('render other')
-    other = listdir(args.html)                                           \
-                .filter_html()                                           \
-                .map(lambda x,y : os.path.basename(y))                   \
-                .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
-                .with_rendering_engine(args.html)                        \
-                .render_all_templates()                                  \
-                .copy_to(args.outdir)
-
-    debug('render posts and tags')
     xpost = os.path.join(os.path.dirname(args.xslt), 'post.xslt')
     posts = listdir(args.post)          \
                 .filter_xml()           \
@@ -111,3 +100,14 @@ if __name__ == '__main__':
                     'post_list': '\n'.join(['<a href="../{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
+
+    # render non-post HTML templates
+    other = listdir(args.html)                                           \
+                .filter_html()                                           \
+                .map(lambda x,y : os.path.basename(y))                   \
+                .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
+                .with_rendering_engine(args.html)                        \
+                .render_all_templates(                                   \
+                    menu=menu_post,                                      \
+                    tag_cloud=tag_cloud_post)                            \
+                .copy_to(args.outdir)
