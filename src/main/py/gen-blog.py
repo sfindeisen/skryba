@@ -13,14 +13,21 @@ class Post:
         self.title    = None
         self.origdate = None
         self.html     = None
-        self.tags     = None
+        self.tags     = None    # list of tags (string)
+
+class Tag:
+    """A single article tag."""
+    def __init__(self, filename=None, value=None, posts=[]):
+        self.filename = filename    # filename (base)
+        self.value    = value       # Unicode (normalized)
+        self.posts    = posts       # list of Post
 
 def make_post(xpost, skryba, filename):
     info("Process post: " + filename)
     basename = os.path.basename(filename)[:-4]    # basename without .xml
 
     pi = Post()
-    pi.basename = basename
+    pi.basename = '{}.html'.format(basename)
     pi.title = skryba.xpath1('/post/title/text()')
     debug("title: {}".format(pi.title))
     pi.origdate = skryba.xpath1('/post/@orig-date')
@@ -53,19 +60,38 @@ if __name__ == '__main__':
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
-    menu  = '\n'.join(posts.map(lambda pi : '<li><a href="{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    # main menu (post page part)
+    menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
-    tags  = posts.reverse_dict(lambda pi : pi.tags).map_keys_uq(lambda t : (t, string2id(t)))
-    tag_cloud = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(k[1],k[0]) for k in tags.all().keys()])
+    # main menu (tag page part)
+    menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+
+    # tag -> [Post]
+    # tag -> Tag
+    # Tag.filename -> Tag (group Posts by Tag filename)
+    # [Tag]
+    tags  = posts.reverse_dict(lambda pi : pi.tags)     \
+                .map_values_with_keys(
+                    lambda t,
+                    pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \
+                .map_keys_with_values(                  \
+                    lambda t, tag : tag.filename,       \
+                    lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
+                .values()
+
+    # tag cloud (post page part)
+    tag_cloud_post = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    # tag cloud (tag page part)
+    tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
-        lambda pi : pi.basename + '.html',
-        lambda pi : {'menu': menu, 'post': pi.html, 'tag_cloud': tag_cloud}
+        lambda pi : pi.basename,
+        lambda pi : {'menu': menu_post, 'post': pi.html, 'tag_cloud': tag_cloud_post}
     ).copy_to(args.out)
 
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
-        lambda t : t[1] + '.html',
-        lambda t : {'menu': menu,
-                    'post_list': '\n'.join(['<a href="./{}">{}</a>'.format(p.basename, p.title) for p in tags[t]]),
-                    'tag_cloud': tag_cloud}
+        lambda t : 'tag/{}'.format(t.filename),
+        lambda t : {'menu': menu_tag,
+                    'post_list': '\n'.join(['<a href="../{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
+                    'tag_cloud': tag_cloud_tag}
     ).copy_to(args.out)
