@@ -5,6 +5,7 @@ import os
 
 import base
 import collection
+import generator
 import utils.xml
 
 from abc import abstractmethod
@@ -40,8 +41,14 @@ class FileSet(base.Base):
     def filter(self, predicate):
         return FileFilter(self, predicate)
 
+    def filter_html(self):
+        return HTMLFileSet(self.filter(lambda x : x.endswith('.html')))
+
     def filter_xml(self):
         return XMLFileSet(self.filter(lambda x : x.endswith('.xml')))
+
+    def with_rendering_engine(self, search_path):
+        return generator.RenderingEngine(self, search_path)
 
 class DirectoryContents(FileSet):
 
@@ -60,6 +67,14 @@ class FileFilter(FileSet):
 
     def all(self):
         return filter(self.filter, self.parent.all())
+
+class HTMLFileSet(FileSet):
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+    def all(self):
+        return self.parent.all()
 
 class XMLFileSet(FileSet):
 

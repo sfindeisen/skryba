@@ -3,6 +3,7 @@
 import argparse
 import functools
 import os
+import os.path
 
 from skryba.index import verbose, info, debug, normalize_string, string2id, listdir, copytree
 
@@ -56,6 +57,17 @@ if __name__ == '__main__':
     if (args.verbose):
         verbose(True)
 
+    # render non-post HTML templates
+    debug('render other')
+    other = listdir(args.html)                                           \
+                .filter_html()                                           \
+                .map(lambda x,y : os.path.basename(y))                   \
+                .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
+                .with_rendering_engine(args.html)                        \
+                .render_all_templates()                                  \
+                .copy_to(args.outdir)
+
+    debug('render posts and tags')
     xpost = os.path.join(os.path.dirname(args.xslt), 'post.xslt')
     posts = listdir(args.post)          \
                 .filter_xml()           \

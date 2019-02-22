@@ -41,6 +41,9 @@ class ListCollection(Collection):
     def __getitem__(self, k):
         return self.items[k]
 
+    def filter(self, predicate):
+        return ListCollection(self, filter(predicate, self.all()))
+
     def map(self, f):
         return ListCollection(self, list(map(f, self.items)))
 

@@ -46,6 +46,15 @@ class RenderingEngine(Generator):
             self.render((f_name(x)), **(f_args(x)))
         return self
 
+    def render_all_templates(self):
+        """Render all items as standalone templates with no arguments."""
+        for x in self.all():
+            debug('render all templates: {}'.format(x))
+            template = self.env.get_template(x)
+            html = template.render()
+            write_file(self.output_filename(x), html.encode(encoding='utf-8', errors='strict'))
+        return self
+
     def render(self, output_file, **kwargs):
         template = self.env.get_template(self.template_file)
         html = template.render(**kwargs)
