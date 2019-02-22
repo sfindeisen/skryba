@@ -64,6 +64,6 @@ def write_file(filename, contents, overwrite=False):
                 with open(fabs,'wb') as f:
                     f.write(contents)
     else:
-        makedirs(dirname(fabs), exist_ok=True)
+        makedirs(dirname(fabs), mode=0o700, exist_ok=True)
         with open(fabs,'xb') as f:
             f.write(contents)
