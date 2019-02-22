@@ -71,7 +71,7 @@ if __name__ == '__main__':
     # tag -> Tag
     # Tag.filename -> Tag (group Posts by Tag filename)
     # [Tag]
-    tags  = posts.reverse_dict(lambda pi : pi.tags)     \
+    tags = posts.reverse_dict(lambda pi : pi.tags)     \
                 .map_values_with_keys(
                     lambda t,
                     pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \
