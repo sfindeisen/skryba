@@ -4,7 +4,7 @@ import argparse
 import functools
 import os
 
-from skryba.index import verbose, info, debug, normalize_string, string2id, listdir
+from skryba.index import verbose, info, debug, normalize_string, string2id, listdir, copytree
 
 class Post:
     """A single blog post."""
@@ -49,7 +49,8 @@ if __name__ == '__main__':
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
     parser.add_argument("--xslt", required=True, metavar="DIR", help="XSLT template input directory")
     parser.add_argument("--post", required=True, metavar="DIR", help="post input directory")
-    parser.add_argument("--out",  required=True, metavar="DIR", help="output directory; all files will be overwritten!")
+    parser.add_argument(metavar="input-dir",  dest="indir",  help="static files input directory")
+    parser.add_argument(metavar="output-dir", dest="outdir", help="output directory; all files will be overwritten!")
     args = parser.parse_args()
 
     if (args.verbose):
@@ -84,14 +85,17 @@ if __name__ == '__main__':
     # tag cloud (tag page)
     tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
+    # copy the static files
+    copytree(args.indir, args.outdir, exclude=[args.html, args.xslt, args.post, args.outdir])
+
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : pi.basename,
         lambda pi : {'menu': menu_post, 'post': pi.html, 'tag_cloud': tag_cloud_post}
-    ).copy_to(args.out)
+    ).copy_to(args.outdir)
 
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
         lambda t : 'tag/{}'.format(t.filename),
         lambda t : {'menu': menu_tag,
                     'post_list': '\n'.join(['<a href="../{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
                     'tag_cloud': tag_cloud_tag}
-    ).copy_to(args.out)
+    ).copy_to(args.outdir)

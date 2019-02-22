@@ -26,35 +26,44 @@ def prompt_overwrite(dst):
         if ('q' == c):
             raise Exception("Quit")
 
-def copyfile(src, dst):
-    """Moves dst to src, prompting for overwrite if dst exists."""
+def _copy(src, dst):
+    """Copies src to dst."""
+    info("W " + dst)
+    shutil.copy(src, dst)
+
+def _copyfile(src, dst):
+    """Copies src to dst, prompting for overwrite if dst exists."""
     if os.path.exists(dst):
         if os.path.isdir(dst):
             raise Exception("Destination file exists and is a directory: " + dst + " . Delete it manually.")
         else:
             if (f_overwrite_all or prompt_overwrite(dst)):
-                info("W " + dst)
-                shutil.move(src, dst, copy_function=shutil.copy)
+                _copy(src, dst)
     else:
-        info("W " + dst)
-        shutil.move(src, dst)
+        _copy(src, dst)
 
-def copytree(src, dst):
-    """Recursively copies src into dst."""
+def _copytree(src, dst, exclude=[]):
+    """Recursively copies src to dst."""
+    if (src in exclude):
+        return
+
     os.makedirs(name=dst, mode=0o700, exist_ok=True)
 
     for x in os.listdir(src):
         s = os.path.join(src, x)
         d = os.path.join(dst, x)
         if os.path.isdir(s):
-            copytree(s, d)      # recursive call
+            _copytree(s, d, exclude=exclude)   # recursive call
         else:
-            copyfile(s, d)
+            _copyfile(s, d)
+
+def copytree(src, dst, exclude=[]):
+    _copytree(abspath(src), abspath(dst), exclude=exclude)
 
 def write_file(filename, contents, overwrite=False):
     """Writes contents into a file."""
-    debug("W " + filename)
     fabs = abspath(filename)
+    debug("W " + fabs)
 
     if exists(fabs):
         if isdir(fabs):

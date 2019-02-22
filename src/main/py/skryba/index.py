@@ -7,6 +7,7 @@ import utils.text
 ################################################################
 # Export these functions to the top level
 ################################################################
+copytree         = utils.file.copytree
 verbose          = utils.log.set_verbose
 info             = utils.log.info
 debug            = utils.log.debug
