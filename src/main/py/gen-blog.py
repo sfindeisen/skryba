@@ -60,10 +60,10 @@ if __name__ == '__main__':
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
-    # main menu (post page part)
+    # main menu (post page)
     menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
-    # main menu (tag page part)
+    # main menu (tag page)
     menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
     # tag -> [Post]
@@ -79,9 +79,9 @@ if __name__ == '__main__':
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
                 .values()
 
-    # tag cloud (post page part)
+    # tag cloud (post page)
     tag_cloud_post = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
-    # tag cloud (tag page part)
+    # tag cloud (tag page)
     tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
