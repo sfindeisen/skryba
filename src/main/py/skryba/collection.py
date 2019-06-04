@@ -60,6 +60,10 @@ class DictionaryCollection(Collection):
         return DictionaryCollection(self, {k: f(v) for k, v in self.items.items()})
 
     def map_values_with_keys(self, f):
+        """
+        Given a function f : (key,value) -> value, applies it to every (key, value) pair, producing a new value.
+        Keys stay intact. Returns a new DictionaryCollection.
+        """
         return DictionaryCollection(self, {k: f(k,v) for k, v in self.items.items()})
 
     def map_values_as_list(self):
@@ -87,6 +91,10 @@ class DictionaryCollection(Collection):
 
     def map_keys_with_values(self, f, merge, warn=False):
         """
+        Given a function f : (key,value) -> key, applies it to every (key, value) pair, producing a new key.
+        Key conflicts are resolved by the merge function: merge : (value, value) -> value .
+        Returns a new DictionaryCollection.
+
         f(k,v) is taken to be the new key
         merge(v1,v2) is used to merge 2 values in case of key conflict
         """

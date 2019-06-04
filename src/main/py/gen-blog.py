@@ -63,11 +63,11 @@ if __name__ == '__main__':
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
-    # main menu (post page)
+    # generate main menu (post page)
     menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
-    # main menu (tag page)
+    # generate main menu (tag page)
     menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
-    # main menu (index page)
+    # generate main menu (index page)
     menu_index = '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
     # tag -> [Post]
@@ -76,8 +76,7 @@ if __name__ == '__main__':
     # [Tag]
     tags = posts.reverse_dict(lambda pi : pi.tags)     \
                 .map_values_with_keys(
-                    lambda t,
-                    pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \
+                    lambda t, pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \
                 .map_keys_with_values(                  \
                     lambda t, tag : tag.filename,       \
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
