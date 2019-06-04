@@ -70,6 +70,8 @@ if __name__ == '__main__':
     # generate main menu (index page)
     menu_index = '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
 
+    # generate the list of all tags
+    #
     # tag -> [Post]
     # tag -> Tag
     # Tag.filename -> Tag (group Posts by Tag filename)
@@ -82,11 +84,11 @@ if __name__ == '__main__':
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
                 .values()
 
-    # tag cloud (post page)
+    # generate tag cloud (post page)
     tag_cloud_post = '\n'.join(['<li><a href="../tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
-    # tag cloud (tag page)
+    # generate tag cloud (tag page)
     tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
-    # tag cloud (index page)
+    # generate tag cloud (index page)
     tag_cloud_index = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
     # copy the static files
