@@ -94,6 +94,7 @@ if __name__ == '__main__':
     # copy the static files
     copytree(args.indir, args.outdir, exclude=[args.html, args.xslt, args.post, args.outdir])
 
+    # generate the actual post HTML files (post.html)
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
@@ -103,11 +104,12 @@ if __name__ == '__main__':
             'tag_cloud': tag_cloud_post}
     ).copy_to(args.outdir)
 
+    # generate the actual tag HTML files (tag.html)
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
         lambda t : 'tag/{}'.format(t.filename),
         lambda t : {'menu': menu_tag,
                     'tag': t.value,
-                    'post_list': '\n'.join(['<a href="../{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
+                    'post_list': '\n'.join(['<a href="../post/{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
 
