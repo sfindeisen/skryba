@@ -24,6 +24,7 @@ class Tag:
         self.posts    = posts       # list of Post
 
 def make_post(xpost, skryba, filename):
+    """Parses post XML file. Returns Post instance."""
     info("Process post: " + filename)
     basename = os.path.basename(filename)[:-4]    # basename without .xml
 
