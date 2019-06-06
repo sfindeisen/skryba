@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-<!-- language: en (default), pl -->
-<xsl:param name="lang"        select="'en'"/>
 <xsl:param name="anno_domini" select="false()"/>
 
 <xsl:include href="./util-date.xslt"/>
@@ -11,6 +9,21 @@
 <xsl:output method="html" indent="no" omit-xml-declaration="yes" standalone="no" encoding="UTF-8"/>
 
 <xsl:template match="/post">
+    <xsl:variable name="date" select="./@orig-date"/>
+    <xsl:variable name="lang" select="./@lang"/>
+
+    <!-- check if lang is valid -->
+    <xsl:choose>
+        <xsl:when test="$lang">
+            <xsl:if test="not (('en' = $lang) or ('pl' = $lang))">
+                <xsl:message terminate="no">invalid lang attribute: <xsl:value-of select="$lang"/></xsl:message>
+            </xsl:if>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:message terminate="no">lang attribute missing!</xsl:message>
+        </xsl:otherwise>
+    </xsl:choose>
+
     <div id="post">
     <h1><xsl:value-of select="./title/text()"/></h1>
 

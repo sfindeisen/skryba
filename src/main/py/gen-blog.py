@@ -48,7 +48,6 @@ if __name__ == '__main__':
         add_help=True, allow_abbrev=False, epilog="""This program comes with ABSOLUTELY NO WARRANTY.""")
 
     parser.add_argument("--verbose", required=False, action="store_true", help="verbose processing")
-    parser.add_argument("--lang", required=True, metavar="LANG", choices=['en', 'pl'], help="language to use: en, pl")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
     parser.add_argument("--post", required=True, metavar="DIR", help="post input directory")
     parser.add_argument(metavar="input-dir",  dest="indir",  help="static files input directory")
@@ -65,7 +64,7 @@ if __name__ == '__main__':
     xpost = os.path.join(xslt_dir, 'post.xslt')
     posts = listdir(args.post)          \
                 .filter_xml()           \
-                .map(functools.partial(make_post, xpost, lang="'{}'".format(args.lang)))
+                .map(functools.partial(make_post, xpost))
 
     # generate main menu (post page)
     menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
