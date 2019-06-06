@@ -6,6 +6,7 @@ import os
 import base
 import collection
 import generator
+import utils.log
 import utils.xml
 
 from abc import abstractmethod
@@ -83,6 +84,15 @@ class XMLFileSet(FileSet):
         self.xslt_proc   = {}       # XSLT filepath -> XSLT processor
         self.current_dom = None
 
+    def print_xslt_error_log(self, error_log):
+        for entry in error_log:
+            utils.log.warning(entry)
+            # utils.log.warning('message from line {}, col {}: {}'.format(entry.line, entry.column, entry.message))
+            # utils.log.warning('domain: {} ({})'.format(entry.domain_name, entry.domain))
+            # utils.log.warning('type: {} ({})'.format(entry.type_name, entry.type))
+            # utils.log.warning('level: {} ({})'.format(entry.level_name, entry.level))
+            # utils.log.warning('filename: {}'.format(entry.filename))
+
     def get_current_dom(self):
         if (self.current_dom is None):
             self.current_dom = utils.xml.parse_xml_dom(self.current_file)
@@ -107,6 +117,6 @@ class XMLFileSet(FileSet):
     def xslt_transform(self, xslt_path, **kwargs):
         t = self.__load_xslt(xslt_path)
         u = t(self.get_current_dom(), **kwargs)
-        for e in t.error_log:
-            warning(e)
+        self.print_xslt_error_log(t.error_log)
+        # TODO errors get accumulated across transforms; XSLT reload?...
         return u
