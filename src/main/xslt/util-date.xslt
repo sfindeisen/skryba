@@ -76,7 +76,7 @@
                 </xsl:choose>
             </xsl:variable>
 
-            <span class="date">
+            <span class="skryba-date">
                 <xsl:choose>
                     <xsl:when test="'en' = $lang">
                         <xsl:value-of select="concat($month_str, ' ', $day, $day_suffix, ', ', $year)"/>

@@ -22,10 +22,10 @@
         </xsl:otherwise>
     </xsl:choose>
 
-    <div id="post">
+    <div class="skryba-post">
     <h1><xsl:value-of select="./title/text()"/></h1>
 
-    <p id="post-date"><xsl:call-template name="renderDate">
+    <p class="skryba-post-date"><xsl:call-template name="renderDate">
         <xsl:with-param name="date"        select="./@orig-date"/>
         <xsl:with-param name="lang"        select="$lang"/>
     </xsl:call-template></p>
@@ -39,7 +39,7 @@
 </xsl:template>
 
 <xsl:template match="/post/body">
-    <div id="post-body"><xsl:apply-templates/></div>
+    <div class="skryba-post-body"><xsl:apply-templates/></div>
 </xsl:template>
 
 <xsl:template match="p">

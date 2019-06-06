@@ -11,7 +11,7 @@
 
     <!-- output the first tag -->
     <xsl:if test="$u">
-        <li><xsl:value-of select="$u" disable-output-escaping="no"/></li>
+        <li class="skryba-tag"><xsl:value-of select="$u" disable-output-escaping="no"/></li>
     </xsl:if>
 
     <!-- recursive call -->
@@ -25,7 +25,7 @@
 <xsl:template name="renderTags">
     <xsl:param name="tags"/>
 
-    <ul id="post-tags"><xsl:call-template name="renderTagList">
+    <ul class="skryba-tag-list"><xsl:call-template name="renderTagList">
         <xsl:with-param name="tags" select="concat($tags, ';')"/>
     </xsl:call-template></ul>
 </xsl:template>
