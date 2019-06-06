@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
+<!-- language: en (default), pl -->
+<xsl:param name="lang"        select="'en'"/>
+<xsl:param name="anno_domini" select="true()"/>
+
 <xsl:include href="./util-date.xslt"/>
 <xsl:include href="./util-tag.xslt"/>
 
@@ -10,8 +14,17 @@
     <div id="post">
     <h1><xsl:value-of select="./title/text()"/></h1>
 
-    <p id="post-date">Utworzono: <xsl:call-template name="renderDate">
-        <xsl:with-param name="date" select="./@orig-date"/>
+    <xsl:variable name="created_str">
+        <xsl:choose>
+            <xsl:when test="'pl' = $lang">Utworzono: </xsl:when>
+            <xsl:otherwise>Created: </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+
+    <p id="post-date"><xsl:value-of select="$created_str"/><xsl:call-template name="renderDate">
+        <xsl:with-param name="date"        select="./@orig-date"/>
+        <xsl:with-param name="lang"        select="$lang"/>
+        <xsl:with-param name="anno_domini" select="$anno_domini"/>
     </xsl:call-template></p>
 
     <xsl:call-template name="renderTags">

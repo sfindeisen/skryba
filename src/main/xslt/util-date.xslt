@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-<!-- Renders out a date given in format: YYYY-MM-DD. -->
+<!-- Renders a date given in format: YYYY-MM-DD, where 1 <= MM <= 12.
+     Use lang parameter to set the language: en (default), pl.
+  -->
 <xsl:template name="renderDateSimple">
     <!-- TODO better format check; XSLT 2.0 has support for regular expressions ... (fn:matches) -->
     <xsl:param name="date"/>
+    <xsl:param name="lang"        select="'en'"/>
+    <xsl:param name="anno_domini" select="false()"/>
+
     <xsl:variable name="errorMsg">ERROR: invalid date format (<xsl:value-of select="$date"/>)</xsl:variable>
 
     <xsl:choose>
@@ -13,27 +18,82 @@
             <xsl:variable name="month" select="number(substring($date, 6, 2))"/>
             <xsl:variable name="day"   select="number(substring($date, 9, 2))"/>
 
-            <xsl:variable name="month_pl">
+            <xsl:if test="($month &lt; 1) or ($month &gt; 12)">
+                <xsl:message terminate="yes"><xsl:value-of select="$errorMsg"/> (invalid month)</xsl:message>
+            </xsl:if>
+            <xsl:if test="($day &lt; 1) or ($day &gt; 31)">
+                <xsl:message terminate="yes"><xsl:value-of select="$errorMsg"/> (invalid day)</xsl:message>
+            </xsl:if>
+
+            <xsl:variable name="month_str">
                 <xsl:choose>
-                    <xsl:when test=" 1 = $month">stycznia</xsl:when>
-                    <xsl:when test=" 2 = $month">lutego</xsl:when>
-                    <xsl:when test=" 3 = $month">marca</xsl:when>
-                    <xsl:when test=" 4 = $month">kwietnia</xsl:when>
-                    <xsl:when test=" 5 = $month">maja</xsl:when>
-                    <xsl:when test=" 6 = $month">czerwca</xsl:when>
-                    <xsl:when test=" 7 = $month">lipca</xsl:when>
-                    <xsl:when test=" 8 = $month">sierpnia</xsl:when>
-                    <xsl:when test=" 9 = $month">września</xsl:when>
-                    <xsl:when test="10 = $month">października</xsl:when>
-                    <xsl:when test="11 = $month">listopada</xsl:when>
-                    <xsl:when test="12 = $month">grudnia</xsl:when>
-                    <xsl:otherwise>
-                        <xsl:message terminate="yes"><xsl:value-of select="$errorMsg"/> (invalid month)</xsl:message>
-                    </xsl:otherwise>
+                    <xsl:when test="'en' = $lang">
+                        <xsl:choose>
+                            <xsl:when test=" 1 = $month">Jan</xsl:when>
+                            <xsl:when test=" 2 = $month">Feb</xsl:when>
+                            <xsl:when test=" 3 = $month">Mar</xsl:when>
+                            <xsl:when test=" 4 = $month">Apr</xsl:when>
+                            <xsl:when test=" 5 = $month">May</xsl:when>
+                            <xsl:when test=" 6 = $month">Jun</xsl:when>
+                            <xsl:when test=" 7 = $month">Jul</xsl:when>
+                            <xsl:when test=" 8 = $month">Aug</xsl:when>
+                            <xsl:when test=" 9 = $month">Sep</xsl:when>
+                            <xsl:when test="10 = $month">Oct</xsl:when>
+                            <xsl:when test="11 = $month">Nov</xsl:when>
+                            <xsl:when test="12 = $month">Dec</xsl:when>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:when test="'pl' = $lang">
+                        <xsl:choose>
+                            <xsl:when test=" 1 = $month">stycznia</xsl:when>
+                            <xsl:when test=" 2 = $month">lutego</xsl:when>
+                            <xsl:when test=" 3 = $month">marca</xsl:when>
+                            <xsl:when test=" 4 = $month">kwietnia</xsl:when>
+                            <xsl:when test=" 5 = $month">maja</xsl:when>
+                            <xsl:when test=" 6 = $month">czerwca</xsl:when>
+                            <xsl:when test=" 7 = $month">lipca</xsl:when>
+                            <xsl:when test=" 8 = $month">sierpnia</xsl:when>
+                            <xsl:when test=" 9 = $month">września</xsl:when>
+                            <xsl:when test="10 = $month">października</xsl:when>
+                            <xsl:when test="11 = $month">listopada</xsl:when>
+                            <xsl:when test="12 = $month">grudnia</xsl:when>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise><xsl:value-of select="$month"/></xsl:otherwise>
                 </xsl:choose>
             </xsl:variable>
 
-            <xsl:value-of select="concat($day, ' ', $month_pl, ', anno Domini nostri Jesu Christi ', $year)"/>
+            <xsl:variable name="day_suffix">
+                <xsl:choose>
+                    <xsl:when test="'en' = $lang">
+                        <xsl:choose>
+                            <xsl:when test="(1 = $day) or (21 = $day) or (31 = $day)">st</xsl:when>
+                            <xsl:when test="(2 = $day) or (22 = $day)">nd</xsl:when>
+                            <xsl:when test="(3 = $day) or (23 = $day)">rd</xsl:when>
+                            <xsl:otherwise>th</xsl:otherwise>
+                        </xsl:choose>
+                    </xsl:when>
+                    <xsl:otherwise></xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
+            <xsl:variable name="ad_str">
+                <xsl:choose>
+                    <xsl:when test="$anno_domini"> anno Domini nostri Jesu Christi </xsl:when>
+                    <xsl:otherwise></xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+
+            <span class="date">
+                <xsl:choose>
+                    <xsl:when test="'en' = $lang">
+                        <xsl:value-of select="concat($month_str, ' ', $day, $day_suffix, ', ', $ad_str, $year)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="concat($day, ' ', $month_str, $ad_str, ' ', $year)"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </span>
         </xsl:when>
         <xsl:otherwise>
             <xsl:message terminate="yes"><xsl:value-of select="$errorMsg"/></xsl:message>
@@ -41,20 +101,28 @@
     </xsl:choose>
 </xsl:template>
 
-<!-- Renders out a date given in format:
+<!-- Renders a date given in format:
 
      YYYY-MM-DD
 
      or:
 
      YYYY-MM-DD; comment
-.
--->
+
+     where in each case 1 <= MM <= 12.
+
+     Use lang parameter to set the language: en (default), pl.
+  -->
 <xsl:template name="renderDate">
     <!-- TODO better format check; XSLT 2.0 has support for regular expressions ... (fn:matches) -->
     <xsl:param name="date" />
+    <xsl:param name="lang"        select="'en'"/>
+    <xsl:param name="anno_domini" select="false()"/>
+
     <xsl:call-template name="renderDateSimple">
-        <xsl:with-param name="date" select="substring($date, 1, 10)"/>
+        <xsl:with-param name="date"        select="substring($date, 1, 10)"/>
+        <xsl:with-param name="lang"        select="$lang"/>
+        <xsl:with-param name="anno_domini" select="$anno_domini"/>
     </xsl:call-template>
 
     <xsl:if test="11 &lt;= string-length($date) and ';' = substring($date, 11, 1)">
