@@ -8,7 +8,6 @@
     <!-- TODO better format check; XSLT 2.0 has support for regular expressions ... (fn:matches) -->
     <xsl:param name="date"/>
     <xsl:param name="lang"        select="'en'"/>
-    <xsl:param name="anno_domini" select="false()"/>
 
     <xsl:variable name="errorMsg">ERROR: invalid date format (<xsl:value-of select="$date"/>)</xsl:variable>
 
@@ -77,20 +76,13 @@
                 </xsl:choose>
             </xsl:variable>
 
-            <xsl:variable name="ad_str">
-                <xsl:choose>
-                    <xsl:when test="$anno_domini"> anno Domini nostri Jesu Christi </xsl:when>
-                    <xsl:otherwise></xsl:otherwise>
-                </xsl:choose>
-            </xsl:variable>
-
             <span class="date">
                 <xsl:choose>
                     <xsl:when test="'en' = $lang">
-                        <xsl:value-of select="concat($month_str, ' ', $day, $day_suffix, ', ', $ad_str, $year)"/>
+                        <xsl:value-of select="concat($month_str, ' ', $day, $day_suffix, ', ', $year)"/>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="concat($day, ' ', $month_str, $ad_str, ' ', $year)"/>
+                        <xsl:value-of select="concat($day, ' ', $month_str, ' ', $year)"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </span>
@@ -117,12 +109,10 @@
     <!-- TODO better format check; XSLT 2.0 has support for regular expressions ... (fn:matches) -->
     <xsl:param name="date" />
     <xsl:param name="lang"        select="'en'"/>
-    <xsl:param name="anno_domini" select="false()"/>
 
     <xsl:call-template name="renderDateSimple">
         <xsl:with-param name="date"        select="substring($date, 1, 10)"/>
         <xsl:with-param name="lang"        select="$lang"/>
-        <xsl:with-param name="anno_domini" select="$anno_domini"/>
     </xsl:call-template>
 
     <xsl:if test="11 &lt;= string-length($date) and ';' = substring($date, 11, 1)">

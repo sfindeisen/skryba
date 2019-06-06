@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 
-<xsl:param name="anno_domini" select="false()"/>
-
 <xsl:include href="./util-date.xslt"/>
 <xsl:include href="./util-tag.xslt"/>
 
@@ -37,7 +35,6 @@
     <p id="post-date"><xsl:value-of select="$created_str"/><xsl:call-template name="renderDate">
         <xsl:with-param name="date"        select="./@orig-date"/>
         <xsl:with-param name="lang"        select="$lang"/>
-        <xsl:with-param name="anno_domini" select="$anno_domini"/>
     </xsl:call-template></p>
 
     <xsl:call-template name="renderTags">
