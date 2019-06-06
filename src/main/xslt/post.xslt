@@ -25,14 +25,7 @@
     <div id="post">
     <h1><xsl:value-of select="./title/text()"/></h1>
 
-    <xsl:variable name="created_str">
-        <xsl:choose>
-            <xsl:when test="'pl' = $lang">Utworzono: </xsl:when>
-            <xsl:otherwise>Created: </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
-    <p id="post-date"><xsl:value-of select="$created_str"/><xsl:call-template name="renderDate">
+    <p id="post-date"><xsl:call-template name="renderDate">
         <xsl:with-param name="date"        select="./@orig-date"/>
         <xsl:with-param name="lang"        select="$lang"/>
     </xsl:call-template></p>
