@@ -76,13 +76,20 @@
                 </xsl:choose>
             </xsl:variable>
 
-            <span class="skryba-date">
+            <xsl:variable name="day_str" select="concat($day, $day_suffix)"/>
+
+            <span class="skryba-date-simple">
                 <xsl:choose>
                     <xsl:when test="'en' = $lang">
-                        <xsl:value-of select="concat($month_str, ' ', $day, $day_suffix, ', ', $year)"/>
+                        <xsl:value-of select="concat($month_str, ' ', $day_str)"/>
+                        <span class="skryba-date-year"><xsl:value-of select="$year"/></span>
+                    </xsl:when>
+                    <xsl:when test="'pl' = $lang">
+                        <xsl:value-of select="concat($day_str, ' ', $month_str)"/>
+                        <span class="skryba-date-year"><xsl:value-of select="$year"/></span>
                     </xsl:when>
                     <xsl:otherwise>
-                        <xsl:value-of select="concat($day, ' ', $month_str, ' ', $year)"/>
+                        <xsl:value-of select="$date"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </span>
@@ -110,14 +117,14 @@
     <xsl:param name="date" />
     <xsl:param name="lang"        select="'en'"/>
 
-    <xsl:call-template name="renderDateSimple">
+    <span class="skryba-date"><xsl:call-template name="renderDateSimple">
         <xsl:with-param name="date"        select="substring($date, 1, 10)"/>
         <xsl:with-param name="lang"        select="$lang"/>
     </xsl:call-template>
-
     <xsl:if test="11 &lt;= string-length($date) and ';' = substring($date, 11, 1)">
-        <xsl:value-of select="substring($date, 11)" disable-output-escaping="no"/>
+        <span class="skryba-date-comment"><xsl:value-of select="substring($date, 12)" disable-output-escaping="no"/></span>
     </xsl:if>
+    </span>
 </xsl:template>
 
 </xsl:stylesheet>
