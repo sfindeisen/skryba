@@ -104,9 +104,9 @@ class XMLFileSet(FileSet):
     def xpath1(self, xpath):
         return utils.xml.get_xpath1(self.get_current_dom(), xpath)
 
-    def xslt_transform(self, xslt_path):
+    def xslt_transform(self, xslt_path, **kwargs):
         t = self.__load_xslt(xslt_path)
-        u = t(self.get_current_dom())
+        u = t(self.get_current_dom(), **kwargs)
         for e in t.error_log:
             warning(e)
         return u

@@ -23,7 +23,7 @@ class Tag:
         self.value    = value       # Unicode (normalized)
         self.posts    = posts       # list of Post
 
-def make_post(xpost, skryba, filename):
+def make_post(xpost, skryba, filename, **kwargs):
     """Parses post XML file. Returns Post instance."""
     info("Process post: " + filename)
     basename = os.path.basename(filename)[:-4]    # basename without .xml
@@ -36,7 +36,7 @@ def make_post(xpost, skryba, filename):
     debug("orig date: {}".format(pi.origdate))
     pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
     debug("tags: {}".format(pi.tags))
-    pi.html = skryba.xslt_transform(xpost)
+    pi.html = skryba.xslt_transform(xpost, **kwargs)
 
     return pi
 
@@ -48,6 +48,7 @@ if __name__ == '__main__':
         add_help=True, allow_abbrev=False, epilog="""This program comes with ABSOLUTELY NO WARRANTY.""")
 
     parser.add_argument("--verbose", required=False, action="store_true", help="verbose processing")
+    parser.add_argument("--lang", required=True, metavar="LANG", choices=['en', 'pl'], help="language to use: en, pl")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
     parser.add_argument("--post", required=True, metavar="DIR", help="post input directory")
     parser.add_argument(metavar="input-dir",  dest="indir",  help="static files input directory")
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     xpost = os.path.join(xslt_dir, 'post.xslt')
     posts = listdir(args.post)          \
                 .filter_xml()           \
-                .map(functools.partial(make_post, xpost))
+                .map(functools.partial(make_post, xpost, lang="'{}'".format(args.lang)))
 
     # generate main menu (post page)
     menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
