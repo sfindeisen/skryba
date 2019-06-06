@@ -49,7 +49,6 @@ if __name__ == '__main__':
 
     parser.add_argument("--verbose", required=False, action="store_true", help="verbose processing")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
-    parser.add_argument("--xslt", required=True, metavar="DIR", help="XSLT template input directory")
     parser.add_argument("--post", required=True, metavar="DIR", help="post input directory")
     parser.add_argument(metavar="input-dir",  dest="indir",  help="static files input directory")
     parser.add_argument(metavar="output-dir", dest="outdir", help="output directory; all files will be overwritten!")
@@ -58,7 +57,11 @@ if __name__ == '__main__':
     if (args.verbose):
         verbose(True)
 
-    xpost = os.path.join(os.path.dirname(args.xslt), 'post.xslt')
+    # get the directory of this script
+    this_dir = os.path.dirname(os.path.realpath(__file__))
+    xslt_dir = os.path.join(this_dir, os.pardir, 'xslt')
+
+    xpost = os.path.join(xslt_dir, 'post.xslt')
     posts = listdir(args.post)          \
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
@@ -92,7 +95,7 @@ if __name__ == '__main__':
     tag_cloud_index = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
 
     # copy the static files
-    copytree(args.indir, args.outdir, exclude=[args.html, args.xslt, args.post, args.outdir])
+    copytree(args.indir, args.outdir, exclude=[args.html, xslt_dir, args.post, args.outdir])
 
     # generate the actual post HTML files (post.html)
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
