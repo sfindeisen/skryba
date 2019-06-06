@@ -3,7 +3,7 @@
 
 <!-- language: en (default), pl -->
 <xsl:param name="lang"        select="'en'"/>
-<xsl:param name="anno_domini" select="true()"/>
+<xsl:param name="anno_domini" select="false()"/>
 
 <xsl:include href="./util-date.xslt"/>
 <xsl:include href="./util-tag.xslt"/>
