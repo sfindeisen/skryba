@@ -46,6 +46,13 @@
     <p><xsl:apply-templates/></p>
 </xsl:template>
 
+<xsl:template match="img">
+  <img>
+    <xsl:attribute name="alt"><xsl:value-of select="./@alt"/></xsl:attribute>
+    <xsl:attribute name="src">../<xsl:value-of select="./@src"/></xsl:attribute>
+  </img>
+</xsl:template>
+
 <!-- void template -->
 <xsl:template match="tags|title"/>
 
