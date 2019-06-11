@@ -9,4 +9,4 @@ A flexible toolchain for processing collections of input and output files. It ca
 
 ## Examples
 
-01. [my personal blog](src/example/01-blog/)
+01. [my personal blog](example/01-blog/)
