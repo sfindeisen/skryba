@@ -66,12 +66,19 @@ if __name__ == '__main__':
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
+    ########################################################
+    # menu (post list)
+    ########################################################
+
+    post_list_header = '<ul class="skryba-post-list">'
+    post_list_footer = '</ul>'
+
     # generate main menu (post page)
-    menu_post = '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    menu_post  = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
     # generate main menu (tag page)
-    menu_tag  = '\n'.join(posts.map(lambda pi : '<li><a href="../post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    menu_tag   = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="../post/{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
     # generate main menu (index page)
-    menu_index = '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all())
+    menu_index = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
 
     # generate the list of all tags
     #
@@ -87,12 +94,19 @@ if __name__ == '__main__':
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
                 .values()
 
+    ########################################################
+    # tag cloud
+    ########################################################
+
+    tag_list_header = '<ul class="skryba-tag-list">'
+    tag_list_footer = '</ul>'
+
     # generate tag cloud (post page)
-    tag_cloud_post = '\n'.join(['<li><a href="../tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    tag_cloud_post  = tag_list_header + '\n'.join(['<li><a href="../tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
     # generate tag cloud (tag page)
-    tag_cloud_tag  = '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    tag_cloud_tag   = tag_list_header + '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
     # generate tag cloud (index page)
-    tag_cloud_index = '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()])
+    tag_cloud_index = tag_list_header + '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
 
     # copy the static files
     copytree(args.indir, args.outdir, exclude=[args.html, xslt_dir, args.post, args.outdir])

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
@@ -11,8 +12,14 @@
 <h1>My personal blog</h1>
 <div id="body">
 <div id="main">Welcome!</div>
-<div id="menu">{{ menu }}</div>
-<div id="tag-cloud">{{ tag_cloud }}</div>
+<div id="menu">
+<h3>Post list</h3>
+{{ menu }}
+</div>
+<div id="tag-cloud">
+<h3>Tag cloud</h3>
+{{ tag_cloud }}
+</div>
 </div>
 {% endblock %}
 </body>

@@ -1,3 +1,8 @@
+/***************************************************************
+ * web template CSS hooks
+ * (defined by you)
+ ***************************************************************/
+
 #body {
     background-color: beige;
 }
@@ -21,4 +26,40 @@ div#body > div {
 
 #tag-cloud {
     background-color: mediumseagreen;
+}
+
+/***************************************************************
+ * skryba CSS hooks
+ * (output by skryba)
+ ***************************************************************/
+
+.skryba-date > .skryba-date-comment {
+    font-style: italic;
+    background-color: lightgray;
+    font-weight: normal;
+}
+
+.skryba-date > .skryba-date-simple {
+    background-color: lightcyan;
+    font-weight: bold;
+}
+
+.skryba-date > .skryba-date-simple > .skryba-date-year {
+    display: inline-block;
+    padding: 0 1em;
+    background-color: lightskyblue;
+}
+
+ul.skryba-post-list li a,
+ul.skryba-tag-list li a
+{
+    display: inline-block;
+    text-decoration: none;
+}
+ul.skryba-post-list li a:hover {
+    background-color: white;
+}
+
+ul.skryba-tag-list li a:hover {
+    background-color: yellow;
 }
