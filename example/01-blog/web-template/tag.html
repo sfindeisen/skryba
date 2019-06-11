@@ -1,19 +1,7 @@
 {% extends "index.html" %}
 {% block path_to_root %}..{% endblock %}
-{% block body %}
-<h1>Tag: {{ tag }}</h1>
-<div id="body">
-<div id="menu">
-<h3>All posts</h3>
-{{ menu }}
-</div>
-<div id="main">
+{% block title %}Tag: {{ tag }}{% endblock %}
+{% block main %}
 <h2>Posts for tag: {{ tag }}</h2>
 {{ post_list }}
-</div>
-<div id="tag-cloud">
-<h3>All tags</h3>
-{{ tag_cloud }}
-</div>
-</div>
 {% endblock %}

@@ -8,19 +8,26 @@
 </head>
 
 <body>
-{% block body %}
-<h1>My personal blog</h1>
+<h1>{{ self.title() }}</h1>
 <div id="body">
-<div id="main">Welcome!</div>
 <div id="menu">
+{% block menu %}
 <h3>All posts</h3>
 {{ menu }}
+{% endblock %}
+</div>
+<div id="main">
+{% block main %}
+<h3>Welcome!</h3>
+<p>This is the entry page...</p>
+{% endblock %}
 </div>
 <div id="tag-cloud">
+{% block tag_cloud %}
 <h3>All tags</h3>
 {{ tag_cloud }}
-</div>
-</div>
 {% endblock %}
+</div>
+</div>
 </body>
 </html>
