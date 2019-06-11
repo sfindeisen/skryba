@@ -126,7 +126,7 @@ if __name__ == '__main__':
         lambda t : 'tag/{}'.format(t.filename),
         lambda t : {'menu': menu_tag,
                     'tag': t.value,
-                    'post_list': '\n'.join(['<a href="../post/{}">{}</a>'.format(p.basename, p.title) for p in t.posts]),
+                    'post_list': post_list_header + '\n'.join(['<li><a href="../post/{}">{}</a></li>'.format(p.basename, p.title) for p in t.posts]) + post_list_footer,
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
 
