@@ -91,8 +91,10 @@ if __name__ == '__main__':
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
             'lang'         : pi.lang,
+            'orig_date'    : pi.origdate,
+            'tags'         : pi.tags,
             'path_to_root' : '..',
-            'post'         : pi.html,
+            'post_body'    : pi.html,
             'post_title'   : pi.title,
             'posts_all'    : posts.all(),
             'tags_all'     : tags.all()

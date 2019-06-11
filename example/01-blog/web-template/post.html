@@ -2,5 +2,11 @@
 {% block title %}{{ post_title }}{% endblock %}
 {% block main %}
 <h1>{{ self.title() }}</h1>
-{{ post }}
+<p>{{ orig_date }} </p>
+<ul class="tag-list">
+{% for tag in tags %}
+<li>{{ tag }}</li>
+{% endfor %}
+</ul>
+{{ post_body }}
 {% endblock %}
