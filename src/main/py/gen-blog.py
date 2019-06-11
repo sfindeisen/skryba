@@ -66,20 +66,6 @@ if __name__ == '__main__':
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
-    ########################################################
-    # menu (post list)
-    ########################################################
-
-    post_list_header = '<ul class="skryba-post-list">'
-    post_list_footer = '</ul>'
-
-    # generate main menu (post page)
-    menu_post  = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="./{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
-    # generate main menu (tag page)
-    menu_tag   = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="../post/{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
-    # generate main menu (index page)
-    menu_index = post_list_header + '\n'.join(posts.map(lambda pi : '<li><a href="./post/{}">{}</a></li>'.format(pi.basename, pi.title)).all()) + post_list_footer
-
     # generate the list of all tags
     #
     # tag -> [Post]
@@ -115,7 +101,7 @@ if __name__ == '__main__':
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
-            'menu': menu_post,
+            'posts_all': posts.all(),
             'post': pi.html,
             'post_title': pi.title,
             'tag_cloud': tag_cloud_post}
@@ -124,9 +110,9 @@ if __name__ == '__main__':
     # generate the actual tag HTML files (tag.html)
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
         lambda t : 'tag/{}'.format(t.filename),
-        lambda t : {'menu': menu_tag,
+        lambda t : {'posts_all': posts.all(),
                     'tag': t.value,
-                    'post_list': post_list_header + '\n'.join(['<li><a href="../post/{}">{}</a></li>'.format(p.basename, p.title) for p in t.posts]) + post_list_footer,
+                    'post_list': t.posts,
                     'tag_cloud': tag_cloud_tag}
     ).copy_to(args.outdir)
 
@@ -137,6 +123,6 @@ if __name__ == '__main__':
                 .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
                 .with_rendering_engine(args.html)                        \
                 .render_all_templates(                                   \
-                    menu=menu_index,                                     \
+                    posts_all=posts.all(),                               \
                     tag_cloud=tag_cloud_index)                           \
                 .copy_to(args.outdir)
