@@ -10,6 +10,7 @@ Static blog generator. Focus on your content: write your blog posts in lightweig
 <body>
 <a href="https://en.wikipedia.org/wiki/Parthenon"><img alt="Parthenon in Athens" src="img/parthenon-in-athens.jpg"/></a>
 <p>What a trip!</p>
+<p>Can't wait for <a href="christmas.xml">Christmas</a>!</p>
 </body>
 </post>
 ```
