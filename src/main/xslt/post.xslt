@@ -15,6 +15,13 @@
     <p><xsl:apply-templates/></p>
 </xsl:template>
 
+<xsl:template match="a">
+  <a>
+    <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute>
+    <xsl:apply-templates/>
+  </a>
+</xsl:template>
+
 <xsl:template match="img">
   <img>
     <xsl:attribute name="alt"><xsl:value-of select="./@alt"/></xsl:attribute>
