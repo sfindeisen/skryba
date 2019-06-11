@@ -1,3 +1,5 @@
 # Examples
 
-01. [my personal blog](01-blog/)
+                    | Example
+--------------------|-----------------
+[01-blog](01-blog/) | My personal blog
