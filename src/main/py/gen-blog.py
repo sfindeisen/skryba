@@ -59,20 +59,21 @@ def make_post(xpost, skryba, filename, date_fmt=date_format_default, **kwargs):
     pi.basename = '{}.html'.format(basename)
     pi.title = skryba.xpath1('/post/title/text()')
     debug("title: {}".format(pi.title))
+    pi.lang = skryba.xpath1('/post/@lang')
+    debug("lang: {}".format(pi.lang))
+    pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
+    debug("tags: {}".format(pi.tags))
 
     pi.origdate = skryba.xpath1('/post/@orig-date')
     debug("orig date: {}".format(pi.origdate))
     parse_date(pi)
     if (pi.date):
         pi.date_fmt = pi.date.strftime(date_fmt)
-    debug('date_fmt: {}'.format(pi.date_fmt))
+        debug('date_fmt: {}'.format(pi.date_fmt))
+    else:
+        warning('unable to format post creation date; lang={} date={}'.format(pi.lang, pi.date))
 
-    pi.lang = skryba.xpath1('/post/@lang')
-    debug("lang: {}".format(pi.lang))
-    pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
-    debug("tags: {}".format(pi.tags))
     pi.html = skryba.xslt_transform(xpost, **kwargs)
-
     return pi
 
 if __name__ == '__main__':
