@@ -16,4 +16,4 @@ Static blog generator. Focus on your content: write your blog posts in HTML-frie
 
 Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout, CSS to make it nice-looking. Skryba will take care of the rest: tags, images, output directory layout and i18n.
 
-## [Examples](example/)
+## [Examples](example/01-blog/)
