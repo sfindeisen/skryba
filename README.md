@@ -14,6 +14,6 @@ Static blog generator. Focus on your content: write your blog posts in lightweig
 </post>
 ```
 
-Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout, CSS to make it nice-looking. Skryba will take care of the rest: tags, images, output directory layout and multiple language support (i18n).
+Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout, CSS to make it nice-looking. Skryba will take care of the rest: tags, cross-links, images, output directory layout and multiple language support (i18n).
 
 ## [Examples](example/01-blog/)
