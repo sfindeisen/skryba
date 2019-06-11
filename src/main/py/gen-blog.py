@@ -11,9 +11,10 @@ class Post:
     """A single blog post."""
     def __init__(self):
         self.basename = None    # input file base name
-        self.title    = None
-        self.origdate = None
-        self.html     = None
+        self.title    = None    # post/title
+        self.origdate = None    # orig-date post attribute value
+        self.lang     = None    # language code: en, pl ...
+        self.html     = None    # HTML of the post body
         self.tags     = None    # list of tags (string)
 
 class Tag:
@@ -34,6 +35,8 @@ def make_post(xpost, skryba, filename, **kwargs):
     debug("title: {}".format(pi.title))
     pi.origdate = skryba.xpath1('/post/@orig-date')
     debug("orig date: {}".format(pi.origdate))
+    pi.lang = skryba.xpath1('/post/@lang')
+    debug("lang: {}".format(pi.lang))
     pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
     debug("tags: {}".format(pi.tags))
     pi.html = skryba.xslt_transform(xpost, **kwargs)
@@ -87,6 +90,7 @@ if __name__ == '__main__':
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
+            'lang'         : pi.lang,
             'path_to_root' : '..',
             'post'         : pi.html,
             'post_title'   : pi.title,
