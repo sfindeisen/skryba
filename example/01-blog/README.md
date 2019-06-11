@@ -1,6 +1,6 @@
 # Example 01: my personal blog
 
-A simple static blog with articles, tags, img and i18n support.
+A simple static blog demonstrating the use of: tags, images (`img`), links (`a`), i18n.
 
 Use this command to generate:
 
