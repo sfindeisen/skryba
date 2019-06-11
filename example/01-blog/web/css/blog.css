@@ -41,25 +41,3 @@ ul.post-list li a:hover {
 ul.tag-list li a:hover {
     background-color: yellow;
 }
-
-/***************************************************************
- * skryba CSS hooks
- * (output by skryba)
- ***************************************************************/
-
-.skryba-date > .skryba-date-comment {
-    font-style: italic;
-    background-color: lightgray;
-    font-weight: normal;
-}
-
-.skryba-date > .skryba-date-simple {
-    background-color: lightcyan;
-    font-weight: bold;
-}
-
-.skryba-date > .skryba-date-simple > .skryba-date-year {
-    display: inline-block;
-    padding: 0 1em;
-    background-color: lightskyblue;
-}
