@@ -87,19 +87,24 @@ if __name__ == '__main__':
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
-            'posts_all': posts.all(),
-            'post': pi.html,
-            'post_title': pi.title,
-            'tags_all': tags.all()}
+            'path_to_root' : '..',
+            'posts_all'    : posts.all(),
+            'post'         : pi.html,
+            'post_title'   : pi.title,
+            'tags_all'     : tags.all()
+        }
     ).copy_to(args.outdir)
 
     # generate the actual tag HTML files (tag.html)
     tags.with_rendering_engine(args.html).with_template('tag.html').render_all(
         lambda t : 'tag/{}'.format(t.filename),
-        lambda t : {'posts_all': posts.all(),
-                    'tag': t.value,
-                    'post_list': t.posts,
-                    'tags_all': tags.all()}
+        lambda t : {
+            'path_to_root' : '..',
+            'posts_all'    : posts.all(),
+            'post_list'    : t.posts,
+            'tag'          : t.value,
+            'tags_all'     : tags.all()
+        }
     ).copy_to(args.outdir)
 
     # render index-level HTML templates
@@ -109,6 +114,7 @@ if __name__ == '__main__':
                 .filter(lambda x : (x not in ['post.html', 'tag.html'])) \
                 .with_rendering_engine(args.html)                        \
                 .render_all_templates(                                   \
-                    posts_all=posts.all(),                               \
-                    tags_all=tags.all())                                 \
+                    path_to_root = '.',                                  \
+                    posts_all    = posts.all(),                          \
+                    tags_all     = tags.all())                           \
                 .copy_to(args.outdir)
