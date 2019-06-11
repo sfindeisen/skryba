@@ -10,7 +10,7 @@ import re
 from skryba.index import verbose, warning, info, debug, normalize_string, string2id, listdir, copytree
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
-date_format_default = '%x'
+date_format_default = '%a, %d %b %Y'
 
 class Post:
     """A single blog post."""
