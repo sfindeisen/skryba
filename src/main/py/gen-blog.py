@@ -88,9 +88,9 @@ if __name__ == '__main__':
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
             'path_to_root' : '..',
-            'posts_all'    : posts.all(),
             'post'         : pi.html,
             'post_title'   : pi.title,
+            'posts_all'    : posts.all(),
             'tags_all'     : tags.all()
         }
     ).copy_to(args.outdir)
@@ -100,8 +100,8 @@ if __name__ == '__main__':
         lambda t : 'tag/{}'.format(t.filename),
         lambda t : {
             'path_to_root' : '..',
-            'posts_all'    : posts.all(),
             'post_list'    : t.posts,
+            'posts_all'    : posts.all(),
             'tag'          : t.value,
             'tags_all'     : tags.all()
         }
