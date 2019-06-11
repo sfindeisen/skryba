@@ -91,7 +91,7 @@ if __name__ == '__main__':
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : {
             'lang'         : pi.lang,
-            'orig_date'    : pi.origdate,
+            'date_orig'    : pi.origdate,
             'tags'         : pi.tags,
             'path_to_root' : '..',
             'post_body'    : pi.html,
