@@ -11,6 +11,24 @@ def get_xslt_transformer(xslt_filename):
     xslt = parse_xml_dom(xslt_filename)
     return ET.XSLT(xslt)
 
+def get_xpath0(xml_node, path):
+    """Given an XML node and XPath expression (a string), returns
+       the node pointed to by this XPath (or None, if there is no
+       such node). It is an error if there are multiple nodes.
+
+    xml_node -- XML DOM node (as returned from lxml.etree)
+    path     -- XPath expression (as a string)
+    """
+    t = xml_node.xpath(path)
+    u = len(t)
+
+    if (0 == u):
+        return None
+    elif (2 <= u):
+        raise Exception("Multiple nodes ({}) selected by XPath: {}".format(u, path))
+    else:
+        return t[0]     # return the only node in the list
+
 def get_xpath1(xml_node, path):
     """Given an XML node and XPath expression (a string), returns
        the node pointed to by this XPath. It is an error if there

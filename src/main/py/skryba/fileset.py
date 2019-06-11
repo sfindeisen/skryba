@@ -111,6 +111,9 @@ class XMLFileSet(FileSet):
             self.xslt_proc[xslt_path] = utils.xml.get_xslt_transformer(xslt_path)
         return self.xslt_proc[xslt_path]
 
+    def xpath0(self, xpath):
+        return utils.xml.get_xpath0(self.get_current_dom(), xpath)
+
     def xpath1(self, xpath):
         return utils.xml.get_xpath1(self.get_current_dom(), xpath)
 
