@@ -4,15 +4,24 @@ import argparse
 import functools
 import os
 import os.path
+import re
 
-from skryba.index import verbose, info, debug, normalize_string, string2id, listdir, copytree
+from skryba.index import verbose, warning, info, debug, normalize_string, string2id, listdir, copytree
+
+re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
 
 class Post:
     """A single blog post."""
     def __init__(self):
         self.basename = None    # input file base name
         self.title    = None    # post/title
+
         self.origdate = None    # orig-date post attribute value
+        self.year     = None
+        self.month    = None
+        self.day      = None
+        self.date_cmt = None
+
         self.lang     = None    # language code: en, pl ...
         self.html     = None    # HTML of the post body
         self.tags     = None    # list of tags (string)
@@ -24,6 +33,18 @@ class Tag:
         self.value    = value       # Unicode (normalized)
         self.posts    = posts       # list of Post
 
+def parse_date(pi):
+    m = re_date.match(pi.origdate)
+    if (m):
+        g        = m.groups()
+        pi.year  = g[0]
+        pi.month = g[1]
+        pi.day   = g[2]
+        if (4 <= len(g)):
+            pi.date_cmt = g[3]
+    else:
+        warning("Invalid date format: {}".format(pi.origdate))
+
 def make_post(xpost, skryba, filename, **kwargs):
     """Parses post XML file. Returns Post instance."""
     info("Process post: " + filename)
@@ -33,8 +54,11 @@ def make_post(xpost, skryba, filename, **kwargs):
     pi.basename = '{}.html'.format(basename)
     pi.title = skryba.xpath1('/post/title/text()')
     debug("title: {}".format(pi.title))
+
     pi.origdate = skryba.xpath1('/post/@orig-date')
     debug("orig date: {}".format(pi.origdate))
+    parse_date(pi)
+
     pi.lang = skryba.xpath1('/post/@lang')
     debug("lang: {}".format(pi.lang))
     pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
@@ -92,6 +116,10 @@ if __name__ == '__main__':
         lambda pi : {
             'lang'         : pi.lang,
             'date_orig'    : pi.origdate,
+            'date_year'    : pi.year,
+            'date_month'   : pi.month,
+            'date_day'     : pi.day,
+            'date_cmt'     : pi.date_cmt,
             'tags'         : pi.tags,
             'path_to_root' : '..',
             'post_body'    : pi.html,

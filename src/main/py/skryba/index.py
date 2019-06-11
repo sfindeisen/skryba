@@ -9,6 +9,7 @@ import utils.text
 ################################################################
 copytree         = utils.file.copytree
 verbose          = utils.log.set_verbose
+warning          = utils.log.warning
 info             = utils.log.info
 debug            = utils.log.debug
 normalize_string = utils.text.normalize
