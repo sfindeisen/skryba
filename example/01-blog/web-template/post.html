@@ -2,12 +2,18 @@
 {% block title %}{{ post_title }}{% endblock %}
 {% block main %}
 <h1>{{ self.title() }}</h1>
-<p>
+
+<p class="post-date">
+{% if date_fmt %}
+{{ date_fmt }}
+{% else %}
 {{ date_year }}-{{ date_month }}-{{ date_day }}
+{% endif %}
 {% if date_cmt %}
 ; {{ date_cmt }}
 {% endif %}
 </p>
+
 <ul class="tag-list">
 {% for tag in tags %}
 <li>{{ tag }}</li>

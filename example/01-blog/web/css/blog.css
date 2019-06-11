@@ -1,8 +1,3 @@
-/***************************************************************
- * web template CSS hooks
- * (defined by you)
- ***************************************************************/
-
 #body {
     background-color: beige;
 }
@@ -26,6 +21,11 @@ div#body > div {
 
 #tag-cloud {
     background-color: mediumseagreen;
+}
+
+p.post-date {
+    background-color: orange;
+    font-style: italic;
 }
 
 ul.post-list li a,
