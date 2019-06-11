@@ -1,10 +1,20 @@
 # skryba
 
-A flexible toolchain for processing collections of input and output files. It can be used to generate static blogs or other static web pages, or to extract and process information from multiple input files. Features include:
+Static blog generator. Focus on your content: write your blog posts in HTML-friendly XML:
 
-* [method chaining style](https://en.wikipedia.org/wiki/Fluent_interface), expressive Python DSL for listing, filtering and processing input files and generating output files
-* XML, XSLT and XPath support
-* [Jinja2](http://jinja.pocoo.org/) template support
-* [blog generator](src/main/py/gen-blog.py).
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+
+<post orig-date="2019-02-14; St. Valentine's Day">
+<tags>holiday; Greece</tags>
+<title>Holiday in Greece</title>
+<body>
+<img alt="Parthenon in Athens" src="img/parthenon-in-athens.jpg"/>
+<p>What a trip!</p>
+</body>
+</post>
+```
+
+Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your layout, CSS to make it nice-looking. Skryba will take care of the rest: tags, images, output directory layout and i18n.
 
 ## [Examples](example/)
