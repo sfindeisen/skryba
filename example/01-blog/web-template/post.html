@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block path_to_root %}..{% endblock %}
+{% block body %}
+<h1>{{ post_title }}</h1>
+<div id="body">
+<div id="menu">{{ menu }}</div>
+<div id="main">{{ post }}</div>
+<div id="tag-cloud">{{ tag_cloud }}</div>
+</div>
+{% endblock %}

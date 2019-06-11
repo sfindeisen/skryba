@@ -1,0 +1,24 @@
+#body {
+    background-color: beige;
+}
+
+div#body {
+    display: table;
+}
+
+div#body > div {
+    display: table-cell;
+    padding: 1em;
+}
+
+#menu {
+    background-color: deepskyblue;
+}
+
+#main {
+    background-color: gold;
+}
+
+#tag-cloud {
+    background-color: mediumseagreen;
+}
