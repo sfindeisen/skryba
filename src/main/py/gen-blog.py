@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import argparse
+import datetime
 import functools
 import os
 import os.path
@@ -9,6 +10,7 @@ import re
 from skryba.index import verbose, warning, info, debug, normalize_string, string2id, listdir, copytree
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
+date_format_default = '%x'
 
 class Post:
     """A single blog post."""
@@ -21,6 +23,8 @@ class Post:
         self.month    = None
         self.day      = None
         self.date_cmt = None
+        self.date_fmt = None
+        self.date     = None    # datetime.date object
 
         self.lang     = None    # language code: en, pl ...
         self.html     = None    # HTML of the post body
@@ -42,10 +46,11 @@ def parse_date(pi):
         pi.day   = g[2]
         if (4 <= len(g)):
             pi.date_cmt = g[3]
+        pi.date = datetime.date(int(pi.year), int(pi.month), int(pi.day))
     else:
         warning("Invalid date format: {}".format(pi.origdate))
 
-def make_post(xpost, skryba, filename, **kwargs):
+def make_post(xpost, skryba, filename, date_fmt=date_format_default, **kwargs):
     """Parses post XML file. Returns Post instance."""
     info("Process post: " + filename)
     basename = os.path.basename(filename)[:-4]    # basename without .xml
@@ -58,6 +63,9 @@ def make_post(xpost, skryba, filename, **kwargs):
     pi.origdate = skryba.xpath1('/post/@orig-date')
     debug("orig date: {}".format(pi.origdate))
     parse_date(pi)
+    if (pi.date):
+        pi.date_fmt = pi.date.strftime(date_fmt)
+    debug('date_fmt: {}'.format(pi.date_fmt))
 
     pi.lang = skryba.xpath1('/post/@lang')
     debug("lang: {}".format(pi.lang))
@@ -120,6 +128,7 @@ if __name__ == '__main__':
             'date_month'   : pi.month,
             'date_day'     : pi.day,
             'date_cmt'     : pi.date_cmt,
+            'date_fmt'     : pi.date_fmt,
             'tags'         : pi.tags,
             'path_to_root' : '..',
             'post_body'    : pi.html,
