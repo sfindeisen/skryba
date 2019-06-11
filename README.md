@@ -7,6 +7,6 @@ A flexible toolchain for processing collections of input and output files. It ca
 * [Jinja2](http://jinja.pocoo.org/) template support
 * [blog generator](src/main/py/gen-blog.py).
 
-## Example
+## Examples
 
-TODO
+01. [my personal blog](src/example/01-blog/)
