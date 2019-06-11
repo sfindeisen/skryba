@@ -4,12 +4,11 @@ Static blog generator. Focus on your content: write your blog posts in HTML-frie
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-
 <post orig-date="2019-02-14; St. Valentine's Day">
 <tags>holiday; Greece</tags>
 <title>Holiday in Greece</title>
 <body>
-<img alt="Parthenon in Athens" src="img/parthenon-in-athens.jpg"/>
+<a href="https://en.wikipedia.org/wiki/Parthenon"><img alt="Parthenon in Athens" src="img/parthenon-in-athens.jpg"/></a>
 <p>What a trip!</p>
 </body>
 </post>
