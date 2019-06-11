@@ -8,6 +8,7 @@ import os.path
 import re
 
 from skryba.index import verbose, warning, info, debug, normalize_string, string2id, listdir, copytree
+from skryba.utils.collection import filter_dict_values_not_none
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
 date_format_default = '%a, %d %b %Y'
@@ -59,7 +60,7 @@ def make_post(xpost, skryba, filename, date_fmt=date_format_default, **kwargs):
     pi.basename = '{}.html'.format(basename)
     pi.title = skryba.xpath1('/post/title/text()')
     debug("title: {}".format(pi.title))
-    pi.lang = skryba.xpath1('/post/@lang')
+    pi.lang = skryba.xpath0('/post/@lang')
     debug("lang: {}".format(pi.lang))
     pi.tags = list(filter(bool, map(lambda s : normalize_string(s.strip()), skryba.xpath1('/post/tags/text()').split(';'))))
     debug("tags: {}".format(pi.tags))
@@ -122,7 +123,7 @@ if __name__ == '__main__':
     # generate the actual post HTML files (post.html)
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
-        lambda pi : {
+        lambda pi : filter_dict_values_not_none({
             'lang'         : pi.lang,
             'date_orig'    : pi.origdate,
             'date_year'    : pi.year,
@@ -136,7 +137,7 @@ if __name__ == '__main__':
             'post_title'   : pi.title,
             'posts_all'    : posts.all(),
             'tags_all'     : tags.all()
-        }
+        })
     ).copy_to(args.outdir)
 
     # generate the actual tag HTML files (tag.html)
