@@ -3,7 +3,7 @@
 {% block title %}Tag: {{ tag }}{% endblock %}
 {% block main %}
 <h2>Posts for tag: {{ tag }}</h2>
-<ul class="skryba-post-list">
+<ul class="post-list">
 {% for post in post_list %}
 <li><a href="./{{ self.path_to_root() }}/post/{{ post.basename }}">{{ post.title }}</a></li>
 {% endfor %}

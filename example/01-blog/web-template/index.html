@@ -13,7 +13,7 @@
 <div id="menu">
 {% block menu %}
 <h3>All posts</h3>
-<ul class="skryba-post-list">
+<ul class="post-list">
 {% for post in posts_all %}
 <li><a href="./{{ self.path_to_root() }}/post/{{ post.basename }}">{{ post.title }}</a></li>
 {% endfor %}
@@ -29,7 +29,7 @@
 <div id="tag-cloud">
 {% block tag_cloud %}
 <h3>All tags</h3>
-<ul class="skryba-tag-list">
+<ul class="tag-list">
 {% for tag in tags_all %}
 <li><a href="./{{ self.path_to_root() }}/tag/{{ tag.filename }}">{{ tag.value }}</a></li>
 {% endfor %}

@@ -28,6 +28,20 @@ div#body > div {
     background-color: mediumseagreen;
 }
 
+ul.post-list li a,
+ul.tag-list li a
+{
+    display: inline-block;
+    text-decoration: none;
+}
+ul.post-list li a:hover {
+    background-color: white;
+}
+
+ul.tag-list li a:hover {
+    background-color: yellow;
+}
+
 /***************************************************************
  * skryba CSS hooks
  * (output by skryba)
@@ -48,18 +62,4 @@ div#body > div {
     display: inline-block;
     padding: 0 1em;
     background-color: lightskyblue;
-}
-
-ul.skryba-post-list li a,
-ul.skryba-tag-list li a
-{
-    display: inline-block;
-    text-decoration: none;
-}
-ul.skryba-post-list li a:hover {
-    background-color: white;
-}
-
-ul.skryba-tag-list li a:hover {
-    background-color: yellow;
 }
