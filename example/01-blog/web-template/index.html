@@ -29,7 +29,11 @@
 <div id="tag-cloud">
 {% block tag_cloud %}
 <h3>All tags</h3>
-{{ tag_cloud }}
+<ul class="skryba-tag-list">
+{% for tag in tags_all %}
+<li><a href="./{{ self.path_to_root() }}/tag/{{ tag.filename }}">{{ tag.value }}</a></li>
+{% endfor %}
+</ul>
 {% endblock %}
 </div>
 </div>

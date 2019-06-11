@@ -80,20 +80,6 @@ if __name__ == '__main__':
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
                 .values()
 
-    ########################################################
-    # tag cloud
-    ########################################################
-
-    tag_list_header = '<ul class="skryba-tag-list">'
-    tag_list_footer = '</ul>'
-
-    # generate tag cloud (post page)
-    tag_cloud_post  = tag_list_header + '\n'.join(['<li><a href="../tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
-    # generate tag cloud (tag page)
-    tag_cloud_tag   = tag_list_header + '\n'.join(['<li><a href="./{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
-    # generate tag cloud (index page)
-    tag_cloud_index = tag_list_header + '\n'.join(['<li><a href="./tag/{}">{}</a></li>'.format(t.filename, t.value) for t in tags.all()]) + tag_list_footer
-
     # copy the static files
     copytree(args.indir, args.outdir, exclude=[args.html, xslt_dir, args.post, args.outdir])
 
@@ -104,7 +90,7 @@ if __name__ == '__main__':
             'posts_all': posts.all(),
             'post': pi.html,
             'post_title': pi.title,
-            'tag_cloud': tag_cloud_post}
+            'tags_all': tags.all()}
     ).copy_to(args.outdir)
 
     # generate the actual tag HTML files (tag.html)
@@ -113,7 +99,7 @@ if __name__ == '__main__':
         lambda t : {'posts_all': posts.all(),
                     'tag': t.value,
                     'post_list': t.posts,
-                    'tag_cloud': tag_cloud_tag}
+                    'tags_all': tags.all()}
     ).copy_to(args.outdir)
 
     # render index-level HTML templates
@@ -124,5 +110,5 @@ if __name__ == '__main__':
                 .with_rendering_engine(args.html)                        \
                 .render_all_templates(                                   \
                     posts_all=posts.all(),                               \
-                    tag_cloud=tag_cloud_index)                           \
+                    tags_all=tags.all())                                 \
                 .copy_to(args.outdir)
