@@ -16,8 +16,28 @@
 </xsl:template>
 
 <xsl:template match="a">
+  <xsl:variable name="h" select="./@href"/>
+  <xsl:variable name="z" select="string-length($h)"/>
+
   <a>
-    <xsl:attribute name="href"><xsl:value-of select="./@href"/></xsl:attribute>
+    <xsl:attribute name="href">
+      <xsl:choose>
+        <!-- TODO use regex instead -->
+        <!-- TODO add more protocols -->
+        <xsl:when test="starts-with($h, 'http://') or starts-with($h, 'https://') or starts-with($h, 'ftp://')">
+          <!-- absolute url, render as-is -->
+          <xsl:value-of select="$h"/>
+        </xsl:when>
+        <xsl:when test="(4 &lt;= $z) and ('.xml' = substring($h, $z - 3))">
+          <!-- cross-link to another post -->
+          <xsl:value-of select="concat(substring($h, 1, $z - 3), 'html')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:message terminate="no">WARNING: unknown link: <xsl:value-of select="$h"/></xsl:message>
+          <xsl:value-of select="$h"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:attribute>
     <xsl:apply-templates/>
   </a>
 </xsl:template>
