@@ -29,4 +29,4 @@ Skryba will take care of the rest:
 
 ## Examples
 
-1. [a simple blog](example/01-blog/)
+01. [My personal blog](example/01-blog/)
