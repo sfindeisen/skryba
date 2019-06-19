@@ -11,8 +11,8 @@
     <xsl:apply-templates/>
 </xsl:template>
 
-<xsl:template match="p">
-    <p><xsl:apply-templates/></p>
+<xsl:template match="p|h1|h2|h3|h4|h5|h6">
+    <xsl:element name="{local-name()}"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
 <xsl:template match="a">
