@@ -4,13 +4,13 @@ Focus on your content: write your blog posts in lightweight, HTML-friendly XML:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<post orig-date="2019-02-14; St. Valentine's Day">
-<tags>holiday; Greece</tags>
-<title>Holiday in Greece</title>
+<post orig-date="1983-10-15; my birthday!" lang="en">
+<title>My 1983 birthday</title>
+<tags>birthday; presents</tags>
 <body>
-<a href="https://en.wikipedia.org/wiki/Parthenon"><img alt="Parthenon in Athens" src="img/parthenon-in-athens.jpg"/></a>
-<p>What a trip!</p>
-<p>Can't wait for <a href="christmas.xml">Christmas</a>!</p>
+<p>Today is my birthday!</p>
+<img alt="party" src="img/brueghel.png"/>
+<p>I got <a href="ibm.xml">this</a>!</p>
 </body>
 </post>
 ```
