@@ -21,8 +21,6 @@ Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page lay
 * cross-linking
 * images
 * multiple language support (i18n)
-* output directory layout
-
-.
+* output directory layout.
 
 ## [Examples](example/01-blog/)
