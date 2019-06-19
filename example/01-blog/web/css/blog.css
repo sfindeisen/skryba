@@ -1,43 +1,95 @@
-#body {
+#body
+{
     background-color: beige;
 }
 
-div#body {
+div#body
+{
     display: table;
 }
 
-div#body > div {
+div#body > div
+{
     display: table-cell;
     padding: 1em;
 }
 
-#menu {
+#menu
+{
     background-color: deepskyblue;
 }
 
-#main {
+#main
+{
     background-color: gold;
 }
 
-#tag-cloud {
+#main ul.tag-list li
+{
     background-color: mediumseagreen;
 }
 
-p.post-date {
-    background-color: orange;
-    font-style: italic;
+#main a
+{
+    color: black;
+    background-color: deepskyblue;
 }
 
-ul.post-list li a,
-ul.tag-list li a
+#main a:hover
 {
-    display: inline-block;
-    text-decoration: none;
-}
-ul.post-list li a:hover {
     background-color: white;
 }
 
-ul.tag-list li a:hover {
+#tag-cloud
+{
+    background-color: mediumseagreen;
+}
+
+#post
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#post > p.post-date
+{
+    background-color: orange;
+    font-style: italic;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#post > ul.tag-list
+{
+    display: inline-block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+ul.tag-list li a
+{
+    display: block;
+    text-decoration: none;
+}
+ul.post-list li a:hover
+{
+    background-color: white;
+}
+
+ul.tag-list li
+{
+    display: inline-block;
+}
+
+ul.tag-list li a
+{
+    display: block;
+    text-decoration: none;
+}
+
+ul.tag-list li a:hover
+{
     background-color: yellow;
 }
