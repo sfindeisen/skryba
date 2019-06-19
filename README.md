@@ -16,6 +16,7 @@ Focus on your content: write your blog posts in a lightweight, HTML-friendly XML
 ```
 
 Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout.
+
 Use CSS to make it nice-looking.
 
 Skryba will take care of the rest:
