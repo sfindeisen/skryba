@@ -78,6 +78,11 @@ div#body > div
     margin: 2ex auto;
 }
 
+#post > p > img
+{
+    float: right;
+}
+
 ul.post-list li a,
 ul.tag-list li a
 {
