@@ -22,7 +22,7 @@ Use CSS to make it nice-looking.
 Skryba will take care of the rest:
 
 * tags
-* cross-linking
+* internal links (cross-links)
 * images
 * multiple language support (i18n)
 * output directory layout.
