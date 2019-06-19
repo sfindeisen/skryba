@@ -27,4 +27,6 @@ Skryba will take care of the rest:
 * multiple language support (i18n)
 * output directory layout.
 
-## [Examples](example/01-blog/)
+## Examples
+
+1. [a simple blog](example/01-blog/)
