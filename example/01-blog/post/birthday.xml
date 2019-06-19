@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<post orig-date="1985-02-03; my birthday!" lang="en">
-<title>My 1985 birthday</title>
-<tags>presents</tags>
+<post orig-date="1983-10-15; my birthday!" lang="en">
+<title>My 1983 birthday</title>
+<tags>birthday; presents</tags>
 <body>
-<p>What a beautiful birthday day...</p>
+<p>Today is my birthday!</p>
+<p>I got <a href="ibm.xml">this</a>!</p>
 </body>
 </post>
