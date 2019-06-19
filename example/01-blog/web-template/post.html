@@ -5,14 +5,14 @@
 <h1>{{ self.title() }}</h1>
 
 <p class="post-date">
-{% if date_fmt %}
+{%- if date_fmt -%}
 {{ date_fmt }}
-{% else %}
+{%- else -%}
 {{ date_year }}-{{ date_month }}-{{ date_day }}
-{% endif %}
-{% if date_cmt %}
+{%- endif -%}
+{%- if date_cmt -%}
 ; {{ date_cmt }}
-{% endif %}
+{%- endif -%}
 </p>
 
 <ul class="tag-list">
