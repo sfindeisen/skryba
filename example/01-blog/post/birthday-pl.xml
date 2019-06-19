@@ -5,6 +5,7 @@
 <tags>birthday; presents</tags>
 <body>
 <p>Dziś moje urodziny!</p>
+<img alt="party" src="img/brueghel.jpg"/>
 <p>Dostałem <a href="ibm.xml">to</a>!</p>
 </body>
 </post>

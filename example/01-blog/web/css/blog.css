@@ -6,6 +6,7 @@
 div#body
 {
     display: table;
+    width: 100%;
 }
 
 div#body > div
@@ -17,11 +18,13 @@ div#body > div
 #menu
 {
     background-color: deepskyblue;
+    width: 20%;
 }
 
 #main
 {
     background-color: gold;
+    width: 100%;
 }
 
 #main ul.tag-list li
@@ -43,6 +46,7 @@ div#body > div
 #tag-cloud
 {
     background-color: mediumseagreen;
+    width: 15%;
 }
 
 #post
@@ -68,27 +72,27 @@ div#body > div
     margin-right: 0;
 }
 
+#post > img
+{
+    display: inline-block;
+    margin: 2ex auto;
+}
+
+ul.post-list li a,
 ul.tag-list li a
 {
     display: block;
+    padding: 0.5ex 0.5em;
     text-decoration: none;
+}
+ul.tag-list li
+{
+    display: inline-block;
 }
 ul.post-list li a:hover
 {
     background-color: white;
 }
-
-ul.tag-list li
-{
-    display: inline-block;
-}
-
-ul.tag-list li a
-{
-    display: block;
-    text-decoration: none;
-}
-
 ul.tag-list li a:hover
 {
     background-color: yellow;
