@@ -45,4 +45,4 @@ apt-get install python3-jinja2 python3-lxml
 
 ## TODO
 
-[ ] Bible quote index
+- [ ] Bible quote index
