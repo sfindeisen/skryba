@@ -45,6 +45,7 @@ apt-get install python3-jinja2 python3-lxml
 
 ## TODO
 
+- [ ] language index (list of languages, list of posts per language)
 - [ ] Bible quote index
 - [ ] highlight current post in the menu
 - [ ] post tags: make them links
