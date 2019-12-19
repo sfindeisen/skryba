@@ -15,6 +15,56 @@
     <xsl:element name="{local-name()}"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
+<xsl:template match="bible">
+    <xsl:variable name=       "all_verses" select="count(./verse)"/>
+    <xsl:variable name=  "numbered_verses" select="count(./verse[@i])"/>
+    <xsl:variable name="unnumbered_verses" select="count(./verse[not(@i)])"/>
+
+    <xsl:if test="($numbered_verses != 0) and ($unnumbered_verses != 0)">
+      <xsl:message terminate="no">Bible quote contains a mix of numbered and not-numbered verses: <xsl:value-of select="."/></xsl:message>
+    </xsl:if>
+
+    <xsl:element name="div">
+      <xsl:attribute name="class">skryba skryba-bible</xsl:attribute>
+      <xsl:element name="div">
+          <xsl:attribute name="class">skryba skryba-bible-address</xsl:attribute>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-book</xsl:attribute>
+              <xsl:value-of select="./@book"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-chapter</xsl:attribute>
+              <xsl:value-of select="./@chapter"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-verse</xsl:attribute>
+              <xsl:value-of select="./@verse"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-translation</xsl:attribute>
+              <xsl:value-of select="./@translation"/>
+          </xsl:element>
+      </xsl:element>
+      <xsl:element name="div">
+          <xsl:attribute name="class">skryba skryba-bible-body</xsl:attribute>
+          <xsl:apply-templates/>
+      </xsl:element>
+    </xsl:element>
+</xsl:template>
+
+<xsl:template match="verse">
+    <xsl:element name="p">
+        <xsl:attribute name="class">skryba skryba-bible-verse</xsl:attribute>
+        <xsl:if test="@i">
+            <xsl:element name="span">
+                <xsl:attribute name="class">skryba skryba-bible-verse-number</xsl:attribute>
+                <xsl:value-of select="@i"/>
+            </xsl:element>
+        </xsl:if>
+        <xsl:apply-templates/>
+    </xsl:element>
+</xsl:template>
+
 <xsl:template match="a">
   <xsl:variable name="h" select="./@href"/>
   <xsl:variable name="z" select="string-length($h)"/>
