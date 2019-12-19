@@ -27,6 +27,22 @@ Skryba will take care of the rest:
 * multiple language support (i18n)
 * output directory layout.
 
+## Extra features
+
+* Bible quotes
+
 ## Examples
 
 01. [My personal blog](example/01-blog/)
+
+## Requirements
+
+On a Debian-like OS, try this:
+
+```shell
+apt-get install python3-jinja2 python3-lxml
+```
+
+## TODO
+
+[ ] Bible quote index
