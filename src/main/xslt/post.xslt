@@ -15,6 +15,42 @@
     <xsl:element name="{local-name()}"><xsl:apply-templates/></xsl:element>
 </xsl:template>
 
+<xsl:template match="bible">
+    <xsl:element name="div">
+      <xsl:attribute name="class">skryba skryba-bible</xsl:attribute>
+      <xsl:element name="div">
+          <xsl:attribute name="class">skryba skryba-bible-address</xsl:attribute>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-book</xsl:attribute>
+              <xsl:value-of select="./@book"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-chapter</xsl:attribute>
+              <xsl:value-of select="./@chapter"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-verse</xsl:attribute>
+              <xsl:value-of select="./@verse"/>
+          </xsl:element>
+          <xsl:element name="span">
+              <xsl:attribute name="class">skryba skryba-bible-address-translation</xsl:attribute>
+              <xsl:value-of select="./@translation"/>
+          </xsl:element>
+      </xsl:element>
+      <xsl:element name="div">
+          <xsl:attribute name="class">skryba skryba-bible-body</xsl:attribute>
+          <xsl:apply-templates/>
+      </xsl:element>
+    </xsl:element>
+</xsl:template>
+
+<xsl:template match="verse">
+    <xsl:element name="p">
+        <xsl:attribute name="class">skryba skryba-bible-verse</xsl:attribute>
+        <xsl:apply-templates/>
+    </xsl:element>
+</xsl:template>
+
 <xsl:template match="a">
   <xsl:variable name="h" select="./@href"/>
   <xsl:variable name="z" select="string-length($h)"/>
