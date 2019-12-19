@@ -148,11 +148,17 @@ ul.tag-list li a:hover
     display: inline;
 }
 
-/*
-.skryba-bible-verse:before {
-  content: " (*) ";
+.skryba-bible-verse-number {
+    font-weight: bolder;
 }
-*/
+
+.skryba-bible-verse-number:before {
+    content: " (";
+}
+
+.skryba-bible-verse-number:after {
+    content: ") ";
+}
 
 /*
 .skryba-bible-verse:first-letter {
