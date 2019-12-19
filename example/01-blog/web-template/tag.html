@@ -2,9 +2,16 @@
 {% block title %}Tag: {{ tag }}{% endblock %}
 {% block main %}
 <h2>Posts for tag: {{ tag }}</h2>
-<ul class="post-list">
+
+<table class="post-table">
+<tr><th>Title</th><th>Date</th><th>Language</th><th>Tags</th></tr>
 {% for post in post_list %}
-<li><a href="./{{ path_to_root }}/post/{{ post.basename }}">{{ post.title }}</a></li>
+<tr>
+<td><a href="./{{ path_to_root }}/post/{{ post.basename }}">{{ post.title }}</a></td>
+<td>{{ post.origdate }}</td>
+<td>{{ post.lang }}</td>
+<td>{{ post.tags }}</td>
+</tr>
 {% endfor %}
-</ul>
+</table>
 {% endblock %}

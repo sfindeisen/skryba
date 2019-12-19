@@ -41,11 +41,11 @@ div#body > div#tag-cloud {
  * Post
  **************************************************************/
 
-#main a {
+#post a {
     background-color: deepskyblue;
     color: black;
 }
-#main a:hover {
+#post a:hover {
     background-color: lightgreen;
 }
 
@@ -79,7 +79,7 @@ div#body > div#tag-cloud {
 }
 
 /***************************************************************
- * Post list and tag list
+ * Post list, tag list and post table
  **************************************************************/
 
 ul.post-list li a,
@@ -97,6 +97,31 @@ ul.post-list li a:hover {
 }
 ul.tag-list li a:hover {
     background-color: yellow;
+}
+
+table.post-table,
+table.post-table th,
+table.post-table td {
+    border: thin solid black;
+    border-collapse: collapse;
+}
+
+table.post-table th,
+table.post-table td {
+    padding: 1em;
+    text-align: left;
+}
+
+table.post-table td:first-child {
+    padding: 0;
+}
+table.post-table td a {
+    display: block;
+    padding: 15px;
+}
+
+table.post-table td a:hover {
+    background-color: lightgreen;
 }
 
 /***************************************************************
