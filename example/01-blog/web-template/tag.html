@@ -10,7 +10,11 @@
 <td><a href="./{{ path_to_root }}/post/{{ post.basename }}">{{ post.title }}</a></td>
 <td>{{ post.origdate }}</td>
 <td>{{ post.lang }}</td>
-<td>{{ post.tags }}</td>
+<td>
+{% for tag in post.tags %}
+{{ tag }}
+{% endfor %}
+</td>
 </tr>
 {% endfor %}
 </table>
