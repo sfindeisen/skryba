@@ -4,6 +4,16 @@
 <title>My 1983 birthday</title>
 <tags>birthday; presents</tags>
 <body>
+
+<bible book="Psalms" chapter="139" verse="1-3" translation="New International Version (NIV)">
+<verse>You have searched me, Lord,
+    and you know me.</verse>
+<verse>You know when I sit and when I rise;
+    you perceive my thoughts from afar.</verse>
+<verse>You discern my going out and my lying down;
+    you are familiar with all my ways.</verse>
+</bible>
+
 <p>Today is my birthday!</p>
 <img alt="party" src="img/brueghel.png"/>
 <p>I got <a href="ibm.xml">this</a>!</p>
