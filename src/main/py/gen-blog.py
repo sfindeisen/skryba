@@ -7,7 +7,7 @@ import os
 import os.path
 import re
 
-from skryba.index import verbose, warning, info, debug, normalize_string, string2id, listdir, copytree
+from skryba.index import verbose, force_overwrite, warning, info, debug, normalize_string, string2id, listdir, copytree
 from skryba.utils.collection import filter_dict_values_not_none
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
@@ -85,14 +85,17 @@ if __name__ == '__main__':
         add_help=True, allow_abbrev=False, epilog="""This program comes with ABSOLUTELY NO WARRANTY.""")
 
     parser.add_argument("--verbose", required=False, action="store_true", help="verbose processing")
+    parser.add_argument("--overwrite-all", required=False, action="store_true", help="overwrite all files without prompting (batch mode)")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
-    parser.add_argument("--post", required=True, metavar="DIR", help="post input directory")
-    parser.add_argument(metavar="input-dir",  dest="indir",  help="static files input directory")
-    parser.add_argument(metavar="output-dir", dest="outdir", help="output directory; all files will be overwritten!")
+    parser.add_argument("--post", required=True, metavar="DIR", help="XML post input directory")
+    parser.add_argument(metavar="input-dir",  dest="indir",  help="input directory with static files: images, CSS...")
+    parser.add_argument(metavar="output-dir", dest="outdir", help="output directory")
     args = parser.parse_args()
 
     if (args.verbose):
         verbose(True)
+    if (args.overwrite_all):
+        force_overwrite()
 
     # get the directory of this script
     this_dir = os.path.dirname(os.path.realpath(__file__))

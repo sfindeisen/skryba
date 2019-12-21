@@ -10,6 +10,11 @@ from utils.log import debug, info
 # Overwrite all output files?
 f_overwrite_all = False
 
+def force_overwrite():
+    global f_overwrite_all
+    info("overwrite all files")
+    f_overwrite_all = True
+
 def prompt_overwrite(dst):
     global f_overwrite_all
 

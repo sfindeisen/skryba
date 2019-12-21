@@ -8,6 +8,7 @@ import utils.text
 # Export these functions to the top level
 ################################################################
 copytree         = utils.file.copytree
+force_overwrite  = utils.file.force_overwrite
 verbose          = utils.log.set_verbose
 warning          = utils.log.warning
 info             = utils.log.info
