@@ -17,7 +17,7 @@ Focus on your content: write your blog posts in a lightweight, HTML-friendly XML
 
 Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout. For example, here's how you could define your tag page:
 
-```
+```jinja2
 {% extends "index.html" %}
 {% block title %}Tag: {{ tag }}{% endblock %}
 {% block main %}
