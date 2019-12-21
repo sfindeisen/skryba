@@ -45,6 +45,7 @@ apt-get install python3-jinja2 python3-lxml
 
 ## TODO
 
+- [ ] batch mode aka overwrite all files without any questions
 - [ ] multiple authors
 - [ ] language index (list of languages, list of posts per language)
 - [ ] Bible quote index
