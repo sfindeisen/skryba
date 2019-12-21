@@ -15,16 +15,40 @@ Focus on your content: write your blog posts in a lightweight, HTML-friendly XML
 </post>
 ```
 
-Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout.
+Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page layout. For example, here's how you could define your tag page:
+
+```
+{% extends "index.html" %}
+{% block title %}Tag: {{ tag }}{% endblock %}
+{% block main %}
+<h2>Posts for tag: {{ tag }}</h2>
+
+<table class="post-table">
+<tr><th>Title</th><th>Date</th><th>Language</th><th>Tags</th></tr>
+{% for post in post_list %}
+<tr>
+<td><a href="./{{ path_to_root }}/post/{{ post.basename }}">{{ post.title }}</a></td>
+<td>{{ post.origdate }}</td>
+<td>{{ post.lang }}</td>
+<td>
+{% for tag in post.tags %}
+{{ tag }}
+{% endfor %}
+</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %}
+```
 
 Use CSS to make it nice-looking.
 
 Skryba will take care of the rest:
 
 * tags
-* internal links (cross-links)
-* images
+* internal links
 * multiple language support (i18n)
+* images
 * output directory layout.
 
 ## Extra features
@@ -37,7 +61,10 @@ Skryba will take care of the rest:
 
 ## Requirements
 
-On a Debian-like OS, try this:
+* [Jinja2](http://jinja.pocoo.org/)
+* [lxml](https://lxml.de/)
+
+On a Debian-like OS (including Ubuntu), you can try this:
 
 ```shell
 apt-get install python3-jinja2 python3-lxml
