@@ -1,6 +1,6 @@
 # Skryba - static blog generator
 
-Focus on your content: write your blog posts in a lightweight, HTML-friendly XML:
+Focus on your content. Write your blog posts in a lightweight, HTML-friendly XML:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -41,19 +41,21 @@ Use powerful [Jinja2](http://jinja.pocoo.org/) templates to define your page lay
 {% endblock %}
 ```
 
+In the example above, `tag` and `post_list` are variables exported to your template from Skryba.
+
 Use CSS to make it nice-looking.
 
 Skryba will take care of the rest:
 
-* tags
-* internal links
-* multiple language support (i18n)
-* images
-* output directory layout.
+1. tags
+2. internal links
+3. multiple language support (i18n)
+4. images
+5. output directory layout.
 
 ## Extra features
 
-* Bible quotes
+1. Bible quotes
 
 ## Examples
 
