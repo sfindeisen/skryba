@@ -63,10 +63,10 @@ Skryba will take care of the rest:
 
 ## Requirements
 
-* [Jinja2](http://jinja.pocoo.org/)
-* [lxml](https://lxml.de/)
+1. [Jinja2](http://jinja.pocoo.org/)
+2. [lxml](https://lxml.de/)
 
-On a Debian-like OS (including Ubuntu), you can try this:
+On a Debian-like OS (e.g. Ubuntu), you can try this:
 
 ```shell
 apt-get install python3-jinja2 python3-lxml
