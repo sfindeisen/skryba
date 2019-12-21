@@ -63,8 +63,9 @@ Skryba will take care of the rest:
 
 ## Requirements
 
-1. [Jinja2](http://jinja.pocoo.org/)
-2. [lxml](https://lxml.de/)
+1. [Python3](https://www.python.org/)
+2. [Jinja2](http://jinja.pocoo.org/)
+3. [lxml](https://lxml.de/)
 
 On a Debian-like OS (e.g. Ubuntu), you can try this:
 
