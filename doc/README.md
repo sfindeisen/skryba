@@ -1,5 +1,30 @@
 # Documentation
 
+## Available tools
+
+### [`gen-blog.py`](../src/main/py/gen-blog.py)
+
+```shell
+$ gen-blog.py --help
+usage: generate.py [-h] [--verbose] [--overwrite-all] --html DIR --post DIR
+                   input-dir output-dir
+
+Generate the complete blog.
+
+positional arguments:
+  input-dir        input directory with static files: images, CSS...
+  output-dir       output directory
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --verbose        verbose processing
+  --overwrite-all  overwrite all files without prompting (batch mode)
+  --html DIR       HTML template input directory
+  --post DIR       XML post input directory
+
+This program comes with ABSOLUTELY NO WARRANTY.
+```
+
 ## Variables available in Jinja2 templates
 
 ### Python data types
