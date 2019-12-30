@@ -110,8 +110,10 @@ This:
   book="Psalms" chapter="139" verse="1-3"
   translation="New International Version (NIV)" class="xxx">
 <verse i="1">You have searched me, Lord, and you know me.</verse>
-<verse i="2">You know when I sit and when I rise; you perceive my thoughts from afar.</verse>
-<verse i="3">You discern my going out and my lying down; you are familiar with all my ways.</verse>
+<verse i="2">You know when I sit and when I rise;
+    you perceive my thoughts from afar.</verse>
+<verse i="3">You discern my going out and my lying down;
+    you are familiar with all my ways.</verse>
 </bible-quote>
 ```
 
@@ -126,11 +128,13 @@ will be rendered as:
 </span>
 <span class="skryba skryba-verse">
 <span class="skryba skryba-verse-number">2</span>
-<span class="skryba skryba-verse-body">You know when I sit and when I rise; you perceive my thoughts from afar.</span>
+<span class="skryba skryba-verse-body">You know when I sit and when I rise;
+    you perceive my thoughts from afar.</span>
 </span>
 <span class="skryba skryba-verse">
 <span class="skryba skryba-verse-number">3</span>
-<span class="skryba skryba-verse-body">You discern my going out and my lying down;you are familiar with all my ways.</span>
+<span class="skryba skryba-verse-body">You discern my going out and my lying down;
+    you are familiar with all my ways.</span>
 </span>
 </span>
 <span class="skryba skryba-bible-quote-address">
