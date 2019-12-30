@@ -98,3 +98,44 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   | `/post/tags`                             | all tags
+
+## Extra features
+
+### Bible quotes
+
+This:
+
+```xml
+<bible-quote book="Psalms" chapter="139" verse="1-3" translation="New International Version (NIV)" class="xxx">
+<verse i="1">You have searched me, Lord, and you know me.</verse>
+<verse i="2">You know when I sit and when I rise; you perceive my thoughts from afar.</verse>
+<verse i="3">You discern my going out and my lying down; you are familiar with all my ways.</verse>
+</bible-quote>
+```
+
+will render as:
+
+```html
+<span class="xxx skryba skryba-bible-quote">
+<span class="skryba skryba-bible-quote-body">
+<span class="skryba skryba-verse">
+<span class="skryba skryba-verse-number">1</span>
+<span class="skryba skryba-verse-body">You have searched me, Lord, and you know me.</span>
+</span>
+<span class="skryba skryba-verse">
+<span class="skryba skryba-verse-number">2</span>
+<span class="skryba skryba-verse-body">You know when I sit and when I rise; you perceive my thoughts from afar.</span>
+</span>
+<span class="skryba skryba-verse">
+<span class="skryba skryba-verse-number">3</span>
+<span class="skryba skryba-verse-body">You discern my going out and my lying down;you are familiar with all my ways.</span>
+</span>
+</span>
+<span class="skryba skryba-bible-quote-address">
+<span class="skryba skryba-bible-quote-address-book">Psalms</span>
+<span class="skryba skryba-bible-quote-address-chapter">139</span>
+<span class="skryba skryba-bible-quote-address-verse">1-3</span>
+<span class="skryba skryba-bible-quote-address-translation">New International Version (NIV)</span>
+</span>
+</span>
+```
