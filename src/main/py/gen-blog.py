@@ -81,15 +81,22 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
         prog='generate.py',
-        description='Generate the complete blog.',
+        description='''
+Generates the complete blog by processing input post XML files and input Jinja2 HTML template files.
+Each post will result in a corresponding output HTML file generated in output-dir/post/ .
+Each tag will result in a corresponding output HTML file generated in output-dir/tag/ .
+Jinja2 HTML template files named post.html and tag.html must be present. Other HTML template files will be
+processed in a generic way (see the documentation).
+Contents of input-dir will be copied as is to the output-dir.
+''',
         add_help=True, allow_abbrev=False, epilog="""This program comes with ABSOLUTELY NO WARRANTY.""")
 
-    parser.add_argument("--verbose", required=False, action="store_true", help="verbose processing")
-    parser.add_argument("--overwrite-all", required=False, action="store_true", help="overwrite all files without prompting (batch mode)")
+    parser.add_argument("--verbose", required=False, action="store_true", help="Verbose processing")
+    parser.add_argument("--overwrite-all", required=False, action="store_true", help="Overwrite all files without prompting (batch mode)")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
     parser.add_argument("--post", required=True, metavar="DIR", help="XML post input directory")
-    parser.add_argument(metavar="input-dir",  dest="indir",  help="input directory with static files: images, CSS...")
-    parser.add_argument(metavar="output-dir", dest="outdir", help="output directory")
+    parser.add_argument(metavar="input-dir",  dest="indir",  help="Input directory with static files: images, CSS... This will be copied as is to output-dir.")
+    parser.add_argument(metavar="output-dir", dest="outdir", help="Output directory")
     args = parser.parse_args()
 
     if (args.verbose):
