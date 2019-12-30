@@ -59,7 +59,7 @@ Skryba will take care of the rest:
 
 ## Examples
 
-01. [My personal blog](example/01-blog/)
+01. [My personal blog](docs/example/01-blog/)
 
 ## [Documentation](./docs/)
 

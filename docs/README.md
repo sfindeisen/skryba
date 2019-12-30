@@ -30,7 +30,7 @@ optional arguments:
 This program comes with ABSOLUTELY NO WARRANTY.
 ```
 
-See [examples](../example/).
+See [examples](./example/).
 
 ## General rules
 
@@ -152,4 +152,4 @@ will be rendered in HTML as:
 
 Note: the CSS classes (`xxx yy`) are preserved.
 
-Check out CSS styling example [here](../example/01-blog/web/css/bible.css).
+Check out CSS styling example [here](./example/01-blog/web/css/bible.css).
