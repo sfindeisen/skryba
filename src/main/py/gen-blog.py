@@ -24,7 +24,7 @@ class Post:
         self.month    = None
         self.day      = None
         self.date_cmt = None
-        self.date_fmt = None
+        self.date_fmt = None    # formatted date (string)
         self.date     = None    # datetime.date object
 
         self.lang     = None    # language code: en, pl ...
