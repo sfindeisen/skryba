@@ -1,8 +1,6 @@
 # Documentation
 
-## Available tools
-
-### [`gen-blog.py`](../src/main/py/gen-blog.py)
+## Usage
 
 ```
 $ gen-blog.py --help
