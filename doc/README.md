@@ -88,3 +88,11 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `posts_all`       | list of Post  |                                          | all posts
 `tag`             | string        | `/post/tags`                             | this tag
 `tags_all`        | list of Tag   | `/post/tags`                             | all tags
+
+### Variables available to HTML templates other than `post.html` and `tag.html`
+
+Variable name     | Type          | Related XPath in the input post XML file | Value
+------------------|---------------|------------------------------------------|--------------------
+`path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
+`posts_all`       | list of Post  |                                          | all posts
+`tags_all`        | list of Tag   | `/post/tags`                             | all tags
