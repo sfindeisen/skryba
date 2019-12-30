@@ -121,7 +121,7 @@ This:
 </bible-quote>
 ```
 
-will be rendered as:
+will be rendered in HTML as:
 
 ```html
 <span class="xxx yy skryba skryba-bible-quote">
