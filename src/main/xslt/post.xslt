@@ -86,7 +86,7 @@
           <xsl:value-of select="concat(substring($h, 1, $z - 3), 'html')"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:message terminate="no">WARNING: unknown link: <xsl:value-of select="$h"/></xsl:message>
+          <xsl:message terminate="no">Unknown link: <xsl:value-of select="$h"/></xsl:message>
           <xsl:value-of select="$h"/>
         </xsl:otherwise>
       </xsl:choose>
