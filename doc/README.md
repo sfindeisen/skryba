@@ -31,7 +31,7 @@ class Tag:
         self.posts    = posts       # list of Post
 ```
 
-### Variables available on the tag page (`tag.html`).
+### Variables available on the tag page (`tag.html`)
 
 Variable name     | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
@@ -41,7 +41,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `tag`             | string        | `/post/tags`                             | this tag
 `tags_all`        | list of Tag   | `/post/tags`                             | all tags
 
-### Variables available on the post page (`post.html`).
+### Variables available on the post page (`post.html`)
 
 Variable name     | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
