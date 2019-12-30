@@ -43,7 +43,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `date_year`       | int           | `/post/@orig-date`                       | parsed year
 `lang`            | string        | `/post/@lang`                            |
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
-`post_body`       | string        | `/post/body`                             | post contents as HTML
+`post_body`       | string        | `/post/body`                             | post contents as HTML (rendered using [`post.xslt`](../src/main/xslt/post.xslt))
 `post_title`      | string        | `/post/title`                            |
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   |                                          | all tags
