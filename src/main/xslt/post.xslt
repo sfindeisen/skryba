@@ -25,7 +25,7 @@
     </xsl:if>
 
     <xsl:element name="span">
-      <xsl:attribute name="class">skryba skryba-bible-quote</xsl:attribute>
+      <xsl:attribute name="class"><xsl:if test="@class"><xsl:value-of select="@class"/><xsl:text> </xsl:text></xsl:if>skryba skryba-bible-quote</xsl:attribute>
       <xsl:element name="span">
           <xsl:attribute name="class">skryba skryba-bible-quote-body</xsl:attribute>
           <xsl:apply-templates/>
