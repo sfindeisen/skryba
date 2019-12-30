@@ -51,7 +51,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `date_month`      | int           | `/post/@orig-date`                       | parsed month
 `date_day`        | int           | `/post/@orig-date`                       | parsed day
 `date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
-`date_fmt`        | string        | `/post/@orig-date`                       | date in the following format: `%a, %d %b %Y` (see [strftime](https://docs.python.org/3/library/datetime.html#datetime.date.strftime))
+`date_fmt`        | string        | `/post/@orig-date`                       | date in the following format: `%a, %d %b %Y` (see [datetime.date.strftime](https://docs.python.org/3/library/datetime.html#datetime.date.strftime))
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   |                                          | all tags
