@@ -7,16 +7,23 @@ $ gen-blog.py --help
 usage: generate.py [-h] [--verbose] [--overwrite-all] --html DIR --post DIR
                    input-dir output-dir
 
-Generate the complete blog.
+Generates the complete blog by processing input post XML files and input
+Jinja2 HTML template files. Each post will result in a corresponding output
+HTML file generated in output-dir/post/ . Each tag will result in a
+corresponding output HTML file generated in output-dir/tag/ . Jinja2 HTML
+template files named post.html and tag.html must be present. Other HTML
+template files will be processed in a generic way (see the documentation).
+Contents of input-dir will be copied as is to the output-dir.
 
 positional arguments:
-  input-dir        input directory with static files: images, CSS...
-  output-dir       output directory
+  input-dir        Input directory with static files: images, CSS... This will
+                   be copied as is to output-dir.
+  output-dir       Output directory
 
 optional arguments:
   -h, --help       show this help message and exit
-  --verbose        verbose processing
-  --overwrite-all  overwrite all files without prompting (batch mode)
+  --verbose        Verbose processing
+  --overwrite-all  Overwrite all files without prompting (batch mode)
   --html DIR       HTML template input directory
   --post DIR       XML post input directory
 
