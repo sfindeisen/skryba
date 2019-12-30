@@ -55,7 +55,7 @@ Skryba will take care of the rest:
 
 ## Extra features
 
-1. Bible quotes
+1. [Bible quotes](./doku/#bible-quote)
 
 ## Examples
 
