@@ -9,4 +9,4 @@ export PYTHONPATH=../../../src/main/py/skryba/:$PYTHONPATH
 ../../../src/main/py/gen-blog.py --html ./web-template/ --post ./post/ ./web ./out
 ```
 
-Now point your web browser to `out/index.html`.
+Now point your web browser to `out/index.html` or [here](out/).
