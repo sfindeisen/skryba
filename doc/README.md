@@ -4,7 +4,7 @@
 
 ### [`gen-blog.py`](../src/main/py/gen-blog.py)
 
-```shell
+```
 $ gen-blog.py --help
 usage: generate.py [-h] [--verbose] [--overwrite-all] --html DIR --post DIR
                    input-dir output-dir
