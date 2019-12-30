@@ -101,7 +101,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 
 ## Extra features
 
-### Bible quotes
+### `bible-quote`
 
 This:
 
@@ -147,3 +147,5 @@ will be rendered as:
 ```
 
 Note: the CSS class (`xxx`) is preserved.
+
+Check out CSS styling example [here](../example/01-blog/web/css/bible.css).
