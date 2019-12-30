@@ -78,7 +78,7 @@
         <!-- TODO use regex instead -->
         <!-- TODO add more protocols -->
         <xsl:when test="starts-with($h, 'http://') or starts-with($h, 'https://') or starts-with($h, 'ftp://')">
-          <!-- absolute url, render as-is -->
+          <!-- absolute url, render as is -->
           <xsl:value-of select="$h"/>
         </xsl:when>
         <xsl:when test="(4 &lt;= $z) and ('.xml' = substring($h, $z - 3))">
