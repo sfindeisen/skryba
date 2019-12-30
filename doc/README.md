@@ -33,25 +33,25 @@ class Tag:
 
 ### Variables available on the tag page (`tag.html`).
 
-Variable name     | Type          | Related path in the input post XML file | Value
-------------------|---------------|-----------------------------------------|--------------------
-`path_to_root`    | string        |                                         | relative path to the top-level output directory, e.g.: `..`
-`post_list`       | list of Post  | `/post/tags`                            | posts for this tag
-`posts_all`       | list of Post  |                                         | all posts
-`tag`             | string        | `/post/tags`                            | this tag
-`tags_all`        | list of Tag   | `/post/tags`                            | all tags
+Variable name     | Type          | Related XPath in the input post XML file | Value
+------------------|---------------|------------------------------------------|--------------------
+`path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
+`post_list`       | list of Post  | `/post/tags`                             | posts for this tag
+`posts_all`       | list of Post  |                                          | all posts
+`tag`             | string        | `/post/tags`                             | this tag
+`tags_all`        | list of Tag   | `/post/tags`                             | all tags
 
 ### Variables available on the post page (`post.html`).
 
-Variable name     | Type          | Related path in the input post XML file | Value
-------------------|---------------|-----------------------------------------|--------------------
-`lang`            | string        | `/post/@lang`                           |
-`date_orig`       | string        | `/post/@orig-date`                      |
-`date_year`       | string        | `/post/@orig-date`                      | parsed year
-`date_month`      | string        | `/post/@orig-date`                      | parsed month
-`date_day`        | string        | `/post/@orig-date`                      | parsed day
-`date_cmt`        | string        | `/post/@orig-date`                      | parsed date comment
-`date_fmt`        | string        | `/post/@orig-date`                      | date reformatted
-`path_to_root`    | string        |                                         | relative path to the top-level output directory, e.g.: `..`
-`posts_all`       | list of Post  |                                         | all posts
-`tags_all`        | list of Tag   |                                         | all tags
+Variable name     | Type          | Related XPath in the input post XML file | Value
+------------------|---------------|------------------------------------------|--------------------
+`lang`            | string        | `/post/@lang`                            |
+`date_orig`       | string        | `/post/@orig-date`                       |
+`date_year`       | string        | `/post/@orig-date`                       | parsed year
+`date_month`      | string        | `/post/@orig-date`                       | parsed month
+`date_day`        | string        | `/post/@orig-date`                       | parsed day
+`date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
+`date_fmt`        | string        | `/post/@orig-date`                       | date reformatted
+`path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
+`posts_all`       | list of Post  |                                          | all posts
+`tags_all`        | list of Tag   |                                          | all tags
