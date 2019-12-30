@@ -45,13 +45,12 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 
 Variable name     | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
+`date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
+`date_day`        | int           | `/post/@orig-date`                       | parsed day
+`date_fmt`        | string        | `/post/@orig-date`                       | date in the following format: `%a, %d %b %Y` (see [datetime.date.strftime](https://docs.python.org/3/library/datetime.html#datetime.date.strftime))
+`date_month`      | int           | `/post/@orig-date`                       | parsed month
 `date_orig`       | string        | `/post/@orig-date`                       |
 `date_year`       | int           | `/post/@orig-date`                       | parsed year
-`date_month`      | int           | `/post/@orig-date`                       | parsed month
-`date_day`        | int           | `/post/@orig-date`                       | parsed day
-`date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
-`date_fmt`        | string        | `/post/@orig-date`                       | date in the following format: `%a, %d %b %Y` (see [datetime.date.strftime](https://docs.python.org/3/library/datetime.html#datetime.date.strftime))
-------------------|---------------|------------------------------------------|--------------------
 `lang`            | string        | `/post/@lang`                            |
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `posts_all`       | list of Post  |                                          | all posts
