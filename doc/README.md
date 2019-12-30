@@ -31,16 +31,6 @@ class Tag:
         self.posts    = posts       # list of Post
 ```
 
-### Variables available on the tag page (`tag.html`)
-
-Variable name     | Type          | Related XPath in the input post XML file | Value
-------------------|---------------|------------------------------------------|--------------------
-`path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
-`post_list`       | list of Post  | `/post/tags`                             | all posts for this tag
-`posts_all`       | list of Post  |                                          | all posts
-`tag`             | string        | `/post/tags`                             | this tag
-`tags_all`        | list of Tag   | `/post/tags`                             | all tags
-
 ### Variables available on the post page (`post.html`)
 
 Variable name     | Type          | Related XPath in the input post XML file | Value
@@ -58,3 +48,13 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   |                                          | all tags
 `tags`            | list of Tag   | `/post/tags`                             | all tags for this post
+
+### Variables available on the tag page (`tag.html`)
+
+Variable name     | Type          | Related XPath in the input post XML file | Value
+------------------|---------------|------------------------------------------|--------------------
+`path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
+`post_list`       | list of Post  | `/post/tags`                             | all posts for this tag
+`posts_all`       | list of Post  |                                          | all posts
+`tag`             | string        | `/post/tags`                             | this tag
+`tags_all`        | list of Tag   | `/post/tags`                             | all tags
