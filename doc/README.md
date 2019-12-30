@@ -36,7 +36,7 @@ class Tag:
 Variable name     | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
-`post_list`       | list of Post  | `/post/tags`                             | posts for this tag
+`post_list`       | list of Post  | `/post/tags`                             | all posts for this tag
 `posts_all`       | list of Post  |                                          | all posts
 `tag`             | string        | `/post/tags`                             | this tag
 `tags_all`        | list of Tag   | `/post/tags`                             | all tags
@@ -53,5 +53,8 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 `date_year`       | int           | `/post/@orig-date`                       | parsed year
 `lang`            | string        | `/post/@lang`                            |
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
+`post_body`       | string        | `/post/body`                             | post contents as HTML
+`post_title`      | string        | `/post/title`                            |
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   |                                          | all tags
+`tags`            | list of Tag   | `/post/tags`                             | all tags for this post
