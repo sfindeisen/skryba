@@ -104,7 +104,7 @@
 
 <!-- catch-all template -->
 <xsl:template match="*">
-    <xsl:message terminate="no">WARNING: Unmatched element: <xsl:value-of select="name()"/></xsl:message>
+    <xsl:message terminate="no">Unmatched element: <xsl:value-of select="name()"/></xsl:message>
     <xsl:apply-templates/>
 </xsl:template>
 
