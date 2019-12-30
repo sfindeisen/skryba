@@ -105,4 +105,4 @@ venv.bak/
 
 *.swp
 *~
-example/*/out/
+docs/example/*/out/
