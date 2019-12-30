@@ -61,6 +61,8 @@ Skryba will take care of the rest:
 
 01. [My personal blog](example/01-blog/)
 
+## [Documentation](./doc/)
+
 ## Requirements
 
 1. [Python3](https://www.python.org/)
