@@ -1,0 +1,41 @@
+body
+{
+    background-color: white;
+    color: black;
+}
+
+img
+{
+    border-radius: 8px;
+    max-width: 100%;
+    height: auto;
+}
+
+div
+{
+    display: block;
+}
+
+ul,
+li
+{
+    margin: 0;
+    padding: 0;
+}
+
+ul
+{
+    list-style-type: none;
+}
+
+a
+{
+    display: inline;
+    text-decoration: none;
+}
+
+p
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+}

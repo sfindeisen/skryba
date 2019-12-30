@@ -1,0 +1,125 @@
+body {
+    background-color: white;
+    color: black;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/***************************************************************
+ * Page layout
+ **************************************************************/
+
+div#body {
+    display: table;
+    width: 100%;
+}
+
+div#body > div {
+    display: table-cell;
+    padding: 1em;
+}
+
+div#body > div#menu {
+    background-color: lightblue;
+    width: 20%;
+}
+
+div#body > div#main {
+    background-color: lightyellow;
+    width: 65%;
+}
+
+div#body > div#tag-cloud {
+    background-color: lightgreen;
+    width: 15%;
+}
+
+/***************************************************************
+ * Post
+ **************************************************************/
+
+#post a {
+    background-color: deepskyblue;
+    color: black;
+}
+#post a:hover {
+    background-color: lightgreen;
+}
+
+#post {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+#post > p.post-date {
+    font-size: 1.5em;
+    font-style: italic;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#post > ul.tag-list {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+#post > img {
+    display: inline-block;
+    margin: 2ex auto;
+}
+
+#post > p > img {
+    float: right;
+}
+
+/***************************************************************
+ * Post list, tag list and post table
+ **************************************************************/
+
+ul.post-list li a,
+ul.tag-list  li a {
+    display: block;
+    padding: 0.5ex 0.5em;
+    text-decoration: none;
+}
+ul.tag-list li {
+    background-color: lightgreen;
+    display: inline-block;
+}
+ul.post-list li a:hover {
+    background-color: white;
+}
+ul.tag-list li a:hover {
+    background-color: yellow;
+}
+
+table.post-table,
+table.post-table th,
+table.post-table td {
+    border: thin solid black;
+    border-collapse: collapse;
+}
+
+table.post-table th,
+table.post-table td {
+    padding: 1em;
+    text-align: left;
+}
+
+table.post-table td:first-child {
+    padding: 0;
+}
+table.post-table td a {
+    display: block;
+    padding: 15px;
+}
+
+table.post-table td a:hover {
+    background-color: lightgreen;
+}
