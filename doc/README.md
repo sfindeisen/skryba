@@ -30,6 +30,8 @@ optional arguments:
 This program comes with ABSOLUTELY NO WARRANTY.
 ```
 
+See [examples](../example/).
+
 ## Variables available in Jinja2 templates
 
 ### Python data types
