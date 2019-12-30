@@ -16,7 +16,7 @@ class Post:
         self.month    = None
         self.day      = None
         self.date_cmt = None
-        self.date_fmt = None
+        self.date_fmt = None    # formatted date (string)
         self.date     = None    # datetime.date object
 
         self.lang     = None    # language code: en, pl ...
@@ -47,11 +47,11 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 ------------------|---------------|------------------------------------------|--------------------
 `lang`            | string        | `/post/@lang`                            |
 `date_orig`       | string        | `/post/@orig-date`                       |
-`date_year`       | string        | `/post/@orig-date`                       | parsed year
-`date_month`      | string        | `/post/@orig-date`                       | parsed month
-`date_day`        | string        | `/post/@orig-date`                       | parsed day
+`date_year`       | int           | `/post/@orig-date`                       | parsed year
+`date_month`      | int           | `/post/@orig-date`                       | parsed month
+`date_day`        | int           | `/post/@orig-date`                       | parsed day
 `date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
-`date_fmt`        | string        | `/post/@orig-date`                       | date reformatted
+`date_fmt`        | string        | `/post/@orig-date`                       | date in the following format: `%a, %d %b %Y` (see [strftime](https://docs.python.org/3/library/datetime.html#datetime.date.strftime))
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `posts_all`       | list of Post  |                                          | all posts
 `tags_all`        | list of Tag   |                                          | all tags
