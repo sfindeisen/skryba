@@ -1,4 +1,4 @@
-# Documentation
+# Skryba --- documentation
 
 ## Usage
 

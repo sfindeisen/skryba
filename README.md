@@ -1,4 +1,4 @@
-# Skryba - static blog generator
+# Skryba --- static blog generator
 
 Focus on your content. Write your blog posts in a lightweight, HTML-friendly XML:
 
