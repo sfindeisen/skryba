@@ -108,7 +108,7 @@ This:
 ```xml
 <bible-quote
   book="Psalms" chapter="139" verse="1-3"
-  translation="New International Version (NIV)" class="xxx">
+  translation="New International Version (NIV)" class="xxx yy">
 <verse i="1">You have searched me, Lord, and you know me.</verse>
 <verse i="2">You know when I sit and when I rise;
     you perceive my thoughts from afar.</verse>
@@ -120,7 +120,7 @@ This:
 will be rendered as:
 
 ```html
-<span class="xxx skryba skryba-bible-quote">
+<span class="xxx yy skryba skryba-bible-quote">
 <span class="skryba skryba-bible-quote-body">
 <span class="skryba skryba-verse">
 <span class="skryba skryba-verse-number">1</span>
@@ -146,6 +146,6 @@ will be rendered as:
 </span>
 ```
 
-Note: the CSS class (`xxx`) is preserved.
+Note: the CSS classes (`xxx yy`) are preserved.
 
 Check out CSS styling example [here](../example/01-blog/web/css/bible.css).
