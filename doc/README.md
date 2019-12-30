@@ -36,7 +36,7 @@ class Tag:
 Variable name     | Type          | Value
 ------------------|---------------|-------------
 `path_to_root`    | string        | relative path to the top-level output directory, e.g.: `..`
-`post_list`       | list of Post  | list of posts for this tag
-`posts_all`       | list of Post  | list of all posts
+`post_list`       | list of Post  | posts for this tag
+`posts_all`       | list of Post  | all posts
 `tag`             | string        | this tag
-`tags_all`        | list of Tag   | list of all tags
+`tags_all`        | list of Tag   | all tags
