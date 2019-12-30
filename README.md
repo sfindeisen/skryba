@@ -55,13 +55,13 @@ Skryba will take care of the rest:
 
 ## Extra features
 
-1. [Bible quotes](./doc/#bible-quote)
+1. [Bible quotes](./docs/#bible-quote)
 
 ## Examples
 
 01. [My personal blog](example/01-blog/)
 
-## [Documentation](./doc/)
+## [Documentation](./docs/)
 
 ## Requirements
 
