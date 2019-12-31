@@ -69,7 +69,7 @@ class Tag:
 
 ### Variables available on the post page (`post.html`)
 
-Variable name     | Type          | Related XPath in the input post XML file | Value
+Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
 `date_cmt`        | string        | `/post/@orig-date`                       | parsed date comment
 `date_day`        | int           | `/post/@orig-date`                       | parsed day
@@ -87,7 +87,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 
 ### Variables available on the tag page (`tag.html`)
 
-Variable name     | Type          | Related XPath in the input post XML file | Value
+Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `post_list`       | list of Post  | `/post/tags`                             | all posts for this tag
@@ -97,7 +97,7 @@ Variable name     | Type          | Related XPath in the input post XML file | V
 
 ### Variables available to HTML templates other than `post.html` and `tag.html`
 
-Variable name     | Type          | Related XPath in the input post XML file | Value
+Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
 `path_to_root`    | string        |                                          | relative path to the top-level output directory, e.g.: `..`
 `posts_all`       | list of Post  |                                          | all posts
