@@ -42,6 +42,11 @@ class RenderingEngine(Generator):
         return self
 
     def render_all(self, f_name, f_args):
+        """
+        Given a function f_name : item -> string and f_args : item -> dict, calls them for each item
+        to compute the output file name, actual template parameters and to render the output file
+        contents.
+        """
         for x in self.all():
             self.render((f_name(x)), **(f_args(x)))
         return self
