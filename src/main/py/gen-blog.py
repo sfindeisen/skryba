@@ -80,7 +80,7 @@ def make_post(xpost, skryba, filename, date_fmt=date_format_default, **kwargs):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
-        prog='generate.py',
+        prog='gen-blog.py',
         description='''
 Generates the complete blog by processing input post XML files and input Jinja2 HTML template files.
 Each post will result in a corresponding output HTML file generated in output-dir/post/ .
