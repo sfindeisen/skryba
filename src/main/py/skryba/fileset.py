@@ -25,11 +25,11 @@ class FileSet(base.Base):
         """Returns all the file names in this set."""
         raise NotImplementedError()
 
-    def set_current_file(self, f):
+    def __set_current_file(self, f):
         self.current_file = f
 
     def __map(self, f, x):
-        self.set_current_file(x)
+        self.__set_current_file(x)
         return f(self, x)
 
     def map(self, f):
@@ -93,13 +93,13 @@ class XMLFileSet(FileSet):
             # utils.log.warning('level: {} ({})'.format(entry.level_name, entry.level))
             # utils.log.warning('filename: {}'.format(entry.filename))
 
-    def get_current_dom(self):
+    def __get_current_dom(self):
         if (self.current_dom is None):
             self.current_dom = utils.xml.parse_xml_dom(self.current_file)
         return self.current_dom
 
-    def set_current_file(self, f):
-        super().set_current_file(f)
+    def __set_current_file(self, f):
+        super().__set_current_file(f)
         self.current_dom = None
 
     def all(self):
@@ -112,14 +112,14 @@ class XMLFileSet(FileSet):
         return self.xslt_proc[xslt_path]
 
     def xpath0(self, xpath):
-        return utils.xml.get_xpath0(self.get_current_dom(), xpath)
+        return utils.xml.get_xpath0(self.__get_current_dom(), xpath)
 
     def xpath1(self, xpath):
-        return utils.xml.get_xpath1(self.get_current_dom(), xpath)
+        return utils.xml.get_xpath1(self.__get_current_dom(), xpath)
 
     def xslt_transform(self, xslt_path, **kwargs):
         t = self.__load_xslt(xslt_path)
-        u = t(self.get_current_dom(), **kwargs)
+        u = t(self.__get_current_dom(), **kwargs)
         self.print_xslt_error_log(t.error_log)
         # TODO errors get accumulated across transforms; XSLT reload?...
         return u
