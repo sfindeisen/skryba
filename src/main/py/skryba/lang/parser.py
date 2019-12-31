@@ -7,56 +7,57 @@ precedence = (
     ('left', 'COMMA'),   
 )
 
-def p_program_1(p):
-    'program : statement'
-    pass
-def p_program_2(p):
-    'program : statement program'
-    pass
-
-def p_statement_bind(p):
-    'statement : BIND IDENTIFIER EQUALS expression'
+def p_program(p):
+    '''program : statement
+               | statement program
+    '''
     pass
 
-def p_statement_expr(p):
-    'statement : expression'
+def p_statement(p):
+    '''statement : BIND IDENTIFIER EQUALS expression
+                 | expression
+    '''
     pass
 
-def p_expression_lambda(p):
-    'expression : LAMBDA IDENTIFIER RARROW expression'
+def p_expression(p):
+    '''expression : LAMBDA IDENTIFIER RARROW expression
+                  | expression_atomic
+    '''
     pass
 
-def p_expression_list_1(p):
-    'expression_list : expression'
-    pass
-def p_expression_list_2(p):
-    'expression_list : expression expression_list'
-    pass
-def p_expression_application(p):
-    'expression : expression expression_list'
+def p_tuple_list(p):
+    '''tuple_list : expression
+                  | expression COMMA tuple_list
+    '''
     pass
 
-def p_tuple_list_1(p):
-    'tuple_list : expression'
-    pass
-def p_tuple_list_2(p):
-    'tuple_list : expression COMMA tuple_list'
-    pass
-def p_expression_tuple(p):
-    'expression : LPAREN expression COMMA tuple_list RPAREN'
+def p_expression_atomic(p):
+    '''expression_atomic : STRING_LITERAL
+                         | IDENTIFIER
+                         | LPAREN expression COMMA tuple_list RPAREN
+                         | LPAREN expression RPAREN
+    '''
     pass
 
-def p_expression_paren(p):
-    'expression : LPAREN expression RPAREN'
-    pass
+# def p_expression_atomic_list(p):
+#     '''expression_atomic_list : expression_atomic
+#                               | expression_atomic expression_atomic_list
+#     '''
+#     pass
+#
+# def p_expression_application(p):
+#     'expression : expression_atomic expression_atomic_list'
+#     pass
 
-def p_expression_string_literal(p):
-    'expression : STRING_LITERAL'
-    pass
-
-def p_expression_identifier(p):
-    'expression : IDENTIFIER'
-    pass
+#def p_tuple_list(p):
+#    '''tuple_list : expression
+#                  | expression COMMA tuple_list
+#    '''
+#    pass
+#
+#def p_expression_tuple(p):
+#    'expression : LPAREN expression COMMA tuple_list RPAREN'
+#    pass
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
