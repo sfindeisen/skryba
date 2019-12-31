@@ -25,17 +25,17 @@ def p_expression(p):
     '''
     pass
 
-def p_tuple_list(p):
-    '''tuple_list : expression
-                  | expression COMMA tuple_list
-    '''
-    pass
-
 def p_expression_atomic(p):
     '''expression_atomic : STRING_LITERAL
                          | IDENTIFIER
                          | LPAREN expression COMMA tuple_list RPAREN
                          | LPAREN expression RPAREN
+    '''
+    pass
+
+def p_tuple_list(p):
+    '''tuple_list : expression
+                  | expression COMMA tuple_list
     '''
     pass
 
