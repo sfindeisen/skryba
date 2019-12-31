@@ -105,3 +105,7 @@ venv.bak/
 
 *.swp
 *~
+
+# generated files
+src/main/py/skryba/lang/parser.out
+src/main/py/skryba/lang/parsetab.py
