@@ -119,7 +119,7 @@ Contents of input-dir will be copied as is to the output-dir.
 
     # generate the list of all tags
     #
-    # reverse_dict         :  tag               -> tag, [Post]
+    # reverse_dict         :  [Post]            -> tag, [Post]
     # map_values_with_keys :  tag, [Post]       -> tag, Tag
     # map_keys_with_values :  tag, Tag          -> Tag.filename, Tag (group and merge Tags by Tag filename)
     # values               :  Tag.filename, Tag -> [Tag]
