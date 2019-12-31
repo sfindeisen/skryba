@@ -25,15 +25,15 @@ class FileSet(base.Base):
         """Returns all the file names in this set."""
         raise NotImplementedError()
 
-    def __set_current_file(self, f):
+    def _set_current_file(self, f):
         self.current_file = f
 
-    def __map(self, f, x):
-        self.__set_current_file(x)
+    def _map(self, f, x):
+        self._set_current_file(x)
         return f(self, x)
 
     def map(self, f):
-        return collection.ListCollection(self, list(map(functools.partial(self.__map, f), self.all())))
+        return collection.ListCollection(self, list(map(functools.partial(self._map, f), self.all())))
 
     def foreach(self, f):
         self.map(f)
@@ -93,33 +93,33 @@ class XMLFileSet(FileSet):
             # utils.log.warning('level: {} ({})'.format(entry.level_name, entry.level))
             # utils.log.warning('filename: {}'.format(entry.filename))
 
-    def __get_current_dom(self):
+    def _get_current_dom(self):
         if (self.current_dom is None):
             self.current_dom = utils.xml.parse_xml_dom(self.current_file)
         return self.current_dom
 
-    def __set_current_file(self, f):
-        super().__set_current_file(f)
+    def _set_current_file(self, f):
+        super()._set_current_file(f)
         self.current_dom = None
 
     def all(self):
         return self.parent.all()
 
-    def __load_xslt(self, xslt_path):
+    def _load_xslt(self, xslt_path):
         """Loads the XSLT processor for the given filepath."""
         if (xslt_path not in self.xslt_proc):
             self.xslt_proc[xslt_path] = utils.xml.get_xslt_transformer(xslt_path)
         return self.xslt_proc[xslt_path]
 
     def xpath0(self, xpath):
-        return utils.xml.get_xpath0(self.__get_current_dom(), xpath)
+        return utils.xml.get_xpath0(self._get_current_dom(), xpath)
 
     def xpath1(self, xpath):
-        return utils.xml.get_xpath1(self.__get_current_dom(), xpath)
+        return utils.xml.get_xpath1(self._get_current_dom(), xpath)
 
     def xslt_transform(self, xslt_path, **kwargs):
-        t = self.__load_xslt(xslt_path)
-        u = t(self.__get_current_dom(), **kwargs)
+        t = self._load_xslt(xslt_path)
+        u = t(self._get_current_dom(), **kwargs)
         self.print_xslt_error_log(t.error_log)
         # TODO errors get accumulated across transforms; XSLT reload?...
         return u
