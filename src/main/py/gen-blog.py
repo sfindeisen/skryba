@@ -109,16 +109,20 @@ Contents of input-dir will be copied as is to the output-dir.
     xslt_dir = os.path.join(this_dir, os.pardir, 'xslt')
 
     xpost = os.path.join(xslt_dir, 'post.xslt')
+
+    # parse all posts
+    #
+    # [Post]
     posts = listdir(args.post)          \
                 .filter_xml()           \
                 .map(functools.partial(make_post, xpost))
 
     # generate the list of all tags
     #
-    # tag -> [Post]
-    # tag -> Tag
-    # Tag.filename -> Tag (group Posts by Tag filename)
-    # [Tag]
+    # reverse_dict         :  tag               -> tag, [Post]
+    # map_values_with_keys :  tag, [Post]       -> tag, Tag
+    # map_keys_with_values :  tag, Tag          -> Tag.filename, Tag (group and merge Tags by Tag filename)
+    # values               :  Tag.filename, Tag -> [Tag]
     tags = posts.reverse_dict(lambda pi : pi.tags)     \
                 .map_values_with_keys(
                     lambda t, pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \

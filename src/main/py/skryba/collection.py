@@ -95,8 +95,9 @@ class DictionaryCollection(Collection):
         Key conflicts are resolved by the merge function: merge : (value, value) -> value .
         Returns a new DictionaryCollection.
 
-        f(k,v) is taken to be the new key
-        merge(v1,v2) is used to merge 2 values in case of key conflict
+        f(k,v) is taken to be the new key.
+
+        merge(v1,v2) is used to merge 2 values in the case of a key conflict.
         """
         y = {}
         for k, v in self.items.items():
