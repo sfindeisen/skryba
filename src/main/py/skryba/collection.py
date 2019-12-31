@@ -22,7 +22,7 @@ class Collection(base.Base):
         a new DictionaryCollection (a child of this) wrapping a dictionary from Y to list
         of X.
 
-        This can be used e.g. to generate a tag cloud from a list of blog posts.
+        This can be used e.g. to group blog posts by tags.
         """
         rdic = {}
         for x in self.items:
