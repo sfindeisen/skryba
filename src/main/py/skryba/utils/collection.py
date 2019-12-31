@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 def filter_dict(kv, p):
     """Given a dictionary, returns a new one retaining only pairs satisfying the predicate."""
     return { k:v for k,v in kv.items() if p(k,v) }

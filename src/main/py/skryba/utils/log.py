@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 f_verbose = False
 
 def set_verbose(verbose):

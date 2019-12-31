@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import abc
 
 class Base(abc.ABC):
