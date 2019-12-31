@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import lxml.etree as ET
 
 def parse_xml_dom(xml_filename):
