@@ -1,0 +1,24 @@
+# filter        : (a -> boolean) -> [a] -> [a]
+# map           : (a -> b) -> [a] -> [b]
+# compose       : (a -> b) -> (b -> c) -> (a -> c)
+# compose       : (a -> b) -> (b -> c) -> (c -> d) -> (a -> d)
+# flip          : (a -> b -> c) -> b -> a -> c
+#
+# listdir       : string -> [file]
+# parse_xml_dom : file -> xml_document
+# xpath         : string -> xml_document -> [xml_node]
+# xpath1        : string -> xml_document -> xml_node
+#
+# endswith      : string -> string -> boolean
+# split         : string -> string -> [string]
+# strip         : string -> string
+# normalize     : string -> string
+
+# List of posts
+bind post_files = filter (compose basename (flip endswith ".xml")) (listdir "post")
+bind posts      = map parse_xml_dom post_files
+
+# Mapping from posts to tags
+# dictionary: { post, [tag] }
+bind post_tags_dict = map (lambda p -> (p, map (compose strip normalize) (split (xpath1 "/post/tags" p) ';'))) posts
+bind tags_dict      = reverse_dict post_tags_dict
