@@ -1,4 +1,5 @@
 import fileset
+import lang.parser
 import utils.log
 import utils.text
 
@@ -14,3 +15,4 @@ debug            = utils.log.debug
 normalize_string = utils.text.normalize
 string2id        = utils.text.string2id
 listdir          = fileset.listdir
+parse            = lang.parser.parse
