@@ -30,6 +30,7 @@ class Post:
         self.lang     = None    # language code: en, pl ...
         self.html     = None    # HTML of the post body
         self.tags     = None    # list of tags (string)
+        self.xmldom   = None
 
 class Tag:
     """A single article tag."""
@@ -75,6 +76,7 @@ def make_post(xpost, skryba, filename, date_fmt=date_format_default, **kwargs):
         warning('unable to format post creation date; lang={} date={}'.format(pi.lang, pi.date))
 
     pi.html = skryba.xslt_transform(xpost, **kwargs)
+    pi.xmldom = skryba.current_dom
     return pi
 
 if __name__ == '__main__':
@@ -138,6 +140,7 @@ Contents of input-dir will be copied as is to the output-dir.
     posts.with_rendering_engine(args.html).with_template('post.html').render_all(
         lambda pi : 'post/{}'.format(pi.basename),
         lambda pi : filter_dict_values_not_none({
+            'xmldom'       : pi.xmldom,
             'lang'         : pi.lang,
             'date_orig'    : pi.origdate,
             'date_year'    : pi.year,

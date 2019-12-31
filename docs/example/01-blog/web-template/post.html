@@ -19,6 +19,9 @@
 {% endfor %}
 </ul>
 
+<h3>{{ xmldom }}</h3>
+<h3>{{ xmldom.xpath("/post/body/p[1]/text()") }}</h3>
+
 <h1>{{ self.title() }}</h1>
 
 {{ post_body }}
