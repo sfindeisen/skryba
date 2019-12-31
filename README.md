@@ -68,11 +68,12 @@ Skryba will take care of the rest:
 1. [Python3](https://www.python.org/)
 2. [Jinja2](http://jinja.pocoo.org/)
 3. [lxml](https://lxml.de/)
+4. [ply](https://www.dabeaz.com/ply/)
 
 On a Debian-like OS (e.g. Ubuntu), you can try this:
 
 ```shell
-apt-get install python3-jinja2 python3-lxml
+apt-get install python3-jinja2 python3-lxml python3-ply
 ```
 
 ## TODO
