@@ -2,7 +2,7 @@
 
 import argparse
 
-from skryba.index import verbose, force_overwrite, warning, info, debug, parse
+from skryba.index import verbose, force_overwrite, warning, info, debug, parse, read_file
 
 if __name__ == '__main__':
 
@@ -21,4 +21,8 @@ if __name__ == '__main__':
     if (args.overwrite_all):
         force_overwrite()
 
-    parse(args.ctrl)
+    skryba_program = read_file(args.ctrl)
+    debug("Skryba program ({}): {}".format(args.ctrl, skryba_program))
+    parse_tree = parse(skryba_program)
+    debug("parse_tree type: {}".format(type(parse_tree)))
+    debug("parse_tree: {}".format(parse_tree))
