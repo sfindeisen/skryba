@@ -1,3 +1,5 @@
+from utils.log import warning
+
 tokens = (
     'BIND',
     'LAMBDA',
@@ -37,7 +39,7 @@ def t_comment(t):
     pass
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    warning('Illegal character {}'.format(None if ((t is None) or (t.value is None)) else (t.value[0])))
     t.lexer.skip(1)
 
 # Build the lexer

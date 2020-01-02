@@ -1,5 +1,7 @@
 import lang.tokenizer as tokenizer
 
+from utils.log import warning
+
 tokens = tokenizer.tokens
 
 precedence = (
@@ -57,7 +59,7 @@ def p_tuple_list(p):
     pass
 
 def p_error(p):
-    print("Syntax error at '%s'" % p.value)
+    warning('Syntax error at {}'.format(None if (p is None) else p.value))
 
 # Build the parser
 # TODO disable debug
