@@ -1,9 +1,11 @@
 from utils.log import warning
 
-tokens = (
-    'BIND',
-    'LAMBDA',
+reserved = {
+    'bind'   : 'BIND',
+    'lambda' : 'LAMBDA'
+}
 
+tokens = list(reserved.values()) + [
     'EQUALS',
     'RARROW',
     'COMMA',
@@ -14,21 +16,23 @@ tokens = (
 
     'IDENTIFIER',
     'STRING_LITERAL'
-)
+]
 
-t_BIND           = r'bind'
-t_LAMBDA         = r'lambda'
 t_EQUALS         = r'='
 t_RARROW         = r'->'
 t_COMMA          = r','
 t_SEMICOLON      = r';'
 t_LPAREN         = r'\('
 t_RPAREN         = r'\)'
-t_IDENTIFIER     = r'[a-zA-Z_][a-zA-Z0-9_]*'
 t_STRING_LITERAL = r'\"[^\n]*?\"'
 
 # Ignored characters
 t_ignore = " \t"
+
+def t_IDENTIFIER(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    t.type = reserved.get(t.value,'IDENTIFIER')    # check for reserved words
+    return t
 
 def t_newline(t):
     r'\n+'
@@ -39,7 +43,7 @@ def t_comment(t):
     pass
 
 def t_error(t):
-    warning('Illegal character {}'.format(None if ((t is None) or (t.value is None)) else (t.value[0])))
+    warning('Lexer error: {}'.format(t))
     t.lexer.skip(1)
 
 # Build the lexer
