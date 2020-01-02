@@ -1,13 +1,8 @@
 import lang.tokenizer as tokenizer
 
-from utils.log import warning
+from utils.log import warning, debug
 
 tokens = tokenizer.tokens
-
-precedence = (
-    ('left', 'LAMBDA','RARROW'),
-    ('left', 'COMMA'),   
-)
 
 def p_program(p):
     '''program : statement
@@ -59,12 +54,16 @@ def p_tuple_list(p):
     pass
 
 def p_error(p):
-    warning('Syntax error at {}'.format(None if (p is None) else p.value))
+    warning('Parse error: {}'.format(p))
 
 # Build the parser
 # TODO disable debug
 import ply.yacc
 ply.yacc.yacc(debug=True)
 
-def parse(s):
-    return ply.yacc.parse(s)
+import logging
+
+def parse(input):
+    for t in tokens:
+        debug('token: {}'.format(t))
+    return ply.yacc.parse(input, debug=logging.getLogger())
