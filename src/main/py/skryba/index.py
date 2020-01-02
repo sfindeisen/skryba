@@ -8,6 +8,7 @@ import utils.text
 ################################################################
 copytree         = utils.file.copytree
 force_overwrite  = utils.file.force_overwrite
+read_file        = utils.file.read_file
 verbose          = utils.log.set_verbose
 warning          = utils.log.warning
 info             = utils.log.info

@@ -63,6 +63,10 @@ def _copytree(src, dst, exclude=[]):
 def copytree(src, dst, exclude=[]):
     _copytree(abspath(src), abspath(dst), exclude=exclude)
 
+def read_file(filename):
+    with open(filename, 'rt') as f:
+        return f.read()
+
 def write_file(filename, contents, overwrite=False):
     """Writes contents into a file."""
     fabs = abspath(filename)
