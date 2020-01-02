@@ -15,10 +15,10 @@
 # normalize     : string -> string
 
 # List of posts
-bind post_xml_files = filter (compose basename (flip endswith ".xml")) (listdir "post")
-bind posts          = map parse_xml_dom post_xml_files
+bind post_xml_files = filter (compose basename (flip endswith ".xml")) (listdir "post") ;
+bind posts          = map parse_xml_dom post_xml_files ;
 
 # Mapping from posts to tags: [(post, [tag])]
-bind post2tags = map (lambda p -> (p, map (compose strip normalize) (split (xpath1 "/post/tags" p) ';'))) posts
+bind post2tags = map (lambda p -> (p, map (compose strip normalize) (split (xpath1 "/post/tags" p) ";"))) posts ;
 # [(tag, [post])]
-bind tag2posts = reverse_dict post2tags
+bind tag2posts = reverse_dict post2tags ;
