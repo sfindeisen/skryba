@@ -5,6 +5,7 @@ tokens = (
     'EQUALS',
     'RARROW',
     'COMMA',
+    'SEMICOLON',
 
     'LPAREN',
     'RPAREN',
@@ -18,6 +19,7 @@ t_LAMBDA         = r'lambda'
 t_EQUALS         = r'='
 t_RARROW         = r'->'
 t_COMMA          = r','
+t_SEMICOLON      = r';'
 t_LPAREN         = r'\('
 t_RPAREN         = r'\)'
 t_IDENTIFIER     = r'[a-zA-Z_][a-zA-Z0-9_]*'

@@ -14,14 +14,19 @@ def p_program(p):
     pass
 
 def p_statement(p):
-    '''statement : BIND IDENTIFIER EQUALS expression
-                 | expression
+    '''statement : BIND IDENTIFIER EQUALS expression SEMICOLON
+                 | function_call SEMICOLON
     '''
     pass
 
 def p_expression(p):
     '''expression : LAMBDA IDENTIFIER RARROW expression
-                  | expression_atomic
+                  | function_call
+    '''
+    pass
+
+def p_function_call(p):
+    '''function_call : expression_atomic_list
     '''
     pass
 
@@ -33,31 +38,17 @@ def p_expression_atomic(p):
     '''
     pass
 
+def p_expression_atomic_list(p):
+    '''expression_atomic_list : expression_atomic
+                              | expression_atomic expression_atomic_list
+    '''
+    pass
+
 def p_tuple_list(p):
     '''tuple_list : expression
                   | expression COMMA tuple_list
     '''
     pass
-
-# def p_expression_atomic_list(p):
-#     '''expression_atomic_list : expression_atomic
-#                               | expression_atomic expression_atomic_list
-#     '''
-#     pass
-#
-# def p_expression_application(p):
-#     'expression : expression_atomic expression_atomic_list'
-#     pass
-
-#def p_tuple_list(p):
-#    '''tuple_list : expression
-#                  | expression COMMA tuple_list
-#    '''
-#    pass
-#
-#def p_expression_tuple(p):
-#    'expression : LPAREN expression COMMA tuple_list RPAREN'
-#    pass
 
 def p_error(p):
     print("Syntax error at '%s'" % p.value)
