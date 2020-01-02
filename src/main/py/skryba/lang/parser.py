@@ -22,19 +22,25 @@ def p_statement(p):
 def p_expression(p):
     '''expression : LAMBDA IDENTIFIER RARROW expression
                   | function_call
+                  | expression_atomic
     '''
     pass
 
 def p_function_call(p):
-    '''function_call : expression_atomic_list
+    '''function_call : maybe_func expression_atomic_list
+    '''
+    pass
+
+def p_maybe_func(p):
+    '''maybe_func : IDENTIFIER
+                  | LPAREN expression RPAREN
     '''
     pass
 
 def p_expression_atomic(p):
     '''expression_atomic : STRING_LITERAL
-                         | IDENTIFIER
                          | LPAREN expression COMMA tuple_list RPAREN
-                         | LPAREN expression RPAREN
+                         | maybe_func
     '''
     pass
 
