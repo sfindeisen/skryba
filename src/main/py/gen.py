@@ -2,7 +2,7 @@
 
 import argparse
 
-from skryba.index import verbose, force_overwrite, warning, info, debug, parse, read_file
+from skryba.index import verbose, force_overwrite, warning, info, debug, parse, read_file, Environment
 
 if __name__ == '__main__':
 
@@ -26,3 +26,5 @@ if __name__ == '__main__':
     parse_tree = parse(skryba_program)
     debug("parse_tree type: {}".format(type(parse_tree)))
     debug("parse_tree: {}".format(parse_tree))
+
+    parse_tree.compile(Environment())

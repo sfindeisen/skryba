@@ -17,3 +17,4 @@ normalize_string = utils.text.normalize
 string2id        = utils.text.string2id
 listdir          = fileset.listdir
 parse            = lang.parser.parse
+Environment      = lang.env.Environment
