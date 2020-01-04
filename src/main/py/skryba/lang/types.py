@@ -1,3 +1,5 @@
+from utils.log import debug, warning
+
 import abc
 
 class Type(abc.ABC):
@@ -48,10 +50,16 @@ class ArrowType(Type):
                 if isinstance(self.rtype, ArrowType):
                     return self.rtype.result_type(rest)
                 elif (rest):
+                    warning("Type unification error: {} is not an arrow type. It cannot be applied to: {} .".format(self.rtype, ", ".join(map(str, rest))))
                     return None     # more arguments, but rtype is not a function type!
                 else:
                     return self.rtype
-        return None
+            else:
+                warning("Type unification error: {} in arrow type ({}) is not assignable from {}.".format(self.ltype, self, arg_types[0]))
+                return None
+        else:
+            debug("Arrow type ({}), but no arguments.".format(self))
+            return self
 
     def is_assignable_from(self, another):
         return (
