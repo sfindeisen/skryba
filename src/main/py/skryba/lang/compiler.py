@@ -1,5 +1,5 @@
 from lang.ast import Identifier
-from lang.types import anytype_a, string_type, void_type, ArrowType, BooleanType, ListType
+from lang.types import anytype_a, anytype_b, anytype_c, boolean_type, string_type, void_type, ArrowType, ListType
 
 # Built-in functions
 #
@@ -14,6 +14,7 @@ from lang.types import anytype_a, string_type, void_type, ArrowType, BooleanType
 # xpath         : string -> xml_document -> [xml_node]
 # xpath1        : string -> xml_document -> xml_node
 #
+# basename      : string -> string
 # endswith      : string -> string -> boolean
 # split         : string -> string -> [string]
 # strip         : string -> string
@@ -21,9 +22,18 @@ from lang.types import anytype_a, string_type, void_type, ArrowType, BooleanType
 class BuiltIns:
     def __init__(self):
         self.builtins = dict(
+            basename = ArrowType(string_type, string_type),
+            endswith = ArrowType(string_type, ArrowType(string_type, boolean_type)),
+
             filter = ArrowType(
-                        ArrowType(anytype_a, BooleanType()),
-                        ArrowType(ListType(anytype_a), ListType(anytype_a)))
+                        ArrowType(anytype_a, boolean_type),
+                        ArrowType(ListType(anytype_a), ListType(anytype_a))
+            ),
+
+            flip = ArrowType(
+                       ArrowType(anytype_a, ArrowType(anytype_b, anytype_c)),
+                       ArrowType(anytype_b, ArrowType(anytype_a, anytype_c))
+            )
         )
 
 # Name table.
