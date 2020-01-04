@@ -1,4 +1,4 @@
-from lang.types import anytype_a, string_type, void_type, TupleType
+from lang.types import anytype_a, string_type, void_type, ArrowType, TupleType
 from utils.log import warning
 
 import abc
@@ -81,7 +81,10 @@ class FunCallExpr(Expression):
             if isinstance(fn_type, ArrowType):
                 res_type = fn_type.result_type(argtypes)
                 if (res_type is None):
-                    warning("Type error: {} . Actual parameter types do not match the function type.".format(self.identifier))
+                    warning("Type error: {} . Actual parameter types ({}) do not match the function type ({}).".format(
+                        self.identifier,
+                        ", ".join(map(str, argtypes)),
+                        fn_type))
                 self.ctype = res_type
             else:
                 warning("Type error: {} is not a function. Cannot be applied to {} arguments.".format(self.identifier, len(self.arguments)))

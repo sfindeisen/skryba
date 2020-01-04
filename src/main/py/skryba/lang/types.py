@@ -7,6 +7,9 @@ class Type(abc.ABC):
     def is_assignable_from(self, another):
         raise NotImplementedError()
 
+    def __str__(self):
+        return "T"
+
 # Unknown type denoted with a type variable, for example: 'a' or 'b'.
 class AnyType(Type):
 
@@ -16,6 +19,9 @@ class AnyType(Type):
     def is_assignable_from(self, another):
         return (isinstance(another, AnyType) and (self.typevar == another.typevar))
 
+    def __str__(self):
+        return self.typevar
+
 class ListType(Type):
 
     def __init__(self, itemtype):
@@ -23,6 +29,9 @@ class ListType(Type):
 
     def is_assignable_from(self, another):
         return (isinstance(another, ListType) and (self.itemtype.is_assignable_from(another.itemtype)))
+
+    def __str__(self):
+        return "[{}]".format(self.itemtype)
 
 class ArrowType(Type):
 
@@ -51,41 +60,69 @@ class ArrowType(Type):
             (self.rtype.is_assignable_from(another.rtype))
         )
 
+    def __str__(self):
+        return "({} -> {})".format(self.ltype, self.rtype)
+
 class TupleType(Type):
 
     def __init__(self, item_types):
         self.item_types = item_types
+
+    def __str__(self):
+        s = ", ".join(map(str, self.item_types))
+        return "({})".format(s)
 
 class BooleanType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, BooleanType);
 
+    def __str__(self):
+        return "boolean"
+
 class FileType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, FileType);
+
+    def __str__(self):
+        return "file"
 
 class StringType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, StringType);
 
+    def __str__(self):
+        return "string"
+
 class XMLDocumentType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, XMLDocumentType);
+
+    def __str__(self):
+        return "xml_document"
 
 class XMLNodeType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, XMLNodeType);
 
+    def __str__(self):
+        return "xml_node"
+
 class VoidType(Type):
 
     def is_assignable_from(self, another):
         return isinstance(another, VoidType);
 
+    def __str__(self):
+        return "void"
+
 anytype_a   = AnyType('a')
+anytype_b   = AnyType('b')
+anytype_c   = AnyType('c')
+boolean_type= BooleanType()
 string_type = StringType()
 void_type   = VoidType()
