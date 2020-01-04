@@ -4,9 +4,12 @@ import abc
 
 class Type(abc.ABC):
 
-    # Returns true if this type can be assigned from (substituted by) the other type.
+    # Returns true if this type can be unified with the other type.
+    #
+    # tvmapL is a mapping from free type variables of this type into types (parts of the other type)
+    # rvmapR is a mapping from free type variables of the other type into types (parts of this type)
     @abc.abstractmethod
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         raise NotImplementedError()
 
     def __str__(self):
@@ -18,8 +21,19 @@ class AnyType(Type):
     def __init__(self, typevar):
         self.typevar = typevar
 
-    def is_assignable_from(self, another):
-        return (isinstance(another, AnyType) and (self.typevar == another.typevar))
+    def _unify(self, another, tvmapL, tvmapR):
+        if (self.typevar in tvmapL):
+            # debug("self.typevar = {}".format(self.typevar))
+            # debug("another = {}".format(another))
+            # debug("Type variable mapping (L): {}".format(tvmapL))
+            # debug("Type variable mapping (R): {}".format(tvmapR))
+            # debug("tvmapL[self.typevar] = {}".format(tvmapL[self.typevar]))
+            # res = (tvmapL[self.typevar] == another)
+            # debug("res = {}".format(res))
+            return (tvmapL[self.typevar] == another)
+        else:
+            tvmapL[self.typevar] = another
+            return True
 
     def __str__(self):
         return self.typevar
@@ -29,8 +43,8 @@ class ListType(Type):
     def __init__(self, itemtype):
         self.itemtype = itemtype
 
-    def is_assignable_from(self, another):
-        return (isinstance(another, ListType) and (self.itemtype.is_assignable_from(another.itemtype)))
+    def _unify(self, another, tvmapL, tvmapR):
+        return (isinstance(another, ListType) and (self.itemtype._unify(another.itemtype, tvmapL, tvmapR)))
 
     def __str__(self):
         return "[{}]".format(self.itemtype)
@@ -41,32 +55,35 @@ class ArrowType(Type):
         self.ltype = ltype
         self.rtype = rtype
 
-    # Given the types of arguments, returns the type of the result
-    # None if error
-    def result_type(self, arg_types):
+    # Given the types of arguments, returns the type of the result.
+    # None if error.
+    #
+    # tvmapL is a mapping from free type variables of this type into types (parts of the other type)
+    # rvmapR is a mapping from free type variables of the other type into types (parts of this type)
+    def result_type(self, arg_types, tvmapL=dict(), tvmapR=dict()):
         if (arg_types):
-            if (self.ltype.is_assignable_from(arg_types[0])):
+            if (self.ltype._unify(arg_types[0], tvmapL, tvmapR)):
                 rest = arg_types[1:]
                 if isinstance(self.rtype, ArrowType):
-                    return self.rtype.result_type(rest)
+                    return self.rtype.result_type(rest, tvmapL, tvmapR)
                 elif (rest):
                     warning("Type unification error: {} is not an arrow type. It cannot be applied to: {} .".format(self.rtype, ", ".join(map(str, rest))))
                     return None     # more arguments, but rtype is not a function type!
                 else:
-                    return self.rtype
+                    return self.rtype.map_type_variables(tvmapL)
             else:
-                warning("Type unification error: {} in arrow type ({}) is not assignable from {}.".format(self.ltype, self, arg_types[0]))
+                warning("Type unification error: {} in arrow type ({}) does not match {} .".format(self.ltype, self, arg_types[0]))
+                debug("Type variable mapping (L): {}".format(tvmapL))
+                debug("Type variable mapping (R): {}".format(tvmapR))
                 return None
         else:
             debug("Arrow type ({}), but no arguments.".format(self))
             return self
 
-    def is_assignable_from(self, another):
-        return (
-            isinstance(another, ArrowType) and
-            (another.ltype.is_assignable_from(self.ltype)) and
-            (self.rtype.is_assignable_from(another.rtype))
-        )
+    def _unify(self, another, tvmapL, tvmapR):
+        if (isinstance(another, ArrowType)):
+            return ((self.ltype._unify(another.ltype, tvmapL, tvmapR)) and (self.rtype._unify(another.rtype, tvmapL, tvmapR)))
+        return False
 
     def __str__(self):
         return "({} -> {})".format(self.ltype, self.rtype)
@@ -82,7 +99,7 @@ class TupleType(Type):
 
 class BooleanType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, BooleanType);
 
     def __str__(self):
@@ -90,7 +107,7 @@ class BooleanType(Type):
 
 class FileType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, FileType);
 
     def __str__(self):
@@ -98,7 +115,7 @@ class FileType(Type):
 
 class StringType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, StringType);
 
     def __str__(self):
@@ -106,7 +123,7 @@ class StringType(Type):
 
 class XMLDocumentType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, XMLDocumentType);
 
     def __str__(self):
@@ -114,7 +131,7 @@ class XMLDocumentType(Type):
 
 class XMLNodeType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, XMLNodeType);
 
     def __str__(self):
@@ -122,7 +139,7 @@ class XMLNodeType(Type):
 
 class VoidType(Type):
 
-    def is_assignable_from(self, another):
+    def _unify(self, another, tvmapL, tvmapR):
         return isinstance(another, VoidType);
 
     def __str__(self):
