@@ -27,4 +27,5 @@ if __name__ == '__main__':
     debug("parse_tree type: {}".format(type(parse_tree)))
     debug("parse_tree: {}".format(parse_tree))
 
-    parse_tree.compile(Environment())
+    if (parse_tree is not None):
+        parse_tree.compile(Environment())
