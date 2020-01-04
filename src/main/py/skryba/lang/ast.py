@@ -33,10 +33,10 @@ class Bind(Statement):
     def compile(self, compiler):
         self.expression.compile(compiler)
 
-        if (self.identifier in compiler):
+        if (self.identifier in compiler.env):
             warning("Re-bind not supported: {}".format(self.identifier))
         else:
-            compiler[self.identifier] = self.expression
+            compiler.env[self.identifier] = self.expression
 
 class FunCallStmt(Statement):
 
@@ -57,7 +57,7 @@ class FunCallExpr(Expression):
             a.compile(compiler)
 
         # TODO better
-        if (self.identifier not in compiler):
+        if (self.identifier not in compiler.env):
             warning("Identifier not found: {}".format(self.identifier))
 
 class Identifier(Expression):
