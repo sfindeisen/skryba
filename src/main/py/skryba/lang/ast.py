@@ -56,9 +56,11 @@ class FunCallExpr(Expression):
         for a in self.arguments:
             a.compile(compiler)
 
-        # TODO better
-        if (self.identifier not in compiler.env):
-            warning("Identifier not found: {}".format(self.identifier))
+        if (self.identifier in compiler.builtins):
+            # TODO better
+            pass
+        else:
+            warning("Function not found: {}".format(self.identifier))
 
 class Identifier(Expression):
 
