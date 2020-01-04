@@ -2,7 +2,7 @@
 
 import argparse
 
-from skryba.index import verbose, force_overwrite, warning, info, debug, parse, read_file, Environment
+from skryba.index import verbose, force_overwrite, warning, info, debug, parse, read_file, Compiler
 
 if __name__ == '__main__':
 
@@ -28,4 +28,4 @@ if __name__ == '__main__':
     debug("parse_tree: {}".format(parse_tree))
 
     if (parse_tree is not None):
-        parse_tree.compile(Environment())
+        parse_tree.compile(Compiler())
