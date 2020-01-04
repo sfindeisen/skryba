@@ -9,6 +9,7 @@
 # xpath         : string -> xml_document -> [xml_node]
 # xpath1        : string -> xml_document -> xml_node
 #
+# basename      : string -> string
 # endswith      : string -> string -> boolean
 # split         : string -> string -> [string]
 # strip         : string -> string
@@ -17,6 +18,7 @@
 # List of posts
 bind post_xml_files = filter (compose basename (flip endswith ".xml")) (listdir "post") ;
 bind posts          = map parse_xml_dom post_xml_files ;
+bind posts          = "some posts" ;
 
 # Mapping from posts to tags: [(post, [tag])]
 bind post2tags = map (lambda p -> (p, map (compose strip normalize) (split (xpath1 "/post/tags" p) ";"))) posts ;
