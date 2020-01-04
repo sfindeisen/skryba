@@ -1,6 +1,8 @@
-from lang.types import AnyType, ListType, ArrowType, BooleanType, FileType, StringType, XMLDocumentType, XMLNodeType
+from lang.ast import Identifier
+from lang.types import anytype_a, string_type, void_type, ArrowType, BooleanType, ListType
 
-
+# Built-in functions
+#
 # filter        : (a -> boolean) -> [a] -> [a]
 # map           : (a -> b) -> [a] -> [b]
 # compose       : (a -> b) -> (b -> c) -> (a -> c)
@@ -16,41 +18,34 @@ from lang.types import AnyType, ListType, ArrowType, BooleanType, FileType, Stri
 # split         : string -> string -> [string]
 # strip         : string -> string
 # normalize     : string -> string
-
 class BuiltIns:
-
     def __init__(self):
         self.builtins = dict(
             filter = ArrowType(
-                        ArrowType(AnyType('a'), BooleanType()),
-                        ArrowType(ListType(AnyType('a')), ListType(AnyType('a'))))
+                        ArrowType(anytype_a, BooleanType()),
+                        ArrowType(ListType(anytype_a), ListType(anytype_a)))
         )
 
-    def __getitem__(self, key):
-        return self.builtins[key]
-
-    def __setitem__(self, key, value):
-        self.builtins[key] = value
-
-    def __contains__(self, key):
-        return key in self.builtins
-
+# Name table.
+# Mapping of: string -> type.
 class Environment:
 
-    def __init__(self):
-        self.identifiers = dict()
+    def __init__(self, identifiers=dict()):
+        self.identifiers = identifiers
 
     def __getitem__(self, key):
-        return self.identifiers[key]
+        return self.identifiers.__getitem__(self.k2s(key))
 
     def __setitem__(self, key, value):
-        self.identifiers[key] = value
+        self.identifiers.__setitem__(self.k2s(key), value)
 
     def __contains__(self, key):
-        return key in self.identifiers
+        return self.identifiers.__contains__(self.k2s(key))
+
+    def k2s(self, key):
+        return (key.value if isinstance(key, Identifier) else key)
 
 class Compiler:
 
     def __init__(self):
-        self.env      = Environment()
-        self.builtins = BuiltIns()
+        self.env = Environment(BuiltIns().builtins)

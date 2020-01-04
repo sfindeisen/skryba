@@ -1,12 +1,17 @@
+from lang.types import anytype_a, string_type, void_type, TupleType
 from utils.log import warning
 
 import abc
 
 class ASTNode(abc.ABC):
 
+    def __init__(self):
+        self.ctype = None     # Compile-time type
+
+    # Computes expression types (.ctype) and runs various checks.
+    @abc.abstractmethod
     def compile(self, compiler):
-        """Pre-run checks, including: identifiers, types."""
-        pass    # nothing to check
+        raise NotImplementedError()
 
 class Program(ASTNode):
 
@@ -14,13 +19,15 @@ class Program(ASTNode):
         self.statements = [statement] + ([] if (program is None) else program.statements)
 
     def compile(self, compiler):
-        """Pre-run checks, including: identifiers, types."""
+        ct = void_type
         for s in self.statements:
             s.compile(compiler)
+            if (s.ctype is None):
+                ct = None
+        self.ctype = ct
 
 class Statement(ASTNode):
     pass
-
 class Expression(ASTNode):
     pass
 
@@ -35,16 +42,19 @@ class Bind(Statement):
 
         if (self.identifier in compiler.env):
             warning("Re-bind not supported: {}".format(self.identifier))
+            self.ctype = None
         else:
-            compiler.env[self.identifier] = self.expression
+            compiler.env[self.identifier] = self.expression.ctype
+            self.ctype = (None if (self.expression.ctype is None) else void_type)
 
 class FunCallStmt(Statement):
 
-    def __init__(self, funcall):
-        self.funcall = funcall
+    def __init__(self, funcallexpr):
+        self.funcallexpr = funcallexpr
 
     def compile(self, compiler):
-        self.funcall.compile(compiler)
+        self.funcallexpr.compile(compiler)
+        self.ctype = (None if (self.funcallexpr.ctype is None) else void_type)
 
 class FunCallExpr(Expression):
 
@@ -53,19 +63,44 @@ class FunCallExpr(Expression):
         self.arguments  = arguments
 
     def compile(self, compiler):
-        for a in self.arguments:
-            a.compile(compiler)
+        err = False
+        argtypes = []
+        for arg in self.arguments:
+            arg.compile(compiler)
+            argtypes.append(arg.ctype)
+            if (arg.ctype is None):
+                err = True
 
-        if (self.identifier in compiler.builtins):
-            # TODO better
-            pass
+        if (err):
+            self.ctype = None
+            warning("Unable to compute function argument types: {}".format(self.identifier))
+            return
+
+        if (self.identifier in compiler.env):
+            fn_type = compiler.env[self.identifier]
+            if isinstance(fn_type, ArrowType):
+                res_type = fn_type.result_type(argtypes)
+                if (res_type is None):
+                    warning("Type error: {} . Actual parameter types do not match the function type.".format(self.identifier))
+                self.ctype = res_type
+            else:
+                warning("Type error: {} is not a function. Cannot be applied to {} arguments.".format(self.identifier, len(self.arguments)))
+                self.ctype = None
         else:
-            warning("Function not found: {}".format(self.identifier))
+            warning("Unknown function: {}".format(self.identifier))
+            self.ctype = None
 
 class Identifier(Expression):
 
     def __init__(self, value):
         self.value = value
+
+    def compile(self, compiler):
+        if (self.value in compiler.env):
+            self.ctype = compiler.env[self.value]
+        else:
+            warning("Unknown identifier: {}".format(self.value))
+            self.ctype = None
 
 class Lambda(Expression):
 
@@ -73,14 +108,18 @@ class Lambda(Expression):
         self.identifier = identifier
         self.expression = expression
 
-    # TODO free vars
+    # TODO free vars, identifier shadowing ...
     def compile(self, compiler):
         self.expression.compile(compiler)
+        self.ctype = (None if (self.expression.ctype is None) else (ArrowType(anytype_a, self.expression.ctype)))
 
 class StringLiteral(Expression):
 
     def __init__(self, value):
         self.value = value
+
+    def compile(self, compiler):
+        self.ctype = string_type
 
 class Tuple(Expression):
 
@@ -88,5 +127,11 @@ class Tuple(Expression):
         self.values = values
 
     def compile(self, compiler):
+        err = False
+        tt = []
         for v in self.values:
             v.compile(compiler)
+            tt.append(v.ctype)
+            if (v.ctype is None):
+                err = True
+        self.ctype = (None if err else TupleType(tt))
