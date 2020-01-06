@@ -23,6 +23,15 @@ class BuiltIns:
     def __init__(self):
         self.builtins = dict(
             basename = ArrowType(string_type, string_type),
+
+            compose = ArrowType(
+                        ArrowType(anytype_a, anytype_b),
+                        ArrowType(
+                            ArrowType(anytype_b, anytype_c),
+                            ArrowType(anytype_a, anytype_c)
+                        )
+            ),
+
             endswith = ArrowType(string_type, ArrowType(string_type, boolean_type)),
 
             filter = ArrowType(
