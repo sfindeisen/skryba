@@ -23,17 +23,18 @@ class AnyType(Type):
         self.typevar = typevar
 
     # Computes the final mapping for this typevar. This is a fully specified type (no typevars).
-    def _final_type(self, tvmapL, tvmapR, current_type, visitedL=frozenset(), visitedR=frozenset()):
+    @staticmethod
+    def _final_type(tvmapL, tvmapR, current_type, visitedL=frozenset(), visitedR=frozenset()):
         if isinstance(current_type, ScalarType):
             return current_type
         elif isinstance(current_type, AnyType):
             if (current_type.typevar in tvmapL) and (current_type.typevar not in visitedL):
-                return self._final_type(tvmapR, tvmapL, tvmapL[current_type.typevar], visitedR, visitedL | frozenset([current_type.typevar]))
+                return AnyType._final_type(tvmapR, tvmapL, tvmapL[current_type.typevar], visitedR, visitedL | frozenset([current_type.typevar]))
             else:
                 return None
         elif isinstance(current_type, ArrowType):
-            finalL = self._final_type(tvmapL, tvmapR, current_type.ltype, visitedL, visitedR)
-            finalR = self._final_type(tvmapL, tvmapR, current_type.rtype, visitedL, visitedR)
+            finalL = AnyType._final_type(tvmapL, tvmapR, current_type.ltype, visitedL, visitedR)
+            finalR = AnyType._final_type(tvmapL, tvmapR, current_type.rtype, visitedL, visitedR)
             return (None if ((finalL is None) or (finalR is None)) else ArrowType(finalL, finalR))
         elif isinstance(current_type, ListType):
             raise NotImplementedError("_final_type: list")
@@ -46,7 +47,13 @@ class AnyType(Type):
         # debug("_unify {} with {}".format(self, another))
 
         if (self.typevar in tvmapL):
-            if (tvmapL[self.typevar] == another):
+            finalL = AnyType._final_type(tvmapL, tvmapR, self)
+            debug("Mapping (L): {} ~> {}".format(self, finalL))
+            finalR = AnyType._final_type(tvmapR, tvmapL, another)
+            debug("Mapping (R): {} ~> {}".format(another, finalR))
+
+            if ((finalL is not None) and (finalL == finalR)):
+                debug("{} (L) = {} (R) => true".format(finalL, finalR))
                 return True
             else:
                 if (isinstance(another, AnyType) and ((another.typevar) not in tvmapR)):

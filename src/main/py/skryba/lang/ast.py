@@ -44,6 +44,7 @@ class Bind(Statement):
         self.expression = expression
 
     def compile(self, compiler):
+        debug("compile: {}".format(self))
         self.expression.compile(compiler)
 
         if (self.identifier in compiler.env):
@@ -54,7 +55,7 @@ class Bind(Statement):
             self.ctype = (None if (self.expression.ctype is None) else void_type)
 
     def __str__(self):
-        return "Line {}: {} -> {}".format(self.lineNumber, self.identifier, self.expression)
+        return "Line {}: bind {} = {}".format(self.lineNumber, self.identifier, self.expression)
 
 class FunCallStmt(Statement):
 
@@ -63,6 +64,7 @@ class FunCallStmt(Statement):
         self.funcallexpr = funcallexpr
 
     def compile(self, compiler):
+        debug("compile: {}".format(self))
         self.funcallexpr.compile(compiler)
         self.ctype = (None if (self.funcallexpr.ctype is None) else void_type)
 
@@ -77,10 +79,13 @@ class FunCallExpr(Expression):
         self.arguments  = arguments
 
     def compile(self, compiler):
+        debug("compile: {}".format(self))
+
         err = False
         argtypes = []
         for arg in self.arguments:
             arg.compile(compiler)
+            debug("  arg type: {} => {}".format(arg, arg.ctype))
             argtypes.append(arg.ctype)
             if (arg.ctype is None):
                 err = True
@@ -92,6 +97,8 @@ class FunCallExpr(Expression):
 
         if (self.identifier in compiler.env):
             fn_type = compiler.env[self.identifier]
+            debug("fn_type ({}): {}".format(self.identifier, fn_type))
+
             if isinstance(fn_type, ArrowType):
                 res_type = fn_type.result_type(argtypes)
                 if (res_type is None):
@@ -108,7 +115,7 @@ class FunCallExpr(Expression):
             self.ctype = None
 
     def __str__(self):
-        return "{} {}".format(self.identifier, " ".join(arguments))
+        return "({} {})".format(self.identifier, " ".join(map(str, self.arguments)))
 
 class Identifier(Expression):
 
@@ -145,7 +152,7 @@ class Lambda(Expression):
             del compiler.env[self.identifier]
 
     def __str__(self):
-        return "lambda {} -> {}".format(self.identifier, self,expression)
+        return "lambda {} -> {}".format(self.identifier, self.expression)
 
 class StringLiteral(Expression):
 
@@ -157,7 +164,7 @@ class StringLiteral(Expression):
         self.ctype = string_type
 
     def __str__(self):
-        return '"{}"'.format(self.value)
+        return "{}".format(self.value)
 
 class Tuple(Expression):
 
@@ -176,4 +183,4 @@ class Tuple(Expression):
         self.ctype = (None if err else TupleType(tt))
 
     def __str__(self):
-        return "tuple({})".format(self.identifier, ", ".join(self.values))
+        return "tuple({})".format(", ".join(map(str, self.values)))
