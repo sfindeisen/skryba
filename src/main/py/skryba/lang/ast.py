@@ -1,4 +1,4 @@
-from lang.types import anytype_a, string_type, unknown_type, void_type, ArrowType, TupleType
+from lang.types import string_type, unknown_type, void_type, ArrowType, TupleType
 from utils.log import debug, warning
 
 import abc
@@ -44,7 +44,7 @@ class Bind(Statement):
         self.expression = expression
 
     def compile(self, compiler):
-        debug("compile: {}".format(self))
+        debug("compile: {}; env={}".format(self, compiler.env))
         self.expression.compile(compiler)
 
         if (self.identifier in compiler.env):
@@ -64,7 +64,7 @@ class FunCallStmt(Statement):
         self.funcallexpr = funcallexpr
 
     def compile(self, compiler):
-        debug("compile: {}".format(self))
+        debug("compile: {}; env={}".format(self, compiler.env))
         self.funcallexpr.compile(compiler)
         self.ctype = (None if (self.funcallexpr.ctype is None) else void_type)
 

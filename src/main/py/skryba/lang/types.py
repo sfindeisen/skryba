@@ -78,7 +78,7 @@ class AnyType(Type):
             return True
 
     def __str__(self):
-        return ((self.typevar) if (self.inferred is None) else str(self.inferred))
+        return "{}/{}".format(self.typevar, self.inferred)
 
 class ListType(Type):
 
@@ -170,11 +170,6 @@ class BooleanType(ScalarType):
     def __str__(self):
         return "boolean"
 
-class FileType(ScalarType):
-
-    def __str__(self):
-        return "file"
-
 class StringType(ScalarType):
 
     def __str__(self):
@@ -206,11 +201,7 @@ class VoidType(Type):
     def __str__(self):
         return "void"
 
-anytype_a         = AnyType('a')
-anytype_b         = AnyType('b')
-anytype_c         = AnyType('c')
 boolean_type      = BooleanType()
-file_type         = FileType()
 string_type       = StringType()
 unknown_type      = UnknownType()
 void_type         = VoidType()

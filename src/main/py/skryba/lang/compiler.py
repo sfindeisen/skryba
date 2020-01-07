@@ -1,5 +1,5 @@
 from lang.ast import Identifier
-from lang.types import anytype_a, anytype_b, anytype_c, boolean_type, file_type, string_type, void_type, xml_document_type, xml_node_type, ArrowType, ListType
+from lang.types import boolean_type, string_type, void_type, xml_document_type, xml_node_type, AnyType, ArrowType, ListType
 
 # Built-in functions
 #
@@ -25,29 +25,34 @@ class BuiltIns:
             basename = ArrowType(string_type, string_type),
 
             compose = ArrowType(
-                        ArrowType(anytype_a, anytype_b),
+                        ArrowType(AnyType('a'), AnyType('b')),
                         ArrowType(
-                            ArrowType(anytype_b, anytype_c),
-                            ArrowType(anytype_a, anytype_c)
+                            ArrowType(AnyType('b'), AnyType('c')),
+                            ArrowType(AnyType('a'), AnyType('c'))
                         )
             ),
 
             endswith = ArrowType(string_type, ArrowType(string_type, boolean_type)),
 
             filter = ArrowType(
-                        ArrowType(anytype_a, boolean_type),
-                        ArrowType(ListType(anytype_a), ListType(anytype_a))
+                        ArrowType(AnyType('a'), boolean_type),
+                        ArrowType(ListType(AnyType('a')), ListType(AnyType('a')))
             ),
 
             flip = ArrowType(
-                       ArrowType(anytype_a, ArrowType(anytype_b, anytype_c)),
-                       ArrowType(anytype_b, ArrowType(anytype_a, anytype_c))
+                       ArrowType(AnyType('a'), ArrowType(AnyType('b'), AnyType('c'))),
+                       ArrowType(AnyType('b'), ArrowType(AnyType('a'), AnyType('c')))
             ),
 
-            listdir = ArrowType(string_type, ListType(file_type)),
+            listdir = ArrowType(string_type, ListType(string_type)),
+
+            map = ArrowType(
+                ArrowType(AnyType('a'), AnyType('b')),
+                ArrowType(ListType(AnyType('a')), ListType(AnyType('b')))
+            ),
 
             normalize = ArrowType(string_type, string_type),
-            parse_xml_dom = ArrowType(file_type, xml_document_type),
+            parse_xml_dom = ArrowType(string_type, xml_document_type),
             strip = ArrowType(string_type, string_type),
             xpath1 = ArrowType(string_type, ArrowType(xml_document_type, xml_node_type)),
         )
@@ -73,6 +78,9 @@ class Environment:
 
     def k2s(self, key):
         return (key.value if isinstance(key, Identifier) else key)
+
+    def __str__(self):
+        return " ".join("{}:{}".format(key, val) for key, val in sorted(self.identifiers.items()))
 
 class Compiler:
 

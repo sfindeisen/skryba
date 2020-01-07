@@ -4,8 +4,8 @@
 # compose       : (a -> b) -> (b -> c) -> (c -> d) -> (a -> d)
 # flip          : (a -> b -> c) -> b -> a -> c
 #
-# listdir       : string -> [file]
-# parse_xml_dom : file -> xml_document
+# listdir       : string -> [string]
+# parse_xml_dom : string -> xml_document
 # xpath         : string -> xml_document -> [xml_node]
 # xpath1        : string -> xml_document -> xml_node
 #
@@ -18,7 +18,7 @@
 # List of posts
 bind post_xml_files = filter (compose basename (flip endswith ".xml")) (listdir "post") ;
 bind posts          = map parse_xml_dom post_xml_files ;
-bind posts          = "some posts" ;
+# bind posts          = "some posts" ;
 
 # Mapping from posts to tags: [(post, [tag])]
 bind post2tags = map (lambda p -> (p, map (compose strip normalize) (split (xpath1 "/post/tags" p) ";"))) posts ;
