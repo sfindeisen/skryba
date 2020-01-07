@@ -14,15 +14,18 @@ def p_program_2(p):
 
 def p_statement_1(p):
     'statement : BIND IDENTIFIER EQUALS expression SEMICOLON'
-    p[0] = Bind(p[2],p[4])
+    p[0] = Bind(p.lineno(1), p[2],p[4])
 
 def p_statement_2(p):
     'statement : function_call SEMICOLON'
-    p[0] = FunCallStmt(p[1])
+    # TODO fix line number
+    p[0] = FunCallStmt(p.lineno(2), p[1])
 
 def p_expression_1(p):
     'expression : LAMBDA IDENTIFIER RARROW expression'
-    p[0] = Lambda(p[2],p[4])
+    debug("lambda (1): ".format(p))
+    debug("lambda (2): ".format(p[0]))
+    p[0] = Lambda(p.lineno(1), p[2],p[4])
 
 def p_expression_2(p):
     '''expression : function_call
@@ -32,19 +35,19 @@ def p_expression_2(p):
 
 def p_function_call(p):
     'function_call : IDENTIFIER expression_atomic_list'
-    p[0] = FunCallExpr(p[1], p[2])
+    p[0] = FunCallExpr(p.lineno(1), p[1], p[2])
 
 def p_expression_atomic_1(p):
     'expression_atomic : STRING_LITERAL'
-    p[0] = StringLiteral(p[1])
+    p[0] = StringLiteral(p.lineno(1), p[1])
 
 def p_expression_atomic_2(p):
     'expression_atomic : LPAREN expression COMMA tuple_list RPAREN'
-    p[0] = Tuple([p[2]] + p[4])
+    p[0] = Tuple(p.lineno(1), [p[2]] + p[4])
 
 def p_expression_atomic_3(p):
     'expression_atomic : IDENTIFIER'
-    p[0] = Identifier(p[1])
+    p[0] = Identifier(p.lineno(1), p[1])
 
 def p_expression_atomic_4(p):
     'expression_atomic : LPAREN expression RPAREN'

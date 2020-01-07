@@ -5,8 +5,9 @@ import abc
 
 class ASTNode(abc.ABC):
 
-    def __init__(self):
-        self.ctype = None     # Compile-time type
+    def __init__(self, lineNumber):
+        self.lineNumber = lineNumber
+        self.ctype      = None     # Compile-time type
 
     # Computes this node's type (.ctype) and runs various checks.
     @abc.abstractmethod
@@ -16,6 +17,7 @@ class ASTNode(abc.ABC):
 class Program(ASTNode):
 
     def __init__(self, statement, program=None):
+        super().__init__(None)
         self.statements = [statement] + ([] if (program is None) else program.statements)
 
     def compile(self, compiler):
@@ -26,6 +28,9 @@ class Program(ASTNode):
                 ct = None
         self.ctype = ct
 
+    def __str__(self):
+        return "Line {}: Program".format(self.lineNumber)
+
 class Statement(ASTNode):
     pass
 class Expression(ASTNode):
@@ -33,7 +38,8 @@ class Expression(ASTNode):
 
 class Bind(Statement):
 
-    def __init__(self, identifier, expression):
+    def __init__(self, lineNumber, identifier, expression):
+        super().__init__(lineNumber)
         self.identifier = identifier
         self.expression = expression
 
@@ -47,18 +53,26 @@ class Bind(Statement):
             compiler.env[self.identifier] = self.expression.ctype
             self.ctype = (None if (self.expression.ctype is None) else void_type)
 
+    def __str__(self):
+        return "Line {}: {} -> {}".format(self.lineNumber, self.identifier, self.expression)
+
 class FunCallStmt(Statement):
 
-    def __init__(self, funcallexpr):
+    def __init__(self, lineNumber, funcallexpr):
+        super().__init__(lineNumber)
         self.funcallexpr = funcallexpr
 
     def compile(self, compiler):
         self.funcallexpr.compile(compiler)
         self.ctype = (None if (self.funcallexpr.ctype is None) else void_type)
 
+    def __str__(self):
+        return "Line {}: {}".format(self.lineNumber, self.funcallexpr)
+
 class FunCallExpr(Expression):
 
-    def __init__(self, identifier, arguments):
+    def __init__(self, lineNumber, identifier, arguments):
+        super().__init__(lineNumber)
         self.identifier = identifier
         self.arguments  = arguments
 
@@ -93,9 +107,13 @@ class FunCallExpr(Expression):
             warning("Unknown function: {}".format(self.identifier))
             self.ctype = None
 
+    def __str__(self):
+        return "{} {}".format(self.identifier, " ".join(arguments))
+
 class Identifier(Expression):
 
-    def __init__(self, value):
+    def __init__(self, lineNumber, value):
+        super().__init__(lineNumber)
         self.value = value
 
     def compile(self, compiler):
@@ -105,9 +123,13 @@ class Identifier(Expression):
             warning("Unknown identifier: {}".format(self.value))
             self.ctype = None
 
+    def __str__(self):
+        return "{}".format(self.value)
+
 class Lambda(Expression):
 
-    def __init__(self, identifier, expression):
+    def __init__(self, lineNumber, identifier, expression):
+        super().__init__(lineNumber)
         self.identifier = identifier
         self.expression = expression
 
@@ -122,17 +144,25 @@ class Lambda(Expression):
             debug("Lambda: {}".format(self.ctype))
             del compiler.env[self.identifier]
 
+    def __str__(self):
+        return "lambda {} -> {}".format(self.identifier, self,expression)
+
 class StringLiteral(Expression):
 
-    def __init__(self, value):
+    def __init__(self, lineNumber, value):
+        super().__init__(lineNumber)
         self.value = value
 
     def compile(self, compiler):
         self.ctype = string_type
 
+    def __str__(self):
+        return '"{}"'.format(self.value)
+
 class Tuple(Expression):
 
-    def __init__(self, values):
+    def __init__(self, lineNumber, values):
+        super().__init__(lineNumber)
         self.values = values
 
     def compile(self, compiler):
@@ -144,3 +174,6 @@ class Tuple(Expression):
             if (v.ctype is None):
                 err = True
         self.ctype = (None if err else TupleType(tt))
+
+    def __str__(self):
+        return "tuple({})".format(self.identifier, ", ".join(self.values))
