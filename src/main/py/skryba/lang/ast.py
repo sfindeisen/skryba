@@ -9,7 +9,7 @@ class ASTNode(abc.ABC):
         self.lineNumber = lineNumber
         self.ctype      = None     # Compile-time type
 
-    # Computes this node's type (.ctype) and runs various checks.
+    # Computes this node's type (.ctype) and runs various compile-time checks.
     @abc.abstractmethod
     def compile(self, compiler):
         raise NotImplementedError()
@@ -147,7 +147,7 @@ class Lambda(Expression):
             compiler.env[self.identifier] = unknown_type
             self.expression.compile(compiler)
             debug("Lambda: {} -> {}".format(compiler.env[self.identifier], self.expression.ctype))
-            self.ctype = (None if (self.expression.ctype is None) else (ArrowType(anytype_a, self.expression.ctype)))
+            self.ctype = (None if (self.expression.ctype is None) else (ArrowType(compiler.env[self.identifier], self.expression.ctype)))
             debug("Lambda: {}".format(self.ctype))
             del compiler.env[self.identifier]
 

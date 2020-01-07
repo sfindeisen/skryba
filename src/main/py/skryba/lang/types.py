@@ -21,6 +21,7 @@ class AnyType(Type):
 
     def __init__(self, typevar):
         self.typevar = typevar
+        self.inferred= None
 
     # Computes the final mapping for this typevar. This is a fully specified type (no typevars).
     @staticmethod
@@ -49,6 +50,7 @@ class AnyType(Type):
         if (self.typevar in tvmapL):
             finalL = AnyType._final_type(tvmapL, tvmapR, self)
             debug("Mapping (L): {} ~> {}".format(self, finalL))
+            self.inferred = self.inferred or finalL
             finalR = AnyType._final_type(tvmapR, tvmapL, another)
             debug("Mapping (R): {} ~> {}".format(another, finalR))
 
@@ -76,7 +78,7 @@ class AnyType(Type):
             return True
 
     def __str__(self):
-        return self.typevar
+        return ((self.typevar) if (self.inferred is None) else str(self.inferred))
 
 class ListType(Type):
 
