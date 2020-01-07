@@ -5,13 +5,13 @@ import abc
 class Type(abc.ABC):
 
     # Returns true if this type can be unified with the other type. Extends tvmapL and tvmapR with the
-    # required mappings.
+    # appropriate mappings.
     #
     # tvmapL is a mapping from free type variables of this type into types (parts of the other type)
     # rvmapR is a mapping from free type variables of the other type into types (parts of this type)
     @abc.abstractmethod
     def _unify(self, another, tvmapL, tvmapR):
-        raise NotImplementedError()
+        raise NotImplementedError("Type class does not implement _unify method!")
 
     def __str__(self):
         return "T"
@@ -22,7 +22,29 @@ class AnyType(Type):
     def __init__(self, typevar):
         self.typevar = typevar
 
+    # Computes the final mapping for this typevar. This is a fully specified type (no typevars).
+    def _final_type(self, tvmapL, tvmapR, current_type, visitedL=frozenset(), visitedR=frozenset()):
+        if isinstance(current_type, ScalarType):
+            return current_type
+        elif isinstance(current_type, AnyType):
+            if (current_type.typevar in tvmapL) and (current_type.typevar not in visitedL):
+                return self._final_type(tvmapR, tvmapL, tvmapL[current_type.typevar], visitedR, visitedL | frozenset([current_type.typevar]))
+            else:
+                return None
+        elif isinstance(current_type, ArrowType):
+            finalL = self._final_type(tvmapL, tvmapR, current_type.ltype, visitedL, visitedR)
+            finalR = self._final_type(tvmapL, tvmapR, current_type.rtype, visitedL, visitedR)
+            return (None if ((finalL is None) or (finalR is None)) else ArrowType(finalL, finalR))
+        elif isinstance(current_type, ListType):
+            raise NotImplementedError("_final_type: list")
+        elif isinstance(current_type, TupleType):
+            raise NotImplementedError("_final_type: tuple")
+        else:
+            raise NotImplementedError("Unknown type: {}".format(current_type))
+
     def _unify(self, another, tvmapL, tvmapR):
+        # debug("_unify {} with {}".format(self, another))
+
         if (self.typevar in tvmapL):
             if (tvmapL[self.typevar] == another):
                 return True
@@ -32,13 +54,14 @@ class AnyType(Type):
                     tvmapR[another.typevar] = self
                     return True
                 else:
+                    warning("Type unification error: unable to re-map type variable {} (L) to {} (R), because it is already mapped to {} (R).".format(self.typevar, another, tvmapL[self.typevar]))
+
                     debug("AnyType _unify: self.typevar = {}".format(self.typevar))
                     debug("AnyType _unify: another = {}".format(another))
                     debug("AnyType _unify: Type variable mapping (L): {}".format(tvmapL))
                     debug("AnyType _unify: Type variable mapping (R): {}".format(tvmapR))
                     debug("AnyType _unify: tvmapL[{}] = {}".format(self.typevar, tvmapL[self.typevar]))
 
-                    warning("Type unification error: unable to re-map type variable {} (L) to {} (R), because it is already mapped to {} (R).".format(self.typevar, another, tvmapL[self.typevar]))
                     return False
         else:
             debug("Mapping type variable {} (L) to {} (R)".format(self.typevar, another))
@@ -86,14 +109,14 @@ class ArrowType(Type):
                     warning("Type unification error: {} is not an arrow type. It cannot be applied to: {} .".format(self.rtype, ", ".join(map(str, rest))))
                     return None     # more arguments, but rtype is not a function type!
                 else:
-                    return self.rtype.map_type_variables(tvmapL)
+                    return self.rtype
             else:
                 warning("Type unification error: {} in arrow type: {} does not match argument type: {} .".format(self.ltype, self, arg_types[0]))
                 debug("Type variable mapping (L): {}".format(tvmapL))
                 debug("Type variable mapping (R): {}".format(tvmapR))
                 return None
         else:
-            debug("Arrow type ({}), but no arguments.".format(self))
+            debug("Arrow type: {}, but no arguments.".format(self))
             return self
 
     def _unify(self, another, tvmapL, tvmapR):
@@ -158,6 +181,14 @@ class XMLNodeType(ScalarType):
     def __str__(self):
         return "xml_node"
 
+class UnknownType(Type):
+
+    def _unify(self, another, tvmapL, tvmapR):
+        return (self == another)
+
+    def __str__(self):
+        return "unknown"
+
 class VoidType(Type):
 
     def _unify(self, another, tvmapL, tvmapR):
@@ -166,9 +197,13 @@ class VoidType(Type):
     def __str__(self):
         return "void"
 
-anytype_a   = AnyType('a')
-anytype_b   = AnyType('b')
-anytype_c   = AnyType('c')
-boolean_type= BooleanType()
-string_type = StringType()
-void_type   = VoidType()
+anytype_a         = AnyType('a')
+anytype_b         = AnyType('b')
+anytype_c         = AnyType('c')
+boolean_type      = BooleanType()
+file_type         = FileType()
+string_type       = StringType()
+unknown_type      = UnknownType()
+void_type         = VoidType()
+xml_document_type = XMLDocumentType()
+xml_node_type     = XMLNodeType()

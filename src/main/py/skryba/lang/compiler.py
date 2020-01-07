@@ -1,5 +1,5 @@
 from lang.ast import Identifier
-from lang.types import anytype_a, anytype_b, anytype_c, boolean_type, string_type, void_type, ArrowType, ListType
+from lang.types import anytype_a, anytype_b, anytype_c, boolean_type, file_type, string_type, void_type, xml_document_type, xml_node_type, ArrowType, ListType
 
 # Built-in functions
 #
@@ -42,7 +42,14 @@ class BuiltIns:
             flip = ArrowType(
                        ArrowType(anytype_a, ArrowType(anytype_b, anytype_c)),
                        ArrowType(anytype_b, ArrowType(anytype_a, anytype_c))
-            )
+            ),
+
+            listdir = ArrowType(string_type, ListType(file_type)),
+
+            normalize = ArrowType(string_type, string_type),
+            parse_xml_dom = ArrowType(file_type, xml_document_type),
+            strip = ArrowType(string_type, string_type),
+            xpath1 = ArrowType(string_type, ArrowType(xml_document_type, xml_node_type)),
         )
 
 # Name table.
@@ -51,6 +58,9 @@ class Environment:
 
     def __init__(self, identifiers=dict()):
         self.identifiers = identifiers
+
+    def __delitem__(self, key):
+        del self.identifiers[key]
 
     def __getitem__(self, key):
         return self.identifiers.__getitem__(self.k2s(key))

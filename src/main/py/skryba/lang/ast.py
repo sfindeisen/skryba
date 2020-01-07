@@ -1,5 +1,5 @@
-from lang.types import anytype_a, string_type, void_type, ArrowType, TupleType
-from utils.log import warning
+from lang.types import anytype_a, string_type, unknown_type, void_type, ArrowType, TupleType
+from utils.log import debug, warning
 
 import abc
 
@@ -8,7 +8,7 @@ class ASTNode(abc.ABC):
     def __init__(self):
         self.ctype = None     # Compile-time type
 
-    # Computes expression types (.ctype) and runs various checks.
+    # Computes this node's type (.ctype) and runs various checks.
     @abc.abstractmethod
     def compile(self, compiler):
         raise NotImplementedError()
@@ -111,10 +111,16 @@ class Lambda(Expression):
         self.identifier = identifier
         self.expression = expression
 
-    # TODO free vars, identifier shadowing ...
     def compile(self, compiler):
-        self.expression.compile(compiler)
-        self.ctype = (None if (self.expression.ctype is None) else (ArrowType(anytype_a, self.expression.ctype)))
+        if (self.identifier in compiler.env):
+            warning("Identifier {} is already in scope and cannot be redefined in lambda.".format(self.identifier))
+        else:
+            compiler.env[self.identifier] = unknown_type
+            self.expression.compile(compiler)
+            debug("Lambda: {} -> {}".format(compiler.env[self.identifier], self.expression.ctype))
+            self.ctype = (None if (self.expression.ctype is None) else (ArrowType(anytype_a, self.expression.ctype)))
+            debug("Lambda: {}".format(self.ctype))
+            del compiler.env[self.identifier]
 
 class StringLiteral(Expression):
 
