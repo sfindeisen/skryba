@@ -54,7 +54,10 @@ class RenderingEngine(Generator):
         for x in self.all():
             debug('render all templates: {}'.format(x))
             template = self.env.get_template(x)
-            html = template.render(**kwargs)
+            # Here we pass 2 extra parameters to the template:
+            #   - name     : the loading name of the template (e.g. base file name)
+            #   - filename : the filepath of the template in the filesystem (if any)
+            html = template.render(name=template.name, filename=template.filename, **kwargs)
             write_file(self.output_filename(x), html.encode(encoding='utf-8', errors='strict'))
         return self
 
