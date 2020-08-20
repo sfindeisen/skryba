@@ -9,6 +9,9 @@ import utils.xml
 
 from abc import abstractmethod
 
+def empty_fs():
+    return EmptyFileSet(None)
+
 def listdir(dirname):
     return DirectoryContents(None, dirname)
 
@@ -66,6 +69,14 @@ class FileFilter(FileSet):
 
     def all(self):
         return filter(self.filter, self.parent.all())
+
+class EmptyFileSet(FileSet):
+
+    def __init__(self, parent):
+        super().__init__(parent)
+
+    def all(self):
+        return list()
 
 class HTMLFileSet(FileSet):
 

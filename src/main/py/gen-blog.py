@@ -7,7 +7,7 @@ import os
 import os.path
 import re
 
-from skryba.index import verbose, force_overwrite, warning, info, debug, normalize_string, string2id, listdir, copytree
+from skryba.index import verbose, force_overwrite, warning, info, debug, normalize_string, string2id, empty_fs, listdir, copytree
 from skryba.utils.collection import filter_dict_values_not_none
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
@@ -94,7 +94,7 @@ Contents of input-dir will be copied as is to the output-dir.
     parser.add_argument("--verbose", required=False, action="store_true", help="Verbose processing")
     parser.add_argument("--overwrite-all", required=False, action="store_true", help="Overwrite all files without prompting (batch mode)")
     parser.add_argument("--html", required=True, metavar="DIR", help="HTML template input directory")
-    parser.add_argument("--post", required=True, metavar="DIR", help="XML post input directory")
+    parser.add_argument("--post", required=False, metavar="DIR", help="XML post input directory")
     parser.add_argument(metavar="input-dir",  dest="indir",  help="Input directory with static files: images, CSS... This will be copied as is to output-dir.")
     parser.add_argument(metavar="output-dir", dest="outdir", help="Output directory")
     args = parser.parse_args()
@@ -113,9 +113,9 @@ Contents of input-dir will be copied as is to the output-dir.
     # parse all posts
     #
     # [Post]
-    posts = listdir(args.post)          \
-                .filter_xml()           \
-                .map(functools.partial(make_post, xpost))
+    posts = (listdir(args.post) if (args.post) else empty_fs())      \
+                    .filter_xml()                                    \
+                    .map(functools.partial(make_post, xpost))
 
     # generate the list of all tags
     #
