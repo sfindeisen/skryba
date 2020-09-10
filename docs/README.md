@@ -2,9 +2,7 @@
 
 ## Usage
 
-In your command line, type:
-
-```bash
+```
 $ cd src/main/py/
 $ export PYTHONPATH=./skryba/:$PYTHONPATH
 $ ./gen-blog.py --help
