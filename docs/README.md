@@ -2,10 +2,12 @@
 
 ## Usage
 
+In your command line, type:
+
 ```bash
 $ cd src/main/py/
 $ export PYTHONPATH=./skryba/:$PYTHONPATH
-$ gen-blog.py --help
+$ ./gen-blog.py --help
 usage: generate.py [-h] [--verbose] [--overwrite-all] --html DIR --post DIR
                    input-dir output-dir
 
