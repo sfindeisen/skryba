@@ -1,4 +1,4 @@
-# Skryba &mdash; documentation
+# User documentation
 
 ## Usage
 
@@ -69,7 +69,7 @@ class Tag:
         self.posts    = posts       # list of Post
 ```
 
-### Variables available on the post page (`post.html`)
+### Variables available to the post page (`post.html`)
 
 Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
@@ -87,7 +87,7 @@ Name              | Type          | Related XPath in the input post XML file | V
 `tags_all`        | list of Tag   |                                          | all tags
 `tags`            | list of Tag   | `/post/tags`                             | all tags for this post
 
-### Variables available on the tag page (`tag.html`)
+### Variables available to the tag page (`tag.html`)
 
 Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
@@ -97,7 +97,7 @@ Name              | Type          | Related XPath in the input post XML file | V
 `tag`             | string        | `/post/tags`                             | this tag
 `tags_all`        | list of Tag   | `/post/tags`                             | all tags
 
-### Variables available to HTML templates other than `post.html` and `tag.html`
+### Variables available to HTML templates (other than `post.html` or `tag.html`)
 
 Name              | Type          | Related XPath in the input post XML file | Value
 ------------------|---------------|------------------------------------------|--------------------
