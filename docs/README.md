@@ -84,8 +84,8 @@ Name              | Type          | Related XPath in the input post XML file | V
 `post_body`       | string        | `/post/body`                             | post contents as HTML (rendered using [`post.xslt`](../src/main/xslt/post.xslt))
 `post_title`      | string        | `/post/title`                            |
 `posts_all`       | list of Post  |                                          | all posts
-`tags_all`        | list of Tag   |                                          | all tags
 `tags`            | list of Tag   | `/post/tags`                             | all tags for this post
+`tags_all`        | list of Tag   |                                          | all tags
 
 ### Variables available to the tag page (`tag.html`)
 
