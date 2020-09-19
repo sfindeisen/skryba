@@ -2,6 +2,8 @@ import jinja2
 import os
 import tempfile
 
+import lxml.etree as ET
+
 import base
 from utils.file import copytree, write_file
 from utils.log import debug
@@ -22,6 +24,24 @@ class Generator(base.Base):
 
     def copy_to(self, dest_dir):
         copytree(self.output_dir.name, dest_dir)
+        return self
+
+class XMLGenerator(Generator):
+    """Generator of XML files"""
+    def __init__(self, parent):
+        super().__init__(parent)
+
+    def generate_xml_all(self, f_name, f_gen_xml_dom):
+        """
+        Given a function f_name : item -> string and f_gen_xml_dom : item -> XML DOM, calls them for each item
+        to compute the output file name, the XML DOM and to write out the output file.
+        """
+        for x in self.all():
+            self.generate_xml((f_name(x)), (f_gen_xml_dom(x)))
+        return self
+
+    def generate_xml(self, output_file, output_xml_dom):
+        write_file(self.output_filename(output_file), ET.tostring(output_xml_dom, pretty_print=True, xml_declaration=True, encoding='utf-8', method='xml'))
         return self
 
 class RenderingEngine(Generator):
