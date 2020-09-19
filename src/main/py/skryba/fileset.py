@@ -43,6 +43,9 @@ class FileSet(base.Base):
     def filter(self, predicate):
         return FileFilter(self, predicate)
 
+    def filter_extension(self, ext_list):
+        return self.filter(lambda x : any(x.endswith(y) for y in ext_list))
+
     def filter_html(self):
         return HTMLFileSet(self.filter(lambda x : x.endswith('.html')))
 
