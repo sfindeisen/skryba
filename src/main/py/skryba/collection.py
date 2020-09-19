@@ -34,13 +34,16 @@ class Collection(base.Base):
 class ListCollection(Collection):
 
     def __init__(self, parent, items):
-        super().__init__(parent, items)
+        super().__init__(parent, list(items))
 
     def __getitem__(self, k):
         return self.items[k]
 
     def filter(self, predicate):
         return ListCollection(self, filter(predicate, self.all()))
+
+    def filter_not_none(self):
+        return self.filter((lambda x: x is not None))
 
     def map(self, f):
         return ListCollection(self, list(map(f, self.items)))
