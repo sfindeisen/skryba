@@ -9,6 +9,15 @@ def get_xslt_transformer(xslt_filename):
     xslt = parse_xml_dom(xslt_filename)
     return ET.XSLT(xslt)
 
+def get_xpath(xml_node, path):
+    """Given an XML node and XPath expression (a string), returns
+       the list of nodes selected by this XPath expression.
+
+    xml_node -- XML DOM node (as returned from lxml.etree)
+    path     -- XPath expression (as a string)
+    """
+    return xml_node.xpath(path)
+
 def get_xpath0(xml_node, path):
     """Given an XML node and XPath expression (a string), returns
        the node pointed to by this XPath (or None, if there is no

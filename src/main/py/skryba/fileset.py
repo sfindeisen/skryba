@@ -123,6 +123,10 @@ class XMLFileSet(FileSet):
             self.xslt_proc[xslt_path] = utils.xml.get_xslt_transformer(xslt_path)
         return self.xslt_proc[xslt_path]
 
+    def xpath(self, xpath):
+        """Returns a list of nodes (can be empty) selected by the given XPath expression."""
+        return utils.xml.get_xpath(self._get_current_dom(), xpath)
+
     def xpath0(self, xpath):
         return utils.xml.get_xpath0(self._get_current_dom(), xpath)
 
