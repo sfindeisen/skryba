@@ -54,6 +54,11 @@ class ListCollection(Collection):
 class DictionaryCollection(Collection):
     """A collection of key-value pairs."""
 
+    @staticmethod
+    def create_empty():
+        """Creates a new, empty dictionary collection."""
+        return DictionaryCollection(None, dict())
+
     def __init__(self, parent, items):
         super().__init__(parent, items)
 
@@ -113,6 +118,14 @@ class DictionaryCollection(Collection):
             else:
                 y[z] = v
         return DictionaryCollection(self, y)
+
+    def merge_with(self, another, f_merge):
+        """
+        Merges this dictionary (will be modified) with another (will be kept intact). The function
+        f_merge : value -> value -> value is used to merge 2 values in the case of a key conflict.
+        """
+        for k, v in another.items.items():
+            self.items[k] = (f_merge(self.items[k], v) if (k in self.items) else v)
 
     def values(self):
         return ListCollection(self, self.items.values())
