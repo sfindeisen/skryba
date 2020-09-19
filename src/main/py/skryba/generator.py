@@ -1,7 +1,8 @@
-import jinja2
+import collections.abc
 import os
 import tempfile
 
+import jinja2
 import lxml.etree as ET
 
 import base
@@ -63,10 +64,18 @@ class RenderingEngine(Generator):
         """
         Given a function f_name : item -> string and f_args : item -> dict, calls them for each item
         to compute the output file name, actual template parameters and to render the output file
-        contents.
+        contents. If the underlying collection is a dictionary, item will be a key value pair.
         """
-        for x in self.all():
-            self.render((f_name(x)), **(f_args(x)))
+        all_items = self.all()
+
+        if isinstance(all_items, collections.abc.Mapping):
+            # the underlying collection is a dictionary (Mapping)
+            for k, v in all_items.items():
+                self.render((f_name((k,v))), **(f_args((k,v))))
+        else:
+            for x in all_items:
+                self.render((f_name(x)), **(f_args(x)))
+
         return self
 
     def render_all_templates(self, **kwargs):
