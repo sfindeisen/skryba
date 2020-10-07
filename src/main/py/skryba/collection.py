@@ -1,5 +1,6 @@
 import base
 import generator
+import itertools
 
 from utils.log import warning
 
@@ -47,6 +48,10 @@ class ListCollection(Collection):
 
     def filter_not_none(self):
         return self.filter((lambda x: x is not None))
+
+    def flatten(self):
+        """Assuming this is a list of lists, makes a flat list out of it."""
+        return ListCollection(self, itertools.chain.from_iterable(self.items))
 
     def map(self, f):
         return ListCollection(self, list(map(f, self.items)))
