@@ -62,8 +62,6 @@ class RenderingEngine(Generator):
     def make_env(loader):
         env = jinja2.Environment(loader=loader)
         # These vars are always available, see: https://jinja.palletsprojects.com/en/2.11.x/api/#jinja2.Environment.globals
-        env.globals['sorted']              = sorted
-        env.globals['operator_attrgetter'] = operator.attrgetter
         env.globals['skryba_string2id']    = index.string2id
         return env
 
