@@ -1,4 +1,5 @@
 import collections.abc
+import operator
 import os
 import tempfile
 
@@ -6,6 +7,7 @@ import jinja2
 import lxml.etree as ET
 
 import base
+import index
 from utils.file import copytree, write_file
 from utils.log import debug
 
@@ -53,8 +55,17 @@ class RenderingEngine(Generator):
         spath = os.path.abspath(search_path)
         debug('jinja2 template search path: {}'.format(spath))
         loader = jinja2.FileSystemLoader(searchpath=spath, encoding='utf-8', followlinks=True)
-        self.env = jinja2.Environment(loader=loader)
+        self.env = RenderingEngine.make_env(loader)
         self.template_file = None
+
+    @staticmethod
+    def make_env(loader):
+        env = jinja2.Environment(loader=loader)
+        # These vars are always available, see: https://jinja.palletsprojects.com/en/2.11.x/api/#jinja2.Environment.globals
+        env.globals['sorted']              = sorted
+        env.globals['operator_attrgetter'] = operator.attrgetter
+        env.globals['skryba_string2id']    = index.string2id
+        return env
 
     def with_template(self, filename):
         self.template_file = filename
