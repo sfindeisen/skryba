@@ -7,9 +7,9 @@ import jinja2
 import lxml.etree as ET
 
 import base
-import index
 from utils.file import copytree, write_file
 from utils.log import debug
+import utils.text
 
 class Generator(base.Base):
     """Basic output file generator."""
@@ -40,10 +40,10 @@ class XMLGenerator(Generator):
         to compute the output file name, the XML DOM and to write out the output file.
         """
         for x in self.all():
-            self.generate_xml((f_name(x)), (f_gen_xml_dom(x)))
+            self._generate_xml((f_name(x)), (f_gen_xml_dom(x)))
         return self
 
-    def generate_xml(self, output_file, output_xml_dom):
+    def _generate_xml(self, output_file, output_xml_dom):
         """Given a (basic) output file name and output XML DOM, writes the output file."""
         write_file(self.output_filename(output_file), ET.tostring(output_xml_dom, pretty_print=True, xml_declaration=True, encoding='utf-8', method='xml'))
         return self
@@ -63,7 +63,7 @@ class RenderingEngine(Generator):
     def make_env(loader):
         env = jinja2.Environment(loader=loader)
         # These vars are always available, see: https://jinja.palletsprojects.com/en/2.11.x/api/#jinja2.Environment.globals
-        env.globals['skryba_string2id']    = index.string2id
+        env.globals['skryba_string2id'] = utils.text.string2id
         return env
 
     def with_template(self, filename):
