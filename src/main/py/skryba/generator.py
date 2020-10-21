@@ -44,6 +44,7 @@ class XMLGenerator(Generator):
         return self
 
     def generate_xml(self, output_file, output_xml_dom):
+        """Given a (basic) output file name and output XML DOM, writes the output file."""
         write_file(self.output_filename(output_file), ET.tostring(output_xml_dom, pretty_print=True, xml_declaration=True, encoding='utf-8', method='xml'))
         return self
 
