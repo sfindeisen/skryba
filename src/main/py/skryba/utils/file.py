@@ -64,7 +64,7 @@ def copytree(src, dst, exclude=[]):
     _copytree(abspath(src), abspath(dst), exclude=exclude)
 
 def write_file(filename, contents, overwrite=False):
-    """Writes contents into a file."""
+    """Writes (binary) contents into a file."""
     fabs = abspath(filename)
     debug("W " + fabs)
 
