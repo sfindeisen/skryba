@@ -1,7 +1,7 @@
-import base
-import generator
 import itertools
 
+import base
+import generator
 from utils.log import warning
 
 class Collection(base.Base):
