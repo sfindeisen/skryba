@@ -29,6 +29,15 @@ class Generator(base.Base):
         copytree(self.output_dir.name, dest_dir)
         return self
 
+    def generate_all(self, f_name, f_contents):
+        """
+        Given a function f_name : item -> string and f_contents : item -> bytestring, calls them for each item
+        to compute the output file name, the output file contents, and to write it out.
+        """
+        for x in self.all():
+            write_file(self.output_filename(f_name(x)), (f_contents(x)))
+        return self
+
 class XMLGenerator(Generator):
     """Generator of XML files"""
     def __init__(self, parent):
@@ -39,14 +48,15 @@ class XMLGenerator(Generator):
         Given a function f_name : item -> string and f_gen_xml_dom : item -> XML DOM, calls them for each item
         to compute the output file name, the XML DOM and to write out the output file.
         """
-        for x in self.all():
-            self._generate_xml((f_name(x)), (f_gen_xml_dom(x)))
-        return self
-
-    def _generate_xml(self, output_file, output_xml_dom):
-        """Given a (basic) output file name and output XML DOM, writes the output file."""
-        write_file(self.output_filename(output_file), ET.tostring(output_xml_dom, pretty_print=True, xml_declaration=True, encoding='utf-8', method='xml'))
-        return self
+        return self.generate_all(
+            f_name,
+            lambda x : ET.tostring(
+                f_gen_xml_dom(x),
+                pretty_print=True,
+                xml_declaration=True,
+                encoding='utf-8',
+                method='xml'
+        ))
 
 class RenderingEngine(Generator):
     """jinja2 rendering interface."""
