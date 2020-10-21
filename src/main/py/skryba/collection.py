@@ -29,6 +29,9 @@ class Collection(base.Base):
                 rdic.setdefault(y, []).append(x)
         return DictionaryCollection(self, rdic)
 
+    def with_generator(self):
+        return generator.Generator(self)
+
     def with_xml_generator(self):
         return generator.XMLGenerator(self)
 

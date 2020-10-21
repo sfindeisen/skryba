@@ -7,7 +7,7 @@ import jinja2
 import lxml.etree as ET
 
 import base
-from utils.file import copytree, write_file
+from utils.file import copyfile, copytree, write_file
 from utils.log import debug
 import utils.text
 
@@ -36,6 +36,15 @@ class Generator(base.Base):
         """
         for x in self.all():
             write_file(self.output_filename(f_name(x)), (f_contents(x)))
+        return self
+
+    def generate_all_copy(self, f_src, f_dst):
+        """
+        Given two functions, f_src : item -> string and f_dst : item -> string, calls them for each item
+        to compute the source and the destination file names, and to copy the source to the destination.
+        """
+        for x in self.all():
+            copyfile((f_src(x)), self.output_filename(f_dst(x)))
         return self
 
 class XMLGenerator(Generator):
