@@ -1,6 +1,7 @@
+import itertools
+
 import base
 import generator
-
 from utils.log import warning
 
 class Collection(base.Base):
@@ -28,13 +29,19 @@ class Collection(base.Base):
                 rdic.setdefault(y, []).append(x)
         return DictionaryCollection(self, rdic)
 
+    def with_generator(self):
+        return generator.Generator(self)
+
+    def with_xml_generator(self):
+        return generator.XMLGenerator(self)
+
     def with_rendering_engine(self, search_path):
         return generator.RenderingEngine(self, search_path)
 
 class ListCollection(Collection):
 
     def __init__(self, parent, items):
-        super().__init__(parent, items)
+        super().__init__(parent, list(items))
 
     def __getitem__(self, k):
         return self.items[k]
@@ -42,11 +49,23 @@ class ListCollection(Collection):
     def filter(self, predicate):
         return ListCollection(self, filter(predicate, self.all()))
 
+    def filter_not_none(self):
+        return self.filter((lambda x: x is not None))
+
+    def flatten(self):
+        """Assuming this is a list of lists, makes a flat list out of it."""
+        return ListCollection(self, itertools.chain.from_iterable(self.items))
+
     def map(self, f):
         return ListCollection(self, list(map(f, self.items)))
 
 class DictionaryCollection(Collection):
     """A collection of key-value pairs."""
+
+    @staticmethod
+    def create_empty():
+        """Creates a new, empty dictionary collection."""
+        return DictionaryCollection(None, dict())
 
     def __init__(self, parent, items):
         super().__init__(parent, items)
@@ -107,6 +126,14 @@ class DictionaryCollection(Collection):
             else:
                 y[z] = v
         return DictionaryCollection(self, y)
+
+    def merge_with(self, another, f_merge):
+        """
+        Merges this dictionary (will be modified) with another (will be kept intact). The function
+        f_merge : value -> value -> value is used to merge 2 values in the case of a key conflict.
+        """
+        for k, v in another.items.items():
+            self.items[k] = (f_merge(self.items[k], v) if (k in self.items) else v)
 
     def values(self):
         return ListCollection(self, self.items.values())

@@ -8,6 +8,7 @@ import os.path
 import re
 
 from skryba.index import verbose, force_overwrite, warning, info, debug, normalize_string, string2id, empty_fs, listdir, copytree
+from skryba.tag import Tag
 from skryba.utils.collection import filter_dict_values_not_none
 
 re_date = re.compile('^([0-9]{4})-([0-9]{2})-([0-9]{2})(?:;(.*))?$')
@@ -30,13 +31,6 @@ class Post:
         self.lang     = None    # language code: en, pl ...
         self.html     = None    # HTML of the post body
         self.tags     = None    # list of tags (string)
-
-class Tag:
-    """A single article tag."""
-    def __init__(self, filename=None, value=None, posts=[]):
-        self.filename = filename    # filename (base)
-        self.value    = value       # Unicode (normalized)
-        self.posts    = posts       # list of Post
 
 def parse_date(pi):
     m = re_date.match(pi.origdate)

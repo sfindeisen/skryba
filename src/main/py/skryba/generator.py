@@ -1,10 +1,15 @@
-import jinja2
+import collections.abc
+import operator
 import os
 import tempfile
 
+import jinja2
+import lxml.etree as ET
+
 import base
-from utils.file import copytree, write_file
+from utils.file import copyfile, copytree, write_file
 from utils.log import debug
+import utils.text
 
 class Generator(base.Base):
     """Basic output file generator."""
@@ -24,6 +29,44 @@ class Generator(base.Base):
         copytree(self.output_dir.name, dest_dir)
         return self
 
+    def generate_all(self, f_name, f_contents):
+        """
+        Given a function f_name : item -> string and f_contents : item -> bytestring, calls them for each item
+        to compute the output file name, the output file contents, and to write it out.
+        """
+        for x in self.all():
+            write_file(self.output_filename(f_name(x)), (f_contents(x)))
+        return self
+
+    def generate_all_copy(self, f_src, f_dst):
+        """
+        Given two functions, f_src : item -> string and f_dst : item -> string, calls them for each item
+        to compute the source and the destination file names, and to copy the source to the destination.
+        """
+        for x in self.all():
+            copyfile((f_src(x)), self.output_filename(f_dst(x)))
+        return self
+
+class XMLGenerator(Generator):
+    """Generator of XML files"""
+    def __init__(self, parent):
+        super().__init__(parent)
+
+    def generate_xml_all(self, f_name, f_gen_xml_dom):
+        """
+        Given a function f_name : item -> string and f_gen_xml_dom : item -> XML DOM, calls them for each item
+        to compute the output file name, the XML DOM and to write out the output file.
+        """
+        return self.generate_all(
+            f_name,
+            lambda x : ET.tostring(
+                f_gen_xml_dom(x),
+                pretty_print=True,
+                xml_declaration=True,
+                encoding='utf-8',
+                method='xml'
+        ))
+
 class RenderingEngine(Generator):
     """jinja2 rendering interface."""
 
@@ -32,8 +75,15 @@ class RenderingEngine(Generator):
         spath = os.path.abspath(search_path)
         debug('jinja2 template search path: {}'.format(spath))
         loader = jinja2.FileSystemLoader(searchpath=spath, encoding='utf-8', followlinks=True)
-        self.env = jinja2.Environment(loader=loader)
+        self.env = RenderingEngine.make_env(loader)
         self.template_file = None
+
+    @staticmethod
+    def make_env(loader):
+        env = jinja2.Environment(loader=loader)
+        # These vars are always available, see: https://jinja.palletsprojects.com/en/2.11.x/api/#jinja2.Environment.globals
+        env.globals['skryba_string2id'] = utils.text.string2id
+        return env
 
     def with_template(self, filename):
         self.template_file = filename
@@ -43,10 +93,18 @@ class RenderingEngine(Generator):
         """
         Given a function f_name : item -> string and f_args : item -> dict, calls them for each item
         to compute the output file name, actual template parameters and to render the output file
-        contents.
+        contents. If the underlying collection is a dictionary, item will be a key value pair.
         """
-        for x in self.all():
-            self.render((f_name(x)), **(f_args(x)))
+        all_items = self.all()
+
+        if isinstance(all_items, collections.abc.Mapping):
+            # the underlying collection is a dictionary (Mapping)
+            for k, v in all_items.items():
+                self.render((f_name((k,v))), **(f_args((k,v))))
+        else:
+            for x in all_items:
+                self.render((f_name(x)), **(f_args(x)))
+
         return self
 
     def render_all_templates(self, **kwargs):

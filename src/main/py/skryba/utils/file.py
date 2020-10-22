@@ -45,6 +45,12 @@ def _copyfile(src, dst):
     else:
         _copy(src, dst)
 
+def copyfile(src, dst):
+    """Copies src to dst, creating dst dir if necessary, prompting for overwrite if dst exists."""
+    dst_abs = abspath(dst)
+    makedirs(dirname(dst_abs), mode=0o700, exist_ok=True)
+    _copyfile(src, dst)
+
 def _copytree(src, dst, exclude=[]):
     """Recursively copies src to dst."""
     if (src in exclude):
@@ -64,7 +70,7 @@ def copytree(src, dst, exclude=[]):
     _copytree(abspath(src), abspath(dst), exclude=exclude)
 
 def write_file(filename, contents, overwrite=False):
-    """Writes contents into a file."""
+    """Writes (binary) contents into a file."""
     fabs = abspath(filename)
     debug("W " + fabs)
 

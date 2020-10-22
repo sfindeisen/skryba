@@ -43,6 +43,9 @@ class FileSet(base.Base):
     def filter(self, predicate):
         return FileFilter(self, predicate)
 
+    def filter_extension(self, ext_list):
+        return self.filter(lambda x : any(x.endswith(y) for y in ext_list))
+
     def filter_html(self):
         return HTMLFileSet(self.filter(lambda x : x.endswith('.html')))
 
@@ -119,6 +122,10 @@ class XMLFileSet(FileSet):
         if (xslt_path not in self.xslt_proc):
             self.xslt_proc[xslt_path] = utils.xml.get_xslt_transformer(xslt_path)
         return self.xslt_proc[xslt_path]
+
+    def xpath(self, xpath):
+        """Returns a list of nodes (can be empty) selected by the given XPath expression."""
+        return utils.xml.get_xpath(self._get_current_dom(), xpath)
 
     def xpath0(self, xpath):
         return utils.xml.get_xpath0(self._get_current_dom(), xpath)
