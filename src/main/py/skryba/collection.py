@@ -29,6 +29,21 @@ class Collection(base.Base):
                 rdic.setdefault(y, []).append(x)
         return DictionaryCollection(self, rdic)
 
+    def reverse_dict1(self, f):
+        """
+        Given an injective function f: item -> Y, returns a new DictionaryCollection (a
+        child of this) wrapping a dictionary from Y to item.
+
+        This can be used e.g. to map blog posts by id.
+        """
+        rdic = {}
+        for x in self.items:
+            y = f(x)
+            if y in rdic:
+                raise ValueError("Duplicate key: {}".format(y))
+            rdic[y] = x
+        return DictionaryCollection(self, rdic)
+
     def with_generator(self):
         return generator.Generator(self)
 
