@@ -1,6 +1,6 @@
 # Alphabet of digits, used for number conversions between different bases.
-# Note: there is no "I".
-digits = "0123456789ABCDEFGHJKLMNOPQRSTUVWXYZ"
+# Note: these are missing: I, O.
+digits = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ"
 
 def int2str(k, base=len(digits), min_length=0):
     """
