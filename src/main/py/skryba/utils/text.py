@@ -38,6 +38,6 @@ def string2id(s, allow_nonascii=False, de_umlaut_aware=True):
 
     z = normalize(z, allow_nonascii)
     z = re.sub(r'[^\w\s-]', '', z).strip()
-    z = re.sub(r'[-\s]+', '-', z)
+    z = re.sub(r'[-\s]+', '_', z)
     debug("string2id: {} => {}".format(s,z))
     return z
