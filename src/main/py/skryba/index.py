@@ -19,3 +19,4 @@ normalize_string = utils.text.normalize
 string2id        = utils.text.string2id
 empty_fs         = fileset.empty_fs
 listdir          = fileset.listdir
+from_glob        = fileset.from_glob

@@ -12,6 +12,10 @@ from abc import abstractmethod
 def empty_fs():
     return EmptyFileSet(None)
 
+def from_glob(path_list):
+    """Given a list of paths, wraps it into a FileSet."""
+    return PathList(None, path_list)
+
 def listdir(dirname):
     return DirectoryContents(None, dirname)
 
@@ -54,6 +58,15 @@ class FileSet(base.Base):
 
     def with_rendering_engine(self, search_path):
         return generator.RenderingEngine(self, search_path)
+
+class PathList(FileSet):
+
+    def __init__(self, parent, path_list):
+        super().__init__(parent)
+        self.path_list = path_list
+
+    def all(self):
+        return list(map(os.path.abspath, self.path_list))
 
 class DirectoryContents(FileSet):
 
