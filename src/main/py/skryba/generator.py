@@ -72,7 +72,7 @@ class RenderingEngine(Generator):
 
     def __init__(self, parent, search_path):
         super().__init__(parent)
-        spath = os.path.abspath(search_path)
+        spath = os.path.abspath(search_path) if isinstance(search_path, str) else list(map(os.path.abspath, search_path))
         debug('jinja2 template search path: {}'.format(spath))
         loader = jinja2.FileSystemLoader(searchpath=spath, encoding='utf-8', followlinks=True)
         self.env = RenderingEngine.make_env(loader)
