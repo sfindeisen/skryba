@@ -12,6 +12,7 @@ force_overwrite  = utils.file.force_overwrite
 write_file       = utils.file.write_file
 int2str          = utils.integer.int2str
 verbose          = utils.log.set_verbose
+error            = utils.log.error
 warning          = utils.log.warning
 info             = utils.log.info
 debug            = utils.log.debug

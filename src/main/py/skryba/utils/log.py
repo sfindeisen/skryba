@@ -14,3 +14,6 @@ def info(msg):
 
 def warning(msg):
     print('[warning] {}'.format(msg))
+
+def error(msg):
+    print('[error] {}'.format(msg))
