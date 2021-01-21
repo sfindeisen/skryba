@@ -14,7 +14,7 @@ def string2id(s, allow_nonascii=False, de_umlaut_aware=True):
     """
     Converts an arbitrary string to a friendly ID (eg. a file name). Unicode
     normalization is applied, whitespace and non-word characters are removed
-    or substituted.
+    or substituted. This operation is deterministic.
     """
     z = s
 
