@@ -119,7 +119,7 @@ Contents of input-dir will be copied as is to the output-dir.
     # values               :  Tag.filename, Tag -> [Tag]
     tags = posts.reverse_dict(lambda pi : pi.tags)     \
                 .map_values_with_keys(
-                    lambda t, pis: Tag(filename=string2id(t)+'.html', value=t, posts=pis)) \
+                    lambda t, pis: Tag(filename=(string2id(t) or '-') + '.html', value=t, posts=pis))   \
                 .map_keys_with_values(                  \
                     lambda t, tag : tag.filename,       \
                     lambda y, z : Tag(filename=y.filename, value=y.value, posts=y.posts+z.posts)) \
